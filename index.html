@@ -52,7 +52,7 @@ background:linear-gradient(180deg,rgba(20,36,54,.96),rgba(9,18,29,.97))}
 #mobileToggle{display:none}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
 z-index:40;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#13273e;font-size:10px;font-weight:800;transition:.2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-#joy{display:none;position:absolute;left:16px;bottom:83px;width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:rgba(4,10,18,.35);touch-action:none;z-index:4}
+#joy{display:none!important;position:absolute;left:16px;bottom:83px;width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:rgba(4,10,18,.35);touch-action:none;z-index:4}
 #knob{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px;border-radius:50%;background:rgba(85,222,253,.22);border:1px solid rgba(85,222,253,.42)}
 #touchE{display:none;position:absolute;right:18px;bottom:84px;width:72px;height:72px;border:1px solid rgba(255,255,255,.13);border-radius:50%;background:rgba(98,126,255,.24);font-size:20px;font-weight:900;z-index:4}
 @media(max-width:1050px){#side{width:340px}.metrics{grid-template-columns:repeat(3,1fr)}}
@@ -233,6 +233,47 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   #mobileScreenHeader{height:53px!important;min-height:53px!important}
   #mobileScreenBody{padding-left:6px!important;padding-right:6px!important}
   #mobileLauncher{gap:6px!important}.mobileTile{min-height:84px!important;padding:9px!important}.mobileTile .ico{font-size:20px!important}.mobileTile b{font-size:9.5px!important}.mobileTile span{font-size:6.8px!important}
+}
+</style>
+
+<style>
+/* ============================================================
+   FORGEWORKS PRO V5.3 — MOBILE CLEAN CONTROL
+   ============================================================ */
+@media(max-width:760px){
+  #joy,#knob,#touchE,#v5MobileHUD{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  #sceneWrap{padding:2px 2px calc(64px + env(safe-area-inset-bottom))!important}
+  #mobileScreenBody{padding-bottom:calc(82px + env(safe-area-inset-bottom))!important}
+  .m3HeroTop{align-items:flex-start!important}
+  .m3HeroTop .m3Live{white-space:nowrap!important;flex:0 0 auto!important}
+  .m3KpiRow{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+  .m3Kpi{min-width:0!important;overflow:hidden!important;padding:7px 5px!important}
+  .m3Kpi small{font-size:5.2px!important;white-space:nowrap!important}
+  .m3Kpi b{font-size:8.5px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .m3NextStep{margin-top:7px;padding:8px 9px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:linear-gradient(135deg,rgba(79,141,255,.13),rgba(255,255,255,.025));display:flex;align-items:center;gap:8px;min-width:0}
+  .m3NextStepIcon{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:0 0 28px;background:rgba(79,141,255,.18);font-size:14px}
+  .m3NextStepMain{min-width:0;flex:1}.m3NextStepMain b{display:block;font-size:7.5px;color:#a9c8ff;letter-spacing:.06em}.m3NextStepMain span{display:block;margin-top:2px;font-size:7px;color:#d9e6ef;line-height:1.25;white-space:normal}
+  .m3NextStepCount{flex:0 0 auto;font-size:7px;font-weight:900;color:#8ff0b7;padding:5px 7px;border-radius:999px;border:1px solid rgba(89,226,138,.20);background:rgba(89,226,138,.06);white-space:nowrap}
+  .m3Tile{min-height:84px!important}
+}
+@media(max-width:390px){
+  .m3KpiRow{gap:4px!important}
+  .m3Kpi{padding:6px 4px!important}
+  .m3Kpi small{font-size:4.8px!important}
+  .m3Kpi b{font-size:7.8px!important}
+  .m3HeroTop .m3Eyebrow{font-size:5.8px!important}
+  .m3HeroTop .m3Live{font-size:5.8px!important;padding:4px 6px!important}
+  .m3NextStepMain b{font-size:7.1px}.m3NextStepMain span{font-size:6.6px}.m3NextStepCount{font-size:6.4px}
+}
+</style>
+
+<style>
+@media(max-width:760px){
+  .m3MachineGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+  .m3Machine{min-width:0!important;padding:7px!important}
+  .m3Machine .name{font-size:7.2px!important}
+  .m3Machine .meta{font-size:5.8px!important;line-height:1.2!important}
+  .m3Machine .machineBtn{font-size:6px!important;min-height:29px!important;padding:5px 6px!important}
 }
 </style>
 </head>
@@ -420,7 +461,8 @@ const machineDefs = [
   {id:"qc",name:"Контроль качества",short:"ПОСТ ОТК №1",role:"qc",cost:28000,unlock:4,power:.65,quality:98,x:150,y:430,w:210,h:110,c:"#59e6c0",icon:"📐"},
   {id:"edm",name:"Электроэрозионный",short:"ЭЛЕКТРОЭРОЗИЯ №1",role:"edm",cost:35000,unlock:5,power:2.3,quality:95,x:900,y:470,w:225,h:110,c:"#ffbe5b",icon:"⚡"},
   {id:"knife",name:"Ножевой участок",short:"НОЖЕВОЙ УЧАСТОК",role:"knife",cost:42000,unlock:6,power:1.7,quality:92,x:640,y:285,w:225,h:110,c:"#ff7489",icon:"🔪"},
-  {id:"cyl",name:"Сборка магнитных цилиндров",short:"СБОРКА ЦИЛИНДРОВ",role:"cyl",cost:60000,unlock:7,power:1.9,quality:96,x:385,y:285,w:240,h:110,c:"#5edfff",icon:"⭕"}
+  {id:"cyl",name:"Сборка магнитных цилиндров",short:"СБОРКА ЦИЛИНДРОВ",role:"cyl",cost:60000,unlock:7,power:1.9,quality:96,x:385,y:285,w:240,h:110,c:"#5edfff",icon:"⭕"},
+  {id:"press",name:"Гидравлический пресс",short:"ГИДРАВЛИЧЕСКИЙ ПРЕСС №1",role:"press",cost:32000,unlock:5,power:1.6,quality:93,x:920,y:555,w:220,h:95,c:"#ff8a5b",icon:"⬢"}
 ];
 
 const products = {
@@ -440,7 +482,8 @@ const staffDefs = [
   {role:"cyl",name:"Сборщик цилиндров",cost:10500,wage:1200,skill:64,c:"#b08cff"},
   {role:"knife",name:"Ножевик",cost:9800,wage:1100,skill:66,c:"#ff7b88"},
   {role:"qc",name:"Контролёр ОТК",cost:8800,wage:1000,skill:72,c:"#6ee6c8"},
-  {role:"manager",name:"Мастер смены",cost:15000,wage:1600,skill:76,c:"#d1dcff"}
+  {role:"manager",name:"Мастер смены",cost:15000,wage:1600,skill:76,c:"#d1dcff"},
+  {role:"press",name:"Оператор пресса",cost:11500,wage:1250,skill:61,c:"#ff9369"}
 ];
 
 const researchDefs = [
@@ -1289,7 +1332,14 @@ setInterval(saveState,10000);
     const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","ТЕХНОЛОГИИ","Уровень "+researchУровень()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"]];
     tiles.forEach(t=>{h+="<button class=\"m3Tile\" data-v3=\""+t[0]+"\"><span class=\"mi\">"+t[1]+"</span><b>"+t[2]+"</b><span>"+t[3]+"</span><span class=\"arrow\">›</span></button>";});
     h+="<div class=\"m3Actions\"><button class=\"btn good\" id=\"v3Shift\">⏸ "+(state.running?"Поставить паузу":"Продолжить смену")+"</button><button class=\"btn\" id=\"v3Save\">💾 Сохранить</button></div>";
-    mobileLauncher.innerHTML=h;mobileLauncher.querySelectorAll("[data-v3]").forEach(b=>b.addEventListener("click",()=>openMobilePanel(b.dataset.v3)));document.getElementById("v3Shift")?.addEventListener("click",()=>document.getElementById("shiftBtn").click());document.getElementById("v3Save")?.addEventListener("click",()=>document.getElementById("saveBtn").click());mobileTitle.querySelector("b").textContent="FORGEWORKS";mobileSubtitle.textContent="МОБИЛЬНЫЙ ПУЛЬТ";mobileBack.textContent="‹";mobileHome.textContent="✕";document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));
+    mobileLauncher.innerHTML=h;
+    const hero=mobileLauncher.querySelector(".m3Hero");
+    if(hero){
+      const waiting=state.orders.length;
+      const step=state.current?"Продолжай текущий заказ — производство идёт автоматически.":(waiting?"Открой «Заказы» и выбери следующую партию.":"Подожди новую заявку клиента.");
+      hero.insertAdjacentHTML("beforeend","<div class=\"m3NextStep\"><div class=\"m3NextStepIcon\">➜</div><div class=\"m3NextStepMain\"><b>СЛЕДУЮЩИЙ ШАГ</b><span>"+step+"</span></div><div class=\"m3NextStepCount\">"+(waiting+(state.current?1:0))+" заказов"+"</div></div>");
+    }
+    mobileLauncher.querySelectorAll("[data-v3]").forEach(b=>b.addEventListener("click",()=>openMobilePanel(b.dataset.v3)));document.getElementById("v3Shift")?.addEventListener("click",()=>document.getElementById("shiftBtn").click());document.getElementById("v3Save")?.addEventListener("click",()=>document.getElementById("saveBtn").click());mobileTitle.querySelector("b").textContent="FORGEWORKS";mobileSubtitle.textContent="МОБИЛЬНЫЙ ПУЛЬТ";mobileBack.textContent="‹";mobileHome.textContent="✕";document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));
   }
   function overview(){
     const current=state.current,pct=current?clamp(state.progress/(products[current.key].time*current.quantity)*100,0,100):0,quality=clamp(100-state.defects*2+state.research.qc*2,40,100),owned=machineDefs.filter(m=>hasMachine(m.id)),locked=machineDefs.filter(m=>!hasMachine(m.id)),events=state.events.slice(0,4);
@@ -1979,7 +2029,7 @@ window.addEventListener("beforeunload",saveState);
   const roleMeta={
     lathe:{icon:"⚙",accent:"#42c8ff"},mill:{icon:"✚",accent:"#6489ff"},grind:{icon:"✦",accent:"#ab8cff"},
     qc:{icon:"✓",accent:"#53dfbe"},edm:{icon:"⚡",accent:"#ffc25d"},knife:{icon:"◈",accent:"#ff778a"},
-    cyl:{icon:"◉",accent:"#d28cff"}
+    cyl:{icon:"◉",accent:"#d28cff"},press:{icon:"⬢",accent:"#ff8a5b"}
   };
 
   function drawSkyV5(){
@@ -2123,8 +2173,8 @@ window.addEventListener("beforeunload",saveState);
   function updateV5Workers(dt){
     // Player movement — joystick on mobile, keyboard on desktop.
     const k=window.__fwKeys||{};
-    let ix=(window.__fwJoyX||0)+(k.ArrowRight||k.d?1:0)-(k.ArrowLeft||k.a?1:0);
-    let iy=(window.__fwJoyY||0)+(k.ArrowDown||k.s?1:0)-(k.ArrowUp||k.w?1:0);
+    let ix=(k.ArrowRight||k.d?1:0)-(k.ArrowLeft||k.a?1:0);
+    let iy=(k.ArrowDown||k.s?1:0)-(k.ArrowUp||k.w?1:0);
     const len=Math.hypot(ix,iy);if(len>1){ix/=len;iy/=len;}
     const speed=state.running?150:95;
     state.px=clampV5((Number(state.px)||250)+ix*speed*dt,90,1110);
@@ -2162,6 +2212,21 @@ window.addEventListener("beforeunload",saveState);
   }
   const joyPoll=setInterval(()=>{window.__fwJoyX=(typeof joyX==="number"?joyX:0);window.__fwJoyY=(typeof joyY==="number"?joyY:0);},50);
   window.addEventListener("beforeunload",()=>clearInterval(joyPoll));
+  // V5.3: compact construction yard — eight machine bays, two rows of four.
+  (function arrangeEightMachineYard(){
+    const bays={
+      lathe:{x:80,y:405,w:220,h:94},
+      mill:{x:335,y:405,w:220,h:94},
+      grind:{x:590,y:405,w:220,h:94},
+      qc:{x:845,y:405,w:220,h:94},
+      edm:{x:80,y:555,w:220,h:94},
+      knife:{x:335,y:555,w:220,h:94},
+      cyl:{x:590,y:555,w:220,h:94},
+      press:{x:845,y:555,w:220,h:94}
+    };
+    machineDefs.forEach(m=>{if(bays[m.id])Object.assign(m,bays[m.id]);});
+  })();
+
 
   const oldManualWork=window.manualWork;
   window.manualWork=function(){
@@ -2201,7 +2266,24 @@ window.addEventListener("beforeunload",saveState);
     // selected machine banner
     if(state.selected){const m=getMachine(state.selected);if(m){roundV5(420,100,360,46,13,"rgba(16,40,56,.90)","rgba(255,216,104,.40)",2);textV5("🏭 "+m.short,438,123,11,"#ffe08b",true);textV5("Ур. "+machineLevel(m.id)+" · "+(state.current?.assignments?.[m.role]?"этап заказа":"готов"),770,123,8,"#dbe7ee",false,"right");}}
   }
+  
+  function drawMobileSceneHeader(){
+    if(!window.matchMedia("(max-width:760px)").matches)return;
+    // Cover the desktop-style top callouts and draw one compact mobile header.
+    X.fillStyle="#173449";X.fillRect(0,0,1200,122);
+    roundV5(18,14,1164,88,20,"rgba(12,35,52,.96)","rgba(255,255,255,.14)",2);
+    textV5(state.running?"● ПРОИЗВОДСТВО РАБОТАЕТ":"● СМЕНА НА ПАУЗЕ",42,39,14,state.running?"#68e79e":"#ff7688",true);
+    const orderLabel=state.current?("В РАБОТЕ · "+state.current.name):(state.orders.length+" заказа ждут запуска");
+    textV5(orderLabel,42,67,9,"#e5f0f6",true);
+    const nextLabel=state.current?"Следующий этап: "+((products[state.current.key]?.steps||[])[Math.min(state.current.stageIndex||0,(products[state.current.key]?.steps||[]).length-1)]||"завершение"):("Следующий шаг: открой «Заказы»");
+    textV5(nextLabel,42,91,8,"#a8c1d2",false);
+    textV5("ДЕНЬ "+state.day,1138,43,13,"#ffffff",true,"right");
+    textV5(currentTime(),1138,69,9,"#b8cbd7",true,"right");
+  }
+  const drawSceneBase=drawScene;
+  drawScene=function(){drawSceneBase();drawMobileSceneHeader();};
   window.drawScene=drawScene;
+
   updateWorkers=updateV5Workers;
 
   // Improve machine tapping feedback.
