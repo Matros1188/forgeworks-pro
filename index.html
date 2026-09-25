@@ -275,6 +275,10 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   .m3Machine .meta{font-size:5.8px!important;line-height:1.2!important}
   .m3Machine .machineBtn{font-size:6px!important;min-height:29px!important;padding:5px 6px!important}
 }
+
+/* FORGEWORKS V5.4 — completely remove joystick and E from smartphone */
+#joy,#knob,#touchE{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;width:0!important;height:0!important;position:absolute!important;left:-10000px!important;top:-10000px!important}
+@media(max-width:760px){#joy,#knob,#touchE{display:none!important;visibility:hidden!important;pointer-events:none!important}}
 </style>
 </head>
 <body>
@@ -2308,6 +2312,122 @@ window.addEventListener("beforeunload",saveState);
 
 requestAnimationFrame(loop);
 
+/* ======================================================================
+   FORGEWORKS V5.4 — FINAL MOBILE FIX
+   ====================================================================== */
+(function(){
+  const isPhoneFinal=()=>window.matchMedia('(max-width:760px)').matches;
+  const escFinal=v=>String(v==null?'':v)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'",'&#39;');
+
+  // 1) Remove the old mobile controls completely.
+  ['joy','knob','touchE'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.remove();
+  });
+
+  // 2) One independent Orders screen. It does not depend on the old V3/V4
+  //    navigation implementation or on the timing of production patches.
+  function openOrdersFinal(){
+    if(!isPhoneFinal())return;
+    const screen=document.getElementById('mobileScreen');
+    const launcher=document.getElementById('mobileLauncher');
+    const host=document.getElementById('mobilePanelHost');
+    const body=document.getElementById('mobileScreenBody');
+    const title=document.getElementById('mobileScreenTitle');
+    const sub=document.getElementById('mobileScreenSubtitle');
+    if(!screen||!launcher||!host)return;
+
+    try{createOrders();}catch(_e){}
+    const orders=Array.isArray(state.orders)?state.orders:[];
+    let html='<div class="m3Page">';
+    html+='<div class="m3SectionTitle"><b>Заказы</b><span>'+orders.length+' в очереди</span></div>';
+
+    if(state.current){
+      const cur=state.current;
+      const p=products[cur.key]||{time:1,steps:[]};
+      const qty=Math.max(1,Number(cur.quantity||1));
+      const pct=Math.max(0,Math.min(100,(Number(state.progress||0)/Math.max(1,p.time*qty))*100));
+      const route=Array.isArray(p.steps)?p.steps.map(x=>escFinal(typeof getRoleName==='function'?getRoleName(x):x)).join(' → '):'—';
+      html+='<div class="m3Card"><div class="m3CardTitle"><b>⚒ В ПРОИЗВОДСТВЕ</b><span class="m3Pill ok">'+Math.round(pct)+'%</span></div>';
+      html+='<div style="font-size:10px;font-weight:900">'+escFinal(cur.name)+' × '+qty+' шт.</div>';
+      html+='<div class="m3Muted" style="margin-top:4px">Маршрут: '+route+'</div>';
+      html+='<div class="m3Progress"><i style="width:'+pct+'%"></i></div></div>';
+    }
+
+    html+='<div class="m3Card"><div class="m3CardTitle"><b>📋 ДОСТУПНЫЕ ЗАКАЗЫ</b><span class="m3Pill">'+orders.length+' шт.</span></div>';
+    if(!orders.length){
+      html+='<div class="m3Muted">Новых заказов пока нет. Новые заявки появятся автоматически.</div>';
+    }else{
+      orders.slice(0,12).forEach(o=>{
+        const p=products[o.key]||{tier:1,steps:[]};
+        const route=Array.isArray(p.steps)?p.steps.map(x=>escFinal(typeof getRoleName==='function'?getRoleName(x):x)).join(' → '):'—';
+        const reward=typeof money==='function'?money(o.reward):String(o.reward??0);
+        html+='<div class="m3Order">';
+        html+='<div class="m3OrderTitle"><b>'+(o.urgent?'🔥 ':'')+escFinal(o.name)+'</b><span class="m3Pill">Ур. '+(p.tier||1)+'</span></div>';
+        html+='<div class="m3OrderMeta">Количество: '+Number(o.quantity||0)+' шт.<br>Награда: ₽ '+reward+'</div>';
+        html+='<div class="m3OrderMeta" style="margin-top:4px">Маршрут: '+route+'</div>';
+        html+='<div class="m3OrderFoot"><span class="m3Money">ГОТОВ К ЗАПУСКУ</span><button type="button" class="m3Btn primary fw54OpenOrder" data-order-id="'+Number(o.id)+'">Настроить и запустить</button></div>';
+        html+='</div>';
+      });
+    }
+    html+='</div></div>';
+
+    launcher.style.display='none';
+    host.style.display='block';
+    host.innerHTML=html;
+    if(title&&title.querySelector('b'))title.querySelector('b').textContent='ЗАКАЗЫ';
+    if(sub)sub.textContent='ОЧЕРЕДЬ · КЛИЕНТЫ · ПРОИЗВОДСТВО';
+    screen.classList.add('open');
+    screen.setAttribute('aria-hidden','false');
+    if(body)body.scrollTop=0;
+    document.querySelectorAll('#mobileBottomNav .mnav').forEach(b=>b.classList.remove('active'));
+    document.getElementById('mNavOrders')?.classList.add('active');
+
+    host.querySelectorAll('.fw54OpenOrder').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        const id=Number(btn.dataset.orderId);
+        if(typeof window.openOrderSetup==='function')window.openOrderSetup(id);
+      });
+    });
+  }
+
+  // Existing V5.2.1 capture handlers call this name. Replace the target
+  // after every previous mobile module has finished initializing.
+  window.__fwOrdersSafe=openOrdersFinal;
+
+  // Dynamic launcher tiles are rebuilt by the mobile module, so use event
+  // delegation on their permanent parent.
+  const launcher=document.getElementById('mobileLauncher');
+  if(launcher){
+    launcher.addEventListener('click',e=>{
+      if(!isPhoneFinal())return;
+      const t=e.target.closest?.('[data-mobile-panel="orders"],[data-v3="orders"]');
+      if(t){e.preventDefault();e.stopImmediatePropagation();openOrdersFinal();}
+    },true);
+  }
+
+  // Bottom Orders button: capture first, then our safe renderer.
+  const nav=document.getElementById('mNavOrders');
+  if(nav){
+    nav.addEventListener('click',e=>{
+      if(isPhoneFinal()){e.preventDefault();e.stopImmediatePropagation();openOrdersFinal();}
+    },true);
+  }
+
+  // Floating order button uses the same screen.
+  const fab=document.getElementById('v5OrderFab');
+  if(fab){
+    fab.addEventListener('click',e=>{
+      if(isPhoneFinal()){e.preventDefault();e.stopImmediatePropagation();openOrdersFinal();}
+    },true);
+  }
+})();
 </script>
 </body>
 </html>
