@@ -1192,6 +1192,11 @@ C.addEventListener("pointerdown",e=>{
 
 let last = performance.now();
 
+function updatePlayer(){
+  // V5 movement is handled by updateV5Workers().
+  // Keep this compatibility hook because the original loop calls updatePlayer().
+}
+
 function loop(now){
   const dt = Math.min(.05,(now-last)/1000);
   last = now;
