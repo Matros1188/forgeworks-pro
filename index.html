@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#07111d">
-<title>FORGEWORKS PRO V4</title>
+<title>FORGEWORKS PRO V5</title>
 <style>
 :root{
   --bg:#07111d;--panel:#0e1b2b;--panel2:#13263a;--line:rgba(255,255,255,.10);
@@ -1786,5 +1786,420 @@ window.addEventListener("beforeunload",saveState);
 requestAnimationFrame(loop);
 
 </script>
+<style id="forgeworks-v5-style">
+@media(max-width:760px){
+  #mobileScreen{display:none!important}
+}
+#v5Screen{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:
+  radial-gradient(circle at 88% -10%,rgba(93,117,255,.22),transparent 32%),
+  radial-gradient(circle at 8% 110%,rgba(85,222,253,.11),transparent 28%),
+  linear-gradient(180deg,#06101a,#091624 65%,#07111b);color:#eff7ff;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+#v5Screen.open{display:flex}
+.v5-head{height:60px;min-height:60px;display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:6px;padding:6px 8px;padding-top:max(6px,env(safe-area-inset-top));border-bottom:1px solid rgba(255,255,255,.08);background:rgba(5,12,21,.92);backdrop-filter:blur(18px)}
+.v5-head-btn{width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);font-size:16px;font-weight:900}
+.v5-title{text-align:center;min-width:0}.v5-title b{display:block;font-size:12px;letter-spacing:.09em}.v5-title span{display:block;margin-top:2px;color:#7f96aa;font-size:6.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v5-body{flex:1;min-height:0;overflow:auto;padding:8px 8px calc(82px + env(safe-area-inset-bottom));scrollbar-width:none}.v5-body::-webkit-scrollbar{display:none}
+.v5-grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.v5-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.v5-card{padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(180deg,rgba(15,30,46,.97),rgba(7,16,27,.99));box-shadow:0 10px 26px rgba(0,0,0,.16);margin-bottom:7px}
+.v5-hero{padding:11px 12px;border:1px solid rgba(255,255,255,.09);border-radius:15px;background:linear-gradient(145deg,rgba(22,45,69,.95),rgba(7,16,27,.98));box-shadow:0 14px 30px rgba(0,0,0,.20);margin-bottom:8px}
+.v5-kicker{font-size:6px;letter-spacing:.14em;color:#63e4ff;font-weight:900}.v5-hero h2{margin:4px 0 3px;font-size:17px;line-height:1.05}.v5-hero p{margin:0;color:#8197aa;font-size:7.3px;line-height:1.4}
+.v5-row{display:flex;align-items:center;justify-content:space-between;gap:7px}.v5-sub{font-size:6.2px;color:#7890a5;line-height:1.35}.v5-label{font-size:5.8px;color:#7f95a9;text-transform:uppercase;letter-spacing:.05em}.v5-big{font-size:13px;font-weight:900}.v5-chip{padding:4px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.09);font-size:5.8px;background:rgba(255,255,255,.03);white-space:nowrap}.v5-ok{color:#61e39b;border-color:rgba(97,227,155,.22);background:rgba(97,227,155,.06)}.v5-warn{color:#ffd76a;border-color:rgba(255,215,106,.22);background:rgba(255,215,106,.06)}.v5-bad{color:#ff7185;border-color:rgba(255,113,133,.22);background:rgba(255,113,133,.06)}.v5-cyan{color:#63e4ff}
+.v5-stat{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.02)}.v5-stat small{display:block;color:#7790a5;font-size:5.5px}.v5-stat b{display:block;margin-top:2px;font-size:12px}.v5-stat span{display:block;margin-top:2px;color:#688095;font-size:5.7px}
+.v5-section{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin:3px 2px 6px}.v5-section b{font-size:10px}.v5-section span{font-size:5.8px;color:#728ba0}
+.v5-btn{min-height:38px;padding:8px 9px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:linear-gradient(180deg,#1b334b,#11263a);font-size:8px;font-weight:900}.v5-btn.primary{background:linear-gradient(135deg,#397fff,#695ef3)}.v5-btn.good{background:linear-gradient(135deg,#208f61,#35bd7e)}.v5-btn.warn{background:linear-gradient(135deg,#a76f1d,#d39a37)}.v5-btn:disabled{opacity:.35}
+.v5-order{padding:9px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);margin-bottom:6px}.v5-order-title{font-size:8.5px;font-weight:900}.v5-order-meta{margin-top:3px;font-size:6.1px;color:#7d94a7;line-height:1.3}.v5-order-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px}.v5-money{font-size:9.3px;font-weight:900}.v5-route{margin-top:6px;display:flex;align-items:center;gap:4px;overflow:auto;scrollbar-width:none}.v5-route::-webkit-scrollbar{display:none}.v5-step{padding:4px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.08);font-size:5.7px;white-space:nowrap;color:#bdd0df;background:rgba(255,255,255,.02)}
+.v5-material{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.018);margin-bottom:5px}.v5-material:last-child{margin-bottom:0}.v5-material .name{font-size:7px;font-weight:900}.v5-material .bar{height:6px;border-radius:99px;background:#06101a;overflow:hidden;margin-top:5px}.v5-material .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#55defd,#647eff)}
+.v5-machine{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.018);margin-bottom:6px}.v5-machine:last-child{margin-bottom:0}.v5-machine .name{font-size:8px;font-weight:900}.v5-machine .meta{margin-top:3px;font-size:5.8px;color:#7891a5}.v5-machine-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}.v5-machine-actions .v5-btn{min-height:32px;font-size:6.7px}
+.v5-person{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.018);margin-bottom:6px}.v5-person-head{display:flex;align-items:center;gap:7px}.v5-avatar{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#314c67,#18293a);font-size:16px}.v5-person b{font-size:7.7px}.v5-person small{display:block;margin-top:2px;color:#7891a5;font-size:5.7px}.v5-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px}.v5-mini{padding:6px;border:1px solid rgba(255,255,255,.07);border-radius:8px;background:rgba(255,255,255,.015)}.v5-mini small{display:block;color:#70879b;font-size:4.9px}.v5-mini b{display:block;margin-top:1px;font-size:7.5px}
+.v5-customer{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.018);margin-bottom:6px}.v5-customer b{font-size:7.8px}.v5-customer .v5-sub{margin-top:2px}.v5-progress{height:6px;background:#06101a;border-radius:99px;overflow:hidden;margin-top:6px}.v5-progress i{display:block;height:100%;background:linear-gradient(90deg,#55defd,#627eff)}
+.v5-nav{position:fixed;left:0;right:0;bottom:0;z-index:620;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px 7px calc(6px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(6,13,22,0),rgba(6,13,22,.98) 34%);pointer-events:none}.v5-nav button{pointer-events:auto;min-height:49px;padding:5px 3px;border-radius:13px;border:1px solid rgba(255,255,255,.08);background:rgba(13,27,42,.98);font-size:6.8px;font-weight:900;color:#dbe8f5}.v5-nav button.active{background:linear-gradient(135deg,#397fff,#695ef3);border-color:rgba(120,160,255,.3)}.v5-nav .ico{font-size:15px;display:block;margin-bottom:2px}
+.v5-modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.48);backdrop-filter:blur(8px)}.v5-modal.open{display:flex}.v5-modal-card{width:min(680px,100%);max-height:88dvh;overflow:auto;padding:10px 10px calc(18px + env(safe-area-inset-bottom));border:1px solid rgba(255,255,255,.10);border-bottom:0;border-radius:18px 18px 0 0;background:linear-gradient(180deg,#102238,#07111b);box-shadow:0 -20px 70px rgba(0,0,0,.38)}.v5-modal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.v5-modal-head b{font-size:11px}.v5-close{width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);font-weight:900}.v5-select{width:100%;min-height:34px;margin-top:4px;border-radius:8px;border:1px solid rgba(255,255,255,.10);background:#0d2135;color:#eef6ff;padding:4px 6px;font-size:7px}.v5-field{font-size:6px;color:#7c93a7}.v5-plan{display:grid;grid-template-columns:1fr 1fr;gap:6px}.v5-plan-row{padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.018)}
+.v5-toastline{padding:7px 8px;border-radius:9px;background:rgba(255,215,106,.06);border:1px solid rgba(255,215,106,.16);color:#eacb79;font-size:6.5px;line-height:1.35;margin-bottom:7px}
+@media(max-width:390px){.v5-body{padding-left:6px;padding-right:6px}.v5-grid2{gap:6px}.v5-card{padding:9px}.v5-btn{min-height:36px;font-size:7.5px}}
+</style>
+
+<div id="v5Screen" aria-hidden="true">
+  <div class="v5-head">
+    <button class="v5-head-btn" id="v5Back">‹</button>
+    <div class="v5-title"><b id="v5Title">FORGEWORKS</b><span id="v5Subtitle">SMART FACTORY CONTROL</span></div>
+    <button class="v5-head-btn" id="v5Home">⌂</button>
+  </div>
+  <div class="v5-body" id="v5Body"></div>
+  <div class="v5-nav">
+    <button data-v5-page="orders"><span class="ico">📋</span>Заказы</button>
+    <button data-v5-page="workshop"><span class="ico">🏭</span>Цех</button>
+    <button data-v5-page="staff"><span class="ico">👷</span>Персонал</button>
+    <button data-v5-page="factory"><span class="ico">🏢</span>Завод</button>
+  </div>
+</div>
+
+<div class="v5-modal" id="v5PlanModal" aria-hidden="true">
+  <div class="v5-modal-card">
+    <div class="v5-modal-head"><b id="v5PlanTitle">План заказа</b><button class="v5-close" id="v5PlanClose">✕</button></div>
+    <div id="v5PlanBody"></div>
+  </div>
+</div>
+
+<script id="forgeworks-v5-script">
+(function(){
+  "use strict";
+
+  const V5KEY="forgeworks_v5_meta";
+  const roleName={lathe:"Токарь",mill:"Фрезеровщик",grind:"Шлифовщик",edm:"EDM-оператор",knife:"Ножевик",cyl:"Сборщик цилиндров",qc:"Контролёр ОТК",manager:"Мастер смены"};
+  const matName={steel:"Сталь",toolSteel:"Инструментальная сталь"};
+  const clients=[
+    {id:"printlab",name:"PrintLab",type:"Этикетка",loyalty:52,color:"cyan"},
+    {id:"labelpro",name:"LabelPro",type:"Высечка",loyalty:41,color:"blue"},
+    {id:"packline",name:"PackLine",type:"Упаковка",loyalty:36,color:"green"},
+    {id:"industrial",name:"Industrial Systems",type:"Промышленность",loyalty:28,color:"yellow"}
+  ];
+
+  function clone(v){return JSON.parse(JSON.stringify(v));}
+  function ensureV5(){
+    if(!state.v5 || typeof state.v5!=="object") state.v5={};
+    const v=state.v5;
+    if(!v.market)v.market={steel:32,toolSteel:82};
+    if(!v.capacity)v.capacity={steel:500,toolSteel:260};
+    if(!v.condition)v.condition={};
+    machineDefs.forEach(m=>{if(!Number.isFinite(v.condition[m.id]))v.condition[m.id]=100;});
+    if(!v.fatigue)v.fatigue={};
+    state.staff.forEach(w=>{if(!Number.isFinite(v.fatigue[w.id]))v.fatigue[w.id]=5;});
+    if(!v.clients)v.clients=clone(clients);
+    if(!v.stats)v.stats={completed:0,onTime:0,late:0,purchased:0,maintenance:0,events:0};
+    if(!v.contracts)v.contracts=[
+      {id:"c1",client:"PrintLab",target:8,done:state.contractStreak||0,reward:5500,active:true},
+      {id:"c2",client:"LabelPro",target:5,done:0,reward:7800,active:true}
+    ];
+    if(!v.missions)v.missions=[
+      {id:"m1",name:"Выпустить 10 изделий",need:10,get:()=>state.produced>=10},
+      {id:"m2",name:"Нанять специалиста",need:1,get:()=>state.staff.length>=1},
+      {id:"m3",name:"Открыть фрезерный участок",need:1,get:()=>hasMachine("mill")},
+      {id:"m4",name:"Репутация 50",need:50,get:()=>state.rep>=50},
+      {id:"m5",name:"Выручка ₽100 000",need:100000,get:()=>state.revenue>=100000}
+    ];
+    if(!v.lastCurrent)v.lastCurrent=null;
+    if(!v.lastDay)v.lastDay=state.day;
+    if(!v.lastHistoryLength)v.lastHistoryLength=Array.isArray(state.history)?state.history.length:0;
+    if(!v.marketDay)v.marketDay=state.day;
+    state.staff.forEach(w=>{if(!w.traits)w.traits={discipline:55+((w.id||0)%35),precision:55+((w.id||0)%30),speed:55+((w.id||0)%25)};});
+    state.orders.forEach(decorateOrder);
+    if(state.current)decorateOrder(state.current);
+  }
+
+  function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
+  function product(order){return products[order.key]||null;}
+  function materialPrice(type){return type==="toolSteel"?82:32;}
+  function materialNeed(order,type){const p=product(order);return p?Number(p.mat[type]||0)*Number(order.quantity||1):0;}
+  function materialCost(order){let total=0;const p=product(order);if(!p)return 0;for(const t of Object.keys(p.mat))total+=materialNeed(order,t)*materialPrice(t);return total;}
+  function wageEstimate(order){const p=product(order);return p?Math.round(p.time*Number(order.quantity||1)*0.22):0;}
+  function energyEstimate(order){const p=product(order);return p?Math.round(p.time*Number(order.quantity||1)*0.05):0;}
+  function profitEstimate(order){return Math.round(Number(order.reward||0)-materialCost(order)-wageEstimate(order)-energyEstimate(order));}
+  function capacityUsed(type){return Math.max(0,Number(state.materials?.[type]||0));}
+  function warehousePercent(type){ensureV5();return clamp(capacityUsed(type)/state.v5.capacity[type]*100,0,100);}
+  function formatMinutes(min){
+    const d=Math.max(0,Math.round(min));
+    const h=Math.floor(d/60),m=d%60;
+    return h?`${h}ч ${m}м`:`${m}м`;
+  }
+  function clockV5(min){const n=Math.max(0,Math.round(min));return `${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`;}
+  function orderDeadline(order){
+    const d=Number(order.deadlineDay||state.day),t=Number(order.deadlineMinute||state.minute+180);
+    const delta=(d-state.day)*720+(t-state.minute);
+    return {day:d,minute:t,delta};
+  }
+  function decorateOrder(order){
+    if(!order)return;
+    ensureV5();
+    if(!order.clientId){
+      const idx=Math.abs(Math.floor(Number(order.id||0)))%state.v5.clients.length;
+      order.clientId=state.v5.clients[idx]?.id||"printlab";
+    }
+    if(!order.deadlineDay){order.deadlineDay=state.day+(order.urgent?0:Math.random()<.35?1:2);}
+    if(!order.deadlineMinute){order.deadlineMinute=Math.min(1060,Math.max(540,state.minute+Math.round((product(order)?.time||90)*(order.quantity||1)*(order.urgent?.6:1.0))));}
+    if(!order.v5MaterialCost)order.v5MaterialCost=materialCost(order);
+    if(!order.v5Margin)order.v5Margin=profitEstimate(order);
+  }
+  function clientFor(order){ensureV5();return state.v5.clients.find(c=>c.id===order?.clientId)||state.v5.clients[0];}
+  function riskFor(order){
+    const d=orderDeadline(order);const margin=profitEstimate(order);let risk="Низкий";
+    if(d.delta<90)risk="Высокий";else if(d.delta<180)risk="Средний";
+    if(margin<0)risk="Убыточный";
+    return risk;
+  }
+
+  /* decorate future orders while preserving the game's existing order generator */
+  const coreCreateOrders=window.createOrders||createOrders;
+  window.createOrders=function(){coreCreateOrders();ensureV5();state.orders.forEach(decorateOrder);};
+  createOrders=window.createOrders;
+
+  function addButtonListeners(){
+    const mt=document.getElementById("mobileToggle");
+    if(mt && !mt.dataset.v5){mt.dataset.v5="1";mt.addEventListener("click",()=>{if(window.matchMedia("(max-width:760px)").matches)openV5("workshop");});}
+    const ob=document.getElementById("ordersBtn");
+    if(ob && !ob.dataset.v5){ob.dataset.v5="1";ob.addEventListener("click",()=>{if(window.matchMedia("(max-width:760px)").matches)openV5("orders");});}
+    ["mNavOrders","mNavWorkshop","mNavWork","mNavMore","mobileBack","mobileHome"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  }
+
+  function machineStatus(m){
+    ensureV5();
+    const c=Number(state.v5.condition[m.id]||100);
+    const working=state.current?.assignments && Object.values(state.current.assignments).some(a=>a?.machineId===m.id);
+    if(c<20)return {text:"АВАРИЙНЫЙ",cls:"v5-bad"};
+    if(c<45)return {text:"ИЗНОС",cls:"v5-warn"};
+    if(working)return {text:"В РАБОТЕ",cls:"v5-ok"};
+    return {text:"ГОТОВ",cls:""};
+  }
+
+  function action(text,fn,cls=""){return `<button class="v5-btn ${cls}" data-v5-action="${esc(fn)}">${text}</button>`;}
+  function bindActions(root){
+    root.querySelectorAll("[data-v5-page]").forEach(b=>b.onclick=()=>openV5(b.dataset.v5Page));
+    root.querySelectorAll("[data-v5-action]").forEach(b=>b.onclick=()=>{
+      const fn=b.dataset.v5Action;
+      const parts=fn.split("::");
+      const name=parts[0],arg=parts[1],extra=parts[2];
+      if(name==="orders")openV5("orders");
+      else if(name==="plan")openV5Plan(Number(arg));
+      else if(name==="buyMat")buyV5Material(arg,Number(extra||b.dataset.qty||50));
+      else if(name==="buyMachine")buyV5Machine(arg);
+      else if(name==="upgrade")upgradeV5Machine(arg);
+      else if(name==="dispatch")dispatchV5(arg);
+      else if(name==="hire")hireV5(arg);
+      else if(name==="repair")repairV5Machine(arg);
+      else if(name==="capacity")upgradeWarehouse(arg);
+      else if(name==="research")researchV5(arg);
+      else if(name==="close")closeV5();
+      else if(name==="save")saveV5();
+      else if(name==="pause")toggleShiftV5();
+    });
+  }
+
+  function openV5(page="workshop"){
+    ensureV5();addButtonListeners();
+    const s=document.getElementById("v5Screen");if(!s)return;
+    s.classList.add("open");s.setAttribute("aria-hidden","false");
+    renderV5(page);s.querySelector(".v5-body")?.scrollTo(0,0);
+  }
+  function closeV5(){const s=document.getElementById("v5Screen");if(!s)return;s.classList.remove("open");s.setAttribute("aria-hidden","true");}
+  window.openV5=openV5;window.closeV5=closeV5;
+
+  function setHead(page){
+    const meta={orders:["ЗАКАЗЫ","КЛИЕНТЫ · МАТЕРИАЛЫ · ПРИБЫЛЬ"],workshop:["ЦЕХ","ТЕКУЩАЯ РАБОТА · СТАНКИ · УЗКИЕ МЕСТА"],staff:["ПЕРСОНАЛ","НАВЫКИ · УСТАЛОСТЬ · НАЗНАЧЕНИЯ"],factory:["ЗАВОД","СКЛАД · СТАНКИ · ИССЛЕДОВАНИЯ · ФИНАНСЫ"]};
+    document.getElementById("v5Title").textContent=meta[page]?.[0]||"FORGEWORKS";
+    document.getElementById("v5Subtitle").textContent=meta[page]?.[1]||"SMART FACTORY CONTROL";
+    document.querySelectorAll(".v5-nav button").forEach(b=>b.classList.toggle("active",b.dataset.v5Page===page));
+  }
+
+  function renderV5(page="workshop"){
+    ensureV5();setHead(page);const body=document.getElementById("v5Body");if(!body)return;
+    let html="";
+    if(page==="workshop")html=renderWorkshop();
+    else if(page==="orders")html=renderOrdersPage();
+    else if(page==="staff")html=renderStaffPage();
+    else html=renderFactoryPage();
+    body.innerHTML=html;bindActions(body);
+  }
+
+  function renderWorkshop(){
+    const current=state.current, history=Array.isArray(state.history)?state.history:[];
+    let html=`<div class="v5-hero"><div class="v5-kicker">SMART FACTORY · LIVE</div><h2>${current?`Выполняется: ${esc(current.name)}`:`Производство ждёт следующего заказа`}</h2><p>${current?`Автоматический маршрут включён. Сотрудники идут к своим станкам и переходят между этапами без ручных кликов.`:`Выбирай заказ по прибыли, сроку и загрузке цеха. После запуска персонал работает автоматически.`}</p>`;
+    html+=`<div class="v5-grid3" style="margin-top:9px"><div class="v5-stat"><small>КАССА</small><b>₽ ${money(state.money)}</b><span>${state.dailyRevenue>=state.dailyCosts?"плюс сегодня":"расходы сегодня"}</span></div><div class="v5-stat"><small>ЭНЕРГИЯ</small><b>${Math.round(state.energy)}%</b><span>нагрузка оборудования</span></div><div class="v5-stat"><small>РЕПУТАЦИЯ</small><b>${Math.round(state.rep)}</b><span>клиенты</span></div></div></div>`;
+    if(current){
+      const p=product(current);const pct=typeof stagePct==="function"?stagePct(current):clamp(state.progress/((p?.time||1)*current.quantity)*100,0,100);const a=current.assignments?.[currentStageName(current)];
+      html+=`<div class="v5-card"><div class="v5-section"><b>🔨 ТЕКУЩИЙ ЗАКАЗ</b><span>${Math.round(pct)}%</span></div><div class="v5-sub">${esc(current.name)} × ${current.quantity} · клиент ${esc(clientFor(current).name)}</div><div class="v5-progress"><i style="width:${pct}%"></i></div><div class="v5-grid2" style="margin-top:7px"><div class="v5-stat"><small>ТЕКУЩИЙ ЭТАП</small><b>${esc(roleName[currentStageName(current)]||"Производство")}</b><span>${a?"назначение подтверждено":"ожидание назначения"}</span></div><div class="v5-stat"><small>СОСТОЯНИЕ</small><b>${riskFor(current)}</b><span>дедлайн: день ${orderDeadline(current).day} · ${clockV5(orderDeadline(current).minute)}</span></div></div></div>`;
+    }
+    html+=`<div class="v5-section"><b>⚙ СТАНКИ</b><span>${state.owned.length} / ${machineDefs.length}</span></div>`;
+    html+=`<div class="v5-card">${state.owned.map(id=>{const m=getMachine(id),st=machineStatus(m),cond=Math.round(state.v5.condition[m.id]);const ass=state.current?.assignments?Object.values(state.current.assignments).find(a=>a?.machineId===m.id):null;const w=ass?state.staff.find(x=>String(x.id)===String(ass.staffId)):null;return `<div class="v5-machine"><div class="v5-row"><div class="name">${m.icon} ${esc(m.short)}</div><span class="v5-chip ${st.cls}">${st.text}</span></div><div class="meta">${esc(m.name)} · уровень L${machineLevel(m.id)} · состояние ${cond}%${w?` · 👷 ${esc(w.name)}`:""}</div><div class="v5-progress"><i style="width:${cond}%;opacity:.8"></i></div><div class="v5-machine-actions">${action("👷 Отправить",`dispatch::${m.id}`)}${action(cond<75?"🔧 Обслужить":"⚙ Улучшить",cond<75?`repair::${m.id}`:`upgrade::${m.id}`)}</div></div>`;}).join("")}</div>`;
+    html+=`<div class="v5-grid2">${action("📋 Открыть заказы","orders::all","primary")}${action(state.running?"⏸ Поставить смену":"▶ Запустить смену","pause::all",state.running?"":"good")}</div>`;
+    html+=`<div class="v5-card" style="margin-top:7px"><div class="v5-section"><b>🎯 БЛИЖАЙШАЯ ЦЕЛЬ</b><span>${state.produced} изделий</span></div>${renderMission()} </div>`;
+    return html;
+  }
+
+  function currentStageName(order){
+    try{return typeof currentStage==="function"?currentStage(order):(products[order.key]?.steps?.[order.stageIndex||0]);}catch(e){return products[order.key]?.steps?.[order.stageIndex||0];}
+  }
+
+  function renderMission(){
+    ensureV5();const m=state.v5.missions.find(x=>!Boolean(x.get?.()));if(!m)return `<div class="v5-sub">Все текущие цели выполнены. Следующая задача — расширение завода.</div>`;
+    return `<div class="v5-row"><div><div class="v5-big">${esc(m.name)}</div><div class="v5-sub">Выполнено: ${m.id==="m1"?state.produced:m.id==="m2"?state.staff.length:m.id==="m3"?hasMachine("mill")?1:0:m.id==="m4"?Math.round(state.rep):state.revenue} / ${money(m.need)}</div></div><span class="v5-chip">ЗАДАЧА</span></div>`;
+  }
+
+  function renderOrdersPage(){
+    ensureV5();let html=`<div class="v5-hero"><div class="v5-kicker">ORDER DESK</div><h2>Выбирай заказ по экономике</h2><p>Здесь видно материалы, прогноз затрат, срок и ожидаемую прибыль до запуска. Сам запуск открывает выбор сотрудника и станка.</p></div>`;
+    if(state.current)html+=`<div class="v5-card"><div class="v5-row"><b style="font-size:9px">🔨 Уже в работе</b><span class="v5-chip v5-ok">АВТО</span></div><div class="v5-sub" style="margin-top:3px">${esc(state.current.name)} × ${state.current.quantity} · завершение произойдёт автоматически.</div></div>`;
+    html+=`<div class="v5-section"><b>ВХОДЯЩИЕ ЗАКАЗЫ</b><span>${state.orders.length} доступно</span></div>`;
+    if(!state.orders.length)html+=`<div class="v5-card"><div class="v5-sub">Очередь пополняется автоматически.</div></div>`;
+    for(const o of state.orders){decorateOrder(o);const p=product(o);const c=clientFor(o);const mc=materialCost(o),profit=profitEstimate(o),dl=orderDeadline(o),risk=riskFor(o),missing=Object.keys(p.mat).reduce((n,t)=>n+Math.max(0,materialNeed(o,t)-Number(state.materials[t]||0)),0);const rcls=profit<0||risk==="Убыточный"?"v5-bad":risk==="Высокий"?"v5-warn":"v5-ok";
+      html+=`<div class="v5-order"><div class="v5-row"><div class="v5-order-title">${o.urgent?"🔥 ":""}${esc(o.name)} × ${o.quantity}</div><span class="v5-chip ${rcls}">${esc(risk)}</span></div><div class="v5-order-meta">👤 ${esc(c.name)} · ${esc(c.type)} · дедлайн ${dl.day} день · осталось ${formatMinutes(dl.delta)} · ${p.steps.length} этапов</div><div class="v5-route">${p.steps.map(r=>`<span class="v5-step">${esc(roleName[r]||r)}</span>`).join("→")}</div><div class="v5-grid3" style="margin-top:7px"><div class="v5-stat"><small>ВЫРУЧКА</small><b>₽ ${money(o.reward)}</b><span>от клиента</span></div><div class="v5-stat"><small>МАТЕРИАЛЫ</small><b>₽ ${money(mc)}</b><span>${missing>0?`не хватает ${Math.ceil(missing)} кг`:"склада хватает"}</span></div><div class="v5-stat"><small>ПРИБЫЛЬ *</small><b class="${profit<0?"v5-bad":"v5-ok"}">₽ ${money(profit)}</b><span>* прогноз</span></div></div><div class="v5-order-foot"><span class="v5-money ${missing>0?"v5-warn":"v5-ok"}">${missing>0?`🛒 докупить · ₽ ${money(Object.keys(p.mat).reduce((s,t)=>s+Math.ceil(Math.max(0,materialNeed(o,t)-Number(state.materials[t]||0)))*materialPrice(t),0))}`:`✅ всё есть`}</span>${action("Проверить и запустить",`plan::${o.id}`,"primary")}</div></div>`;
+    }
+    html+=`<div class="v5-card"><div class="v5-sub">Перед запуском система покажет полную ведомость материалов и даст выбрать конкретного сотрудника и конкретный станок для каждого этапа.</div></div>`;
+    return html;
+  }
+
+  function renderStaffPage(){
+    ensureV5();let html=`<div class="v5-hero"><div class="v5-kicker">TEAM CONTROL</div><h2>Люди работают, а не ждут кнопок</h2><p>После назначения сотрудник сам идёт к станку. Навыки, усталость и дисциплина влияют на скорость автоматического производства.</p></div>`;
+    html+=`<div class="v5-grid3"><div class="v5-stat"><small>КОМАНДА</small><b>${state.staff.length}</b><span>сотрудников</span></div><div class="v5-stat"><small>ЗАГРУЖЕНЫ</small><b>${state.staff.filter(w=>w.workState==="working"||w.assignedOrderId!=null).length}</b><span>сейчас</span></div><div class="v5-stat"><small>ОБЩИЙ ФОКУС</small><b>${Math.round(state.staff.reduce((s,w)=>s+(100-(state.v5.fatigue[w.id]||0)),0)/(state.staff.length||1))}%</b><span>энергия команды</span></div></div>`;
+    html+=`<div class="v5-section" style="margin-top:8px"><b>КОМАНДА</b><span>автонастройка доступна</span></div>`;
+    if(!state.staff.length)html+=`<div class="v5-card"><div class="v5-sub">Пока ты один. Перейди в блок кандидатов ниже.</div></div>`;
+    for(const w of state.staff){const f=Math.round(state.v5.fatigue[w.id]||0),m=w.assignedMachine?getMachine(w.assignedMachine):null;const t=w.traits||{};const status=w.workState==="working"?`РАБОТАЕТ · ${m?.short||"станок"}`:w.workState==="walking"?`ИДЁТ → ${m?.short||"станок"}`:"ГОТОВ";
+      html+=`<div class="v5-person"><div class="v5-person-head"><div class="v5-avatar">👷</div><div style="min-width:0;flex:1"><div class="v5-row"><b>${esc(w.name)}</b><span class="v5-chip ${w.workState==="working"?"v5-ok":w.workState==="walking"?"v5-cyan":""}">${esc(status)}</span></div><small>${esc(roleName[w.role]||w.role)} · зарплата ₽ ${money(w.wage||0)}/день</small></div></div><div class="v5-bars"><div class="v5-mini"><small>НАВЫК</small><b>${Math.round(w.skill||0)}</b></div><div class="v5-mini"><small>ТОЧНОСТЬ</small><b>${Math.round(t.precision||60)}</b></div><div class="v5-mini"><small>УСТАЛОСТЬ</small><b>${f}%</b></div></div>${action(m?"↗ Перенаправить":"⚡ Назначить",m?`dispatch::${m.id}`:`orders::all`)} </div>`;
+    }
+    html+=`<div class="v5-section"><b>НАНЯТЬ</b><span>новая специализация откроет следующий этап</span></div>`;
+    for(const d of staffDefs){const ready=d.role==="manager"||state.owned.some(id=>getMachine(id).role===d.role);html+=`<div class="v5-person"><div class="v5-row"><div><b style="font-size:8px">${esc(d.name)}</b><div class="v5-sub">${esc(roleName[d.role]||d.role)} · навык ~${d.skill}</div></div><span class="v5-chip">₽ ${money(d.cost)}</span></div><div class="v5-order-foot"><span class="v5-sub">₽ ${money(d.wage)}/день</span>${action("+ Нанять",`hire::${d.role}`,ready?"good":"")}</div></div>`;}
+    return html;
+  }
+
+  function renderFactoryPage(){
+    ensureV5();let html=`<div class="v5-hero"><div class="v5-kicker">FACTORY OS</div><h2>Завод как система</h2><p>Склад, оборудование, исследования и экономика собраны в одном экране. Большая часть рутины выполняется автоматически.</p></div>`;
+    html+=`<div class="v5-section"><b>📦 СКЛАД</b><span>вместимость расширяется</span></div>`;
+    for(const t of ["steel","toolSteel"]){const cap=state.v5.capacity[t],used=capacityUsed(t),pct=warehousePercent(t),price=materialPrice(t);html+=`<div class="v5-material"><div class="v5-row"><div class="name">${esc(matName[t])}</div><span class="v5-chip">${Math.round(used)} / ${cap} кг</span></div><div class="v5-progress"><i style="width:${pct}%"></i></div><div class="v5-row" style="margin-top:5px"><span class="v5-sub">цена поставки: ₽ ${money(price)}/кг</span><div style="display:flex;gap:4px">${action("+50 кг",`buyMat::${t}`)}${action("+250",`buyMat::${t}::250`)}</div></div></div>`;}
+    html+=`<div class="v5-card"><div class="v5-section"><b>ЁМКОСТЬ СКЛАДА</b><span>расширить +100 кг</span></div><div class="v5-row"><div class="v5-sub">Больше запас — меньше вынужденных остановок.</div>${action("+ Вместимость","capacity::steel","primary")}</div></div>`;
+    html+=`<div class="v5-section"><b>⚙ ОБОРУДОВАНИЕ</b><span>состояние и апгрейды</span></div><div class="v5-card">`;
+    for(const m of machineDefs){const owned=hasMachine(m.id),cond=Math.round(state.v5.condition[m.id]);if(owned){html+=`<div class="v5-machine"><div class="v5-row"><div class="name">${m.icon} ${esc(m.short)}</div><span class="v5-chip ${cond<45?"v5-warn":"v5-ok"}">${cond}%</span></div><div class="meta">${esc(m.name)} · L${machineLevel(m.id)} · мощность ${m.power.toFixed(1)}</div><div class="v5-machine-actions">${action("🔧 Обслужить",`repair::${m.id}`)}${action("⚙ Улучшить",`upgrade::${m.id}`,"primary")}</div></div>`;}else{const ready=researchTier()>=m.unlock;html+=`<div class="v5-machine"><div class="v5-row"><div class="name">${m.icon} ${esc(m.short)}</div><span class="v5-chip ${ready?"v5-ok":""}">${ready?"ДОСТУПЕН":"TIER "+m.unlock}</span></div><div class="meta">${esc(m.name)} · ₽ ${money(m.cost)}</div>${action("Купить станок",`buyMachine::${m.id}`,ready?"good":"")}</div>`;}}
+    html+=`</div>`;
+    html+=`<div class="v5-section"><b>🧪 ТЕХНОЛОГИИ</b><span>управляй точечно</span></div><div class="v5-card">${researchDefs.map(r=>{const lvl=state.research[r.id]||0;const ready=lvl<r.max;const price=Math.round(r.cost*(1+lvl*.55));return `<div class="v5-machine"><div class="v5-row"><div class="name">${esc(r.name)}</div><span class="v5-chip">L${lvl}/${r.max}</span></div><div class="meta">${esc(r.desc)} · следующий уровень ₽ ${money(price)}</div>${ready?action("Исследовать",`research::${r.id}`,"primary"):"<div class=\"v5-sub\">Максимальный уровень</div>"}</div>`;}).join("")}</div>`;
+    html+=`<div class="v5-section"><b>💰 ЭКОНОМИКА</b><span>весь срок игры</span></div><div class="v5-grid2"><div class="v5-stat"><small>ВЫРУЧКА</small><b>₽ ${money(state.revenue)}</b><span>всего</span></div><div class="v5-stat"><small>РАСХОДЫ</small><b>₽ ${money(state.costs)}</b><span>всего</span></div><div class="v5-stat"><small>ЗАРПЛАТЫ</small><b>₽ ${money(state.wages)}</b><span>всего</span></div><div class="v5-stat"><small>ЭНЕРГИЯ</small><b>₽ ${money(state.power)}</b><span>всего</span></div></div>`;
+    html+=`<div class="v5-section"><b>🤝 КЛИЕНТЫ И КОНТРАКТЫ</b><span>${state.contractStreak||0} успешных подряд</span></div>`;
+    state.v5.clients.forEach(c=>{const done=Math.min(100,Math.round(c.loyalty));html+=`<div class="v5-customer"><div class="v5-row"><div><b>${esc(c.name)}</b><div class="v5-sub">${esc(c.type)}</div></div><span class="v5-chip">лояльность ${done}</span></div><div class="v5-progress"><i style="width:${done}%"></i></div></div>`;});
+    state.v5.contracts.forEach(c=>{const pct=Math.min(100,Math.round(c.done/c.target*100));html+=`<div class="v5-customer"><div class="v5-row"><div><b>Контракт · ${esc(c.client)}</b><div class="v5-sub">${c.done} / ${c.target} заказов · бонус ₽ ${money(c.reward)}</div></div><span class="v5-chip ${pct>=100?"v5-ok":""}">${pct}%</span></div><div class="v5-progress"><i style="width:${pct}%"></i></div></div>`;});
+    return html;
+  }
+
+  function openV5Plan(id){
+    ensureV5();const order=state.orders.find(o=>String(o.id)===String(id));if(!order)return;decorateOrder(order);const p=product(order);const modal=document.getElementById("v5PlanModal"),body=document.getElementById("v5PlanBody");
+    document.getElementById("v5PlanTitle").textContent=`Заказ · ${order.name}`;
+    const mats=Object.keys(p.mat).map(t=>{const need=materialNeed(order,t),stock=Number(state.materials[t]||0),missing=Math.max(0,need-stock);const buy=missing*materialPrice(t);return `<div class="v5-material"><div class="v5-row"><span class="name">${esc(matName[t])}</span><span class="v5-chip ${missing?"v5-warn":"v5-ok"}">${missing?`не хватает ${Math.ceil(missing)} кг`:`достаточно`}</span></div><div class="v5-sub">нужно ${need} кг · на складе ${stock} кг${missing?` · автоматически докупить на ₽ ${money(buy)}`:""}</div><div class="v5-progress"><i style="width:${clamp(stock/Math.max(1,need)*100,0,100)}%"></i></div></div>`;}).join("");
+    const missingCost=Object.keys(p.mat).reduce((s,t)=>s+Math.ceil(Math.max(0,materialNeed(order,t)-Number(state.materials[t]||0)))*materialPrice(t),0);
+    const profit=profitEstimate(order);
+    let html=`<div class="v5-toastline">${missingCost>0?`⚠ Материалов не хватает. При запуске можно автоматически докупить недостающее на <b>₽ ${money(missingCost)}</b>.`:"✅ Все материалы на складе."}</div><div class="v5-card"><div class="v5-grid3"><div class="v5-stat"><small>ВЫРУЧКА</small><b>₽ ${money(order.reward)}</b></div><div class="v5-stat"><small>ЗАТРАТЫ МАТ.</small><b>₽ ${money(materialCost(order)+missingCost)}</b></div><div class="v5-stat"><small>ПРОГНОЗ ПРИБЫЛИ</small><b>₽ ${money(profit)}</b></div></div></div><div class="v5-section"><b>📦 МАТЕРИАЛЫ</b><span>автозакупка включена</span></div>${mats}<div class="v5-section"><b>👷 ПЛАН ПРОИЗВОДСТВА</b><span>выбор сотрудника + станка</span></div>`;
+    html+=`<div class="v5-card"><div class="v5-sub">Кнопка запуска ниже откроет подробный выбор по каждому этапу. После запуска сотрудники сами пойдут к назначенным станкам, а после завершения заказ автоматически сдастся.</div><div class="v5-grid2" style="margin-top:7px">${action("⚙ Открыть детальный выбор",`planCore::${order.id}`,"primary")}${action("✕ Закрыть","close::all")}</div></div>`;
+    html+=`<div class="v5-section"><b>Маршрут</b><span>${p.steps.length} этапов</span></div><div class="v5-route">${p.steps.map(r=>`<span class="v5-step">${esc(roleName[r]||r)}</span>`).join("→")}</div>`;
+    body.innerHTML=html;body.querySelectorAll("[data-v5-action]").forEach(b=>b.onclick=()=>{const [name,arg]=b.dataset.v5Action.split("::");if(name==="planCore"){closeV5Plan();if(typeof window.openOrderSetup==="function")window.openOrderSetup(Number(arg));else showToast("Окно запуска недоступно");}else if(name==="close")closeV5Plan();});
+    modal.classList.add("open");modal.setAttribute("aria-hidden","false");
+  }
+  function closeV5Plan(){const m=document.getElementById("v5PlanModal");m.classList.remove("open");m.setAttribute("aria-hidden","true");}
+
+  function buyV5Material(type,qty){
+    ensureV5();
+    qty=Number(qty)||50;
+    if(type==="steel"&&qty===250)qty=250;
+    const cap=state.v5.capacity[type]||500;const free=Math.max(0,cap-capacityUsed(type));qty=Math.min(qty,Math.floor(free));
+    if(qty<=0){showToast("⚠ Склад заполнен");return;}
+    const cost=qty*materialPrice(type);if(state.money<cost){showToast(`⚠ Нужно ₽ ${money(cost)}`);return;}
+    state.money-=cost;state.costs+=cost;state.v5.stats.purchased+=(qty);state.materials[type]=(state.materials[type]||0)+qty;
+    log(`Закупка: ${matName[type]} +${qty} кг · ₽ ${money(cost)}`);showToast(`📦 +${qty} кг ${matName[type]}`);sound(500,.06,"sine");renderAllV5();
+  }
+  function buyV5Machine(id){
+    const m=getMachine(id);if(!m||hasMachine(id))return;if(researchTier()<m.unlock){showToast(`Нужен Tier ${m.unlock}`);return;}if(state.money<m.cost){showToast("Недостаточно денег");return;}
+    state.money-=m.cost;state.costs+=m.cost;state.owned.push(id);state.levels[id]=1;state.v5.condition[id]=100;log(`Куплен станок ${m.short}`);showToast(`⚙ ${m.short} куплен`);sound(650,.07,"triangle");renderAllV5();
+  }
+  function upgradeV5Machine(id){
+    const m=getMachine(id);if(!m||!hasMachine(id))return;const lvl=machineLevel(id);const price=Math.round(Math.max(7000,m.cost*.38*Math.pow(1.5,lvl-1)));if(state.money<price){showToast(`⚠ Нужен ₽ ${money(price)}`);return;}state.money-=price;state.costs+=price;state.levels[id]=lvl+1;state.v5.condition[id]=clamp((state.v5.condition[id]||100)+12,0,100);log(`${m.short} модернизирован до L${lvl+1}`);showToast(`⚙ ${m.short} → L${lvl+1}`);renderAllV5();}
+  function repairV5Machine(id){
+    const m=getMachine(id);if(!m||!hasMachine(id))return;const c=Number(state.v5.condition[id]||100);if(c>=96){showToast("Станок почти в идеале");return;}const cost=Math.round((100-c)*95);if(state.money<cost){showToast(`⚠ Ремонт: ₽ ${money(cost)}`);return;}state.money-=cost;state.costs+=cost;state.v5.condition[id]=100;state.v5.stats.maintenance+=cost;log(`Обслуживание ${m.short} · ₽ ${money(cost)}`);showToast(`🔧 ${m.short} обслужен`);sound(350,.07,"sine");renderAllV5();}
+  function dispatchV5(machineId){
+    const m=getMachine(machineId);if(!m||!hasMachine(machineId))return;
+    if(!state.current){
+      const w=state.staff.filter(x=>x.role===m.role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
+      if(!w){showToast(`Нет сотрудника: ${roleName[m.role]||m.role}`);return;}
+      if(typeof window.autoAssignStaffToMachine==="function")window.autoAssignStaffToMachine(machineId);else showToast("Автораспределение недоступно");
+      return;
+    }
+    if(typeof window.autoAssignStaffToMachine==="function")window.autoAssignStaffToMachine(machineId);else showToast("Автораспределение недоступно");
+    renderAllV5();
+  }
+  function hireV5(role){
+    const d=staffDefs.find(x=>x.role===role);if(!d)return;const ready=role==="manager"||state.owned.some(id=>getMachine(id).role===role);if(!ready){showToast("Сначала нужен соответствующий станок");return;}if(state.money<d.cost){showToast(`⚠ Нужно ₽ ${money(d.cost)}`);return;}
+    state.money-=d.cost;state.costs+=d.cost;const id=`v5-${role}-${Date.now()}-${Math.random().toString(16).slice(2,7)}`;const names={lathe:["Алексей","Игорь","Максим"],mill:["Дмитрий","Олег","Антон"],grind:["Роман","Никита","Павел"],edm:["Артур","Виктор"],knife:["Сергей","Евгений"],cyl:["Михаил","Андрей"],qc:["Денис","Владимир"],manager:["Константин","Илья"]};const list=names[role]||[d.name];const name=list[Math.floor(Math.random()*list.length)];state.staff.push({id,name,role,cost:d.cost,wage:d.wage,skill:Math.round(d.skill+(Math.random()*10-5)),c:d.c,x:150+Math.random()*900,y:150+Math.random()*480,tx:300,ty:260,timer:0,workState:"idle",assignedMachine:null,assignedOrderId:null,traits:{discipline:60+Math.random()*25,precision:60+Math.random()*25,speed:60+Math.random()*25}});state.v5.fatigue[id]=4;log(`Нанят сотрудник: ${name}`);showToast(`👷 ${name} в команде`);sound(700,.06,"sine");renderAllV5();}
+  function upgradeWarehouse(type){
+    ensureV5();const cost=type==="toolSteel"?12500:9000;const key=type; if(state.money<cost){showToast(`⚠ Нужно ₽ ${money(cost)}`);return;}state.money-=cost;state.costs+=cost;state.v5.capacity[key]+=100;log(`Склад ${matName[key]} расширен до ${state.v5.capacity[key]} кг`);showToast("📦 Вместимость склада увеличена");renderAllV5();}
+  function researchV5(id){
+    const r=researchDefs.find(x=>x.id===id);if(!r)return;const lvl=state.research[id]||0;if(lvl>=r.max){showToast("Максимальный уровень");return;}const price=Math.round(r.cost*(1+lvl*.55));if(state.money<price){showToast(`⚠ Нужно ₽ ${money(price)}`);return;}state.money-=price;state.costs+=price;state.research[id]=lvl+1;log(`Исследование: ${r.name} → L${lvl+1}`);showToast(`🧪 ${r.name} → L${lvl+1}`);sound(780,.07,"triangle");renderAllV5();}
+  function toggleShiftV5(){state.running=!state.running;showToast(state.running?"▶ Смена запущена":"⏸ Смена на паузе");sound(state.running?520:260,.06,"sine");renderAllV5();}
+  function saveV5(){try{localStorage.setItem(V5KEY,JSON.stringify(state.v5));localStorage.setItem(SAVE_KEY,JSON.stringify(state));showToast("💾 Сохранено");}catch(e){showToast("⚠ Не удалось сохранить");}}
+
+  function tickV5(){
+    ensureV5();
+    const active=state.current;
+    if(active && active.assignments){
+      for(const a of Object.values(active.assignments)){const m=getMachine(a?.machineId);if(m){state.v5.condition[m.id]=clamp((state.v5.condition[m.id]||100)-0.007,8,100);}}
+      state.staff.forEach(w=>{if(w.assignedOrderId===active.id)state.v5.fatigue[w.id]=clamp((state.v5.fatigue[w.id]||0)+0.018,0,100);});
+    } else {
+      state.staff.forEach(w=>{state.v5.fatigue[w.id]=clamp((state.v5.fatigue[w.id]||0)-0.035,0,100);});
+    }
+    state.owned.forEach(id=>{const m=getMachine(id);if(!m)return;const c=state.v5.condition[id]||100;if(c<25&&!state.v5.warned?.[id]){state.v5.warned=state.v5.warned||{};state.v5.warned[id]=1;log(`⚠ ${m.short}: требуется обслуживание`);showToast(`⚠ ${m.short}: нужен ремонт`);state.v5.stats.events++;}});
+    if(state.day!==state.v5.lastDay){
+      state.v5.lastDay=state.day;
+      Object.keys(state.v5.warned||{}).forEach(k=>delete state.v5.warned[k]);
+      state.v5.market.steel=32; state.v5.market.toolSteel=82;
+      state.staff.forEach(w=>{state.v5.fatigue[w.id]=clamp((state.v5.fatigue[w.id]||0)-28,0,100);});
+      for(const c of state.v5.contracts){if(c.done>=c.target&&c.active){state.money+=c.reward;state.revenue+=c.reward;const cc=state.v5.clients.find(x=>x.name===c.client); if(cc) cc.loyalty=clamp((cc.loyalty||0)+8,0,100);c.active=false;log(`✅ Контракт ${c.client} выполнен · бонус ₽ ${money(c.reward)}`);showToast(`🤝 Контракт выполнен · +₽ ${money(c.reward)}`);}}
+    }
+    if(Array.isArray(state.history)){
+      while(state.v5.lastHistoryLength<state.history.length){
+        const h=state.history[state.v5.lastHistoryLength];state.v5.lastHistoryLength++;state.v5.stats.completed++;
+        if(h && h.deadlineDay!=null){const od=(h.finishedDay??state.day)<=h.deadlineDay;od?state.v5.stats.onTime++:state.v5.stats.late++;}
+        const c=state.v5.clients.find(x=>x.id===h?.clientId);if(c)c.loyalty=clamp((c.loyalty||0)+(h?.defective?-3:(h?.urgent?1.7:1)),0,100);
+        const cc=state.v5.contracts.find(x=>x.client===c?.name&&x.active);if(cc)cc.done++;
+      }
+    }
+  }
+
+  const coreProd=window.productionSpeed||productionSpeed;
+  window.productionSpeed=function(prod){
+    const baseSpeed=coreProd(prod);if(!state.current)return baseSpeed;let mult=1;
+    const role=currentStageName(state.current);const a=state.current.assignments?.[role];const m=a?getMachine(a.machineId):null;const w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null;
+    if(m)mult*=clamp((state.v5.condition[m.id]||100)/100,.25,1.05);
+    if(w)mult*=clamp(1-(state.v5.fatigue[w.id]||0)/240,.55,1);
+    return baseSpeed*mult;
+  };
+  productionSpeed=window.productionSpeed;
+
+  function renderAllV5(){
+    try{if(document.getElementById("v5Screen")?.classList.contains("open")){const active=document.querySelector(".v5-nav button.active")?.dataset.v5Page||"workshop";renderV5(active);}else if(typeof window.renderAll==="function")window.renderAll();}catch(e){console.error(e);}
+  }
+
+  /* Make order completion automatically enrich history with V5 metadata after the core game finishes it. */
+  setInterval(()=>{
+    try{
+      ensureV5();tickV5();
+      const was=state.v5.lastCurrent;const now=state.current;
+      if(was && !now){
+        const h=Array.isArray(state.history)?state.history[0]:null;
+        if(h && !h.v5Settled){h.v5Settled=true;decorateOrder(h);if(h.defective){};}
+        renderAllV5();
+      }
+      state.v5.lastCurrent=now?String(now.id):null;
+      if(document.getElementById("v5Screen")?.classList.contains("open")){
+        const page=document.querySelector(".v5-nav button.active")?.dataset.v5Page||"workshop";renderV5(page);
+      }
+      if(state.current){decorateOrder(state.current);}
+    }catch(e){console.error("ForgeWorks V5 tick",e);}
+  },1200);
+
+  document.getElementById("v5Back")?.addEventListener("click",closeV5);
+  document.getElementById("v5Home")?.addEventListener("click",()=>openV5("workshop"));
+  document.getElementById("v5PlanClose")?.addEventListener("click",closeV5Plan);
+  document.getElementById("v5PlanModal")?.addEventListener("click",e=>{if(e.target.id==="v5PlanModal")closeV5Plan();});
+  document.querySelectorAll(".v5-nav button").forEach(b=>b.addEventListener("click",()=>openV5(b.dataset.v5Page)));
+
+  /* Patch the shift button on mobile so the player never gets stuck in the old panel UI. */
+  const oldShift=document.getElementById("shiftBtn");
+  if(oldShift && !oldShift.dataset.v5){oldShift.dataset.v5="1";oldShift.addEventListener("click",()=>renderAllV5());}
+
+  /* Fix material buying buttons exposed by the legacy UI. */
+  window.buyMaterial=function(type,qty){buyV5Material(type,qty);};
+  window.buyMachine=function(id){buyV5Machine(id);};
+  window.upgradeMachine=function(id){upgradeV5Machine(id);};
+  window.hire=function(role){hireV5(role);};
+
+  ensureV5();
+  addButtonListeners();
+  window.addEventListener("resize",()=>{if(window.matchMedia("(min-width:761px)").matches)closeV5();},{passive:true});
+  window.addEventListener("keydown",e=>{if(e.key==="Escape"){if(document.getElementById("v5PlanModal")?.classList.contains("open"))closeV5Plan();else if(document.getElementById("v5Screen")?.classList.contains("open"))closeV5();}});
+})();
+</script>
+
 </body>
 </html>
