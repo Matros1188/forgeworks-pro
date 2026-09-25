@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>FORGEWORKS PRO V5 — Cartoon Factory</title>
+<title>FORGEWORKS PRO V5.6 — Stable Production</title>
 <style>
 :root{
   --bg:#07111d;--panel:#0e1b2b;--panel2:#13263a;--line:rgba(255,255,255,.10);
@@ -2788,6 +2788,233 @@ requestAnimationFrame(loop);
   document.head.appendChild(style);
 })();
 
+
+
+/* ======================================================================
+   FORGEWORKS PRO V5.6 — PRODUCTION BRIDGE FIX
+   ======================================================================
+   Fixes the actual V5.5 runtime problem:
+   the V4 production helpers were scoped inside their IIFE, while the
+   final V5.5 action layer referenced them from the global scope.
+   That stopped the animation loop after an order was started.
+   ====================================================================== */
+(function installV56ProductionBridge(){
+  "use strict";
+
+  // Expose the production helpers that the final action layer needs.
+  // These wrappers are independent and safe even when the old V4 IIFE
+  // keeps its original private functions.
+  window.stageAssignment = function(order, role){
+    if(!order || !order.assignments) return null;
+    return order.assignments[role] || null;
+  };
+
+  window.machineWorkPoint = function(m){
+    if(!m) return {x:0,y:0};
+    return {
+      x: clamp(Number(m.x) + Number(m.w)/2, 50, 1150),
+      y: clamp(Number(m.y) + Number(m.h) + 24, 120, 720)
+    };
+  };
+
+  window.sendWorkerToMachine = function(workerId, machineId, orderId=null){
+    const w = state.staff.find(x=>String(x.id)===String(workerId));
+    const m = getMachine(machineId);
+    if(!w || !m) return false;
+    w.assignedMachine = machineId;
+    w.assignedOrderId = orderId;
+    w.workState = "walking";
+    const p = window.machineWorkPoint(m);
+    w.tx = p.x;
+    w.ty = p.y;
+    w.timer = 0;
+    return true;
+  };
+
+  window.releaseWorker = function(worker){
+    if(!worker) return;
+    worker.assignedMachine = null;
+    worker.assignedOrderId = null;
+    worker.workState = "idle";
+    worker.tx = 120 + Math.random()*960;
+    worker.ty = 445 + Math.random()*210;
+    worker.timer = 0;
+  };
+
+  // Guarantee globals for older bare references in already-loaded V4/V5 code.
+  window.fwStageAssignment = window.stageAssignment;
+  window.fwSendWorkerToMachine = window.sendWorkerToMachine;
+  window.fwReleaseWorker = window.releaseWorker;
+
+  // Repair an already-running order from an older save, if its assignment
+  // exists but the worker did not receive the movement command.
+  if(state.current && state.current.assignments){
+    const role = (typeof currentStage === "function") ? currentStage(state.current) : null;
+    const a = role ? window.stageAssignment(state.current, role) : null;
+    if(a && String(a.staffId) !== "__player__"){
+      window.sendWorkerToMachine(a.staffId, a.machineId, state.current.id);
+    }
+  }
+
+  // Re-wrap hire so a newly hired worker always becomes a visible world actor
+  // immediately, and if this exact role is the current employee-assigned
+  // stage, send the worker to the station only when the order already uses him.
+  const previousHire = window.hire;
+  window.hire = function(role){
+    const before = state.staff.length;
+    const result = typeof previousHire === "function" ? previousHire(role) : false;
+    if(result && state.staff.length > before){
+      const worker = state.staff[state.staff.length-1];
+      worker.x = clamp(Number(worker.x)||220, 80, 1120);
+      worker.y = clamp(Number(worker.y)||500, 425, 675);
+      worker.tx = worker.x;
+      worker.ty = worker.y;
+      worker.workState = "idle";
+
+      // If an active order already assigns this exact newly hired worker,
+      // start his movement immediately.
+      if(state.current && state.current.assignments){
+        for(const [stageRole, assignment] of Object.entries(state.current.assignments)){
+          if(String(assignment?.staffId) === String(worker.id)){
+            window.sendWorkerToMachine(worker.id, assignment.machineId, state.current.id);
+            break;
+          }
+        }
+      }
+      if(typeof window.drawScene === "function") window.drawScene();
+    }
+    return result;
+  };
+
+  // Harden production against missing assignments and make the worker's
+  // station check tolerant of small render/layout differences.
+  const previousProductionSpeed = productionSpeed;
+  productionSpeed = function(product){
+    const order = state.current;
+    if(!order) return 0;
+    const role = (typeof currentStage === "function") ? currentStage(order) : null;
+    const a = window.stageAssignment(order, role);
+    if(!a) return 0;
+
+    if(String(a.staffId) === "__player__"){
+      const m = getMachine(a.machineId);
+      if(!m || !hasMachine(m.id) || m.role !== role) return 0;
+      return (.62 + 70/100)
+        * (1 + (state.research.auto||0)*.06)
+        * (1 + (machineLevel(m.id)-1)*.08)
+        * (1 + (state.research.cnc||0)*.08);
+    }
+
+    const w = state.staff.find(x=>String(x.id)===String(a.staffId));
+    const m = getMachine(a.machineId);
+    if(!w || !m || !hasMachine(m.id) || w.role!==role || m.role!==role) return 0;
+    const skill=(w.skill||50)/100;
+    return (.62+skill)
+      * (1+(state.research.auto||0)*.06)
+      * (1+(machineLevel(m.id)-1)*.08)
+      * (1+(state.research.cnc||0)*.08);
+  };
+
+  const previousUpdateEconomy = updateEconomy;
+  updateEconomy = function(dt){
+    if(!state.running) return;
+
+    state.minute += dt*2.8;
+    state.energy -= dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12);
+    state.energy = clamp(state.energy,0,100);
+
+    if(state.current){
+      const order = state.current;
+      const p = products[order.key];
+      const role = (typeof currentStage === "function") ? currentStage(order) : null;
+      const a = window.stageAssignment(order, role);
+      let atStation = false;
+
+      if(a && String(a.staffId)==="__player__"){
+        const m = getMachine(a.machineId);
+        if(m && hasMachine(m.id) && m.role===role){
+          const point = window.machineWorkPoint(m);
+          const dx = point.x-state.px;
+          const dy = point.y-state.py;
+          const d = Math.hypot(dx,dy);
+          if(d>16){
+            const step = Math.min(150*dt,d);
+            state.px += dx/d*step;
+            state.py += dy/d*step;
+          }
+          atStation = Math.hypot(state.px-point.x,state.py-point.y) < 34;
+        }
+      }else if(a){
+        const w = state.staff.find(x=>String(x.id)===String(a.staffId));
+        const m = getMachine(a.machineId);
+        if(w && m && hasMachine(m.id)){
+          if(w.assignedMachine !== m.id || String(w.assignedOrderId)!==String(order.id)){
+            window.sendWorkerToMachine(w.id,m.id,order.id);
+          }
+          const point = window.machineWorkPoint(m);
+          const d = Math.hypot(w.x-point.x,w.y-point.y);
+          atStation = d < 34;
+        }
+      }
+
+      const sp = productionSpeed(p);
+      if(sp>0 && atStation){
+        order.stageProgress = Number(order.stageProgress||0) + dt*sp;
+        const dur = Math.max(.1,stageDuration(order));
+
+        if(order.stageProgress>=dur){
+          order.stageProgress=0;
+          const oldRole=role;
+          const oldAssignment=a;
+          if(String(oldAssignment?.staffId)!=="__player__"){
+            const w=state.staff.find(x=>String(x.id)===String(oldAssignment.staffId));
+            if(w) window.releaseWorker(w);
+          }
+          order.stageIndex=(order.stageIndex||0)+1;
+          state.progress=clamp((order.stageIndex/(p.steps.length||1))*(p.time*order.quantity),0,p.time*order.quantity);
+
+          if(order.stageIndex>=p.steps.length){
+            finishOrder();
+          }else{
+            const nextRole=currentStage(order);
+            const next=order.assignments?.[nextRole];
+            if(next && String(next.staffId)!=="__player__"){
+              window.sendWorkerToMachine(next.staffId,next.machineId,order.id);
+            }
+            log("Этап завершён: "+(typeof getRoleName==="function"?getRoleName(oldRole):oldRole)+" → "+(typeof getRoleName==="function"?getRoleName(nextRole):nextRole));
+            showToast("✅ Этап завершён");
+            sound(640,.06,"triangle");
+          }
+        }
+      }
+
+      if(state.current===order){
+        const done=order.stageIndex||0;
+        const dur=Math.max(.1,stageDuration(order));
+        state.progress=clamp((done+(order.stageProgress||0)/dur)*(p.time*order.quantity)/(p.steps.length||1),0,p.time*order.quantity);
+      }
+    }
+
+    if(state.energy<=0){
+      state.running=false;
+      log("Производство остановлено: нет энергии");
+      showToast("⚠️ Энергия закончилась");
+    }
+    if(state.minute>=1080) nextDay();
+  };
+
+  // Make the top production HUD refresh continuously after state changes.
+  setInterval(()=>{
+    try{
+      const n=document.getElementById("mOrders");
+      if(n) n.textContent=String((state.orders?.length||0)+(state.current?1:0));
+      if(typeof window.drawScene === "function") window.drawScene();
+    }catch(_e){}
+  },350);
+
+  // One immediate redraw so a newly hired worker appears without waiting for input.
+  try{ if(typeof window.drawScene === "function") window.drawScene(); }catch(_e){}
+})();
 </script>
 </body>
 </html>
