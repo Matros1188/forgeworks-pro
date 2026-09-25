@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#07111d">
-<title>FORGEWORKS PRO</title>
+<title>FORGEWORKS PRO V4</title>
 <style>
 :root{
   --bg:#07111d;--panel:#0e1b2b;--panel2:#13263a;--line:rgba(255,255,255,.10);
@@ -104,11 +104,71 @@ z-index:40;padding:10px 14px;border:1px solid var(--line);border-radius:12px;bac
 @media(max-width:380px){.brand{min-width:106px}.brand b{font-size:9px}.metric strong{font-size:8px}#mobileLauncher{gap:6px}.mobileTile{min-height:86px;padding:9px}.mobileTile b{font-size:9px}.mobileTile span{font-size:6.5px}#mobileScreenBody{padding-left:6px;padding-right:6px}}
 @media(max-width:760px) and (orientation:landscape){header{height:48px;min-height:48px}.logo{width:31px;height:31px}.metric{height:32px}#layout{height:calc(100dvh - 48px)}#sceneWrap{padding-bottom:58px}#mobileScreenHeader{height:50px;min-height:50px}.mobileBack,.mobileHeadAction{width:36px;height:36px}#mobileBottomNav .mnav{min-height:44px}}
 </style>
-</head>
+<style>
+@media (max-width:760px){
+:root{--m-bg:#060d16;--m-line:rgba(255,255,255,.085);--m-text:#f4f8fc;--m-muted:#8195a9;--m-cyan:#64e5ff;}
+body,#app{background:var(--m-bg)}
+header{height:52px!important;min-height:52px!important;padding:5px 6px!important;gap:5px!important;background:rgba(5,12,21,.94)!important}
+.brand{min-width:106px!important;gap:6px!important}.logo{width:32px!important;height:32px!important;border-radius:10px!important;font-size:16px!important}.brand b{font-size:9.5px!important;letter-spacing:.05em!important}
+.metrics{gap:3px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}.metric{height:34px!important;padding:4px 5px!important;border-radius:9px!important}.metric small{font-size:5.3px!important}.metric strong{font-size:8.1px!important}
+#mobileToggle{width:38px!important;min-width:38px!important;height:38px!important;font-size:16px!important;border-radius:11px!important}
+#layout{height:calc(100dvh - 52px)!important}#sceneWrap{padding:3px 3px calc(61px + env(safe-area-inset-bottom))!important}#scene{border-radius:13px!important}
+#joy{width:88px!important;height:88px!important;left:10px!important;bottom:72px!important;opacity:.82}#knob{width:38px!important;height:38px!important;margin:-19px!important}#touchE{width:58px!important;height:58px!important;right:10px!important;bottom:72px!important;font-size:17px!important}
+#mobilePanelHost{display:block!important;min-height:0}#mobilePanelHost>.panel{display:none!important}
+#mobileScreen{position:fixed!important;inset:0!important;z-index:200!important;display:flex!important;flex-direction:column!important;padding-top:env(safe-area-inset-top)!important;background:radial-gradient(circle at 92% -8%,rgba(83,118,255,.20),transparent 31%),linear-gradient(180deg,#06101b 0%,#07121e 100%)!important;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(102%);transition:.26s cubic-bezier(.2,.78,.2,1)}
+#mobileScreen.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+#mobileScreenHeader{height:55px!important;min-height:55px!important;grid-template-columns:40px 1fr 40px!important;padding:5px 6px!important;background:rgba(5,12,21,.90)!important}
+.mobileBack,.mobileHeadAction{width:38px!important;height:38px!important;border-radius:11px!important;font-size:16px!important;background:rgba(255,255,255,.045)!important}
+#mobileScreenTitle b{font-size:11px!important;letter-spacing:.08em!important}#mobileScreenTitle span{font-size:6px!important}
+#mobileScreenBody{flex:1!important;min-height:0!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;padding:7px 7px calc(73px + env(safe-area-inset-bottom))!important;scrollbar-width:none}#mobileScreenBody::-webkit-scrollbar{display:none}
+#mobileLauncher{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;padding:0!important}
+.m3Hero{grid-column:1/-1;padding:11px 12px;border:1px solid var(--m-line);border-radius:15px;background:linear-gradient(145deg,rgba(20,42,64,.94),rgba(8,17,28,.97));box-shadow:0 12px 28px rgba(0,0,0,.20)}
+.m3HeroTop{display:flex;justify-content:space-between;align-items:center;gap:7px}.m3Eyebrow{font-size:6px;color:var(--m-cyan);font-weight:900;letter-spacing:.14em}.m3Live{font-size:6px;font-weight:900;color:#5fe39a;padding:4px 7px;border:1px solid rgba(89,226,138,.22);border-radius:999px;background:rgba(89,226,138,.07)}
+.m3Hero h2{margin:4px 0 2px;font-size:16px;line-height:1.03}.m3Hero p{margin:0;color:var(--m-muted);font-size:7.5px;line-height:1.35}.m3KpiRow{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px}.m3Kpi{min-width:0;padding:7px 6px;border:1px solid var(--m-line);border-radius:10px;background:rgba(255,255,255,.025)}.m3Kpi small{display:block;color:var(--m-muted);font-size:5.5px}.m3Kpi b{display:block;margin-top:2px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m3Tile{position:relative;min-height:76px;padding:9px;border:1px solid var(--m-line);border-radius:14px;background:linear-gradient(180deg,rgba(15,31,48,.98),rgba(8,17,28,.98));color:var(--m-text);text-align:left;box-shadow:0 8px 20px rgba(0,0,0,.14);overflow:hidden}.m3Tile:active{transform:scale(.982)}.m3Tile .mi{font-size:19px;line-height:1;display:block}.m3Tile b{display:block;margin-top:6px;font-size:9px}.m3Tile span{display:block;margin-top:2px;color:var(--m-muted);font-size:6.5px;line-height:1.2}.m3Tile .arrow{position:absolute;right:8px;bottom:8px;color:#6e8398;font-size:10px}.m3Actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:7px}.m3Actions .btn{min-height:43px!important;font-size:8px!important}
+.m3Page{width:100%}.m3SectionTitle{display:flex;align-items:flex-end;justify-content:space-between;gap:7px;margin:2px 2px 7px}.m3SectionTitle b{font-size:11px}.m3SectionTitle span{font-size:6px;color:var(--m-muted)}.m3Grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.m3Stat{padding:8px;border:1px solid var(--m-line);border-radius:12px;background:linear-gradient(180deg,rgba(16,31,47,.96),rgba(8,17,28,.98))}.m3Stat small{display:block;color:var(--m-muted);font-size:5.5px}.m3Stat b{display:block;margin-top:2px;font-size:13px}.m3Stat .sub{display:block;margin-top:2px;font-size:5.8px;color:#688097}
+.m3Card{padding:9px;border:1px solid var(--m-line);border-radius:13px;background:linear-gradient(180deg,rgba(14,28,43,.96),rgba(7,16,27,.98));margin-bottom:7px}.m3CardTitle{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:6px}.m3CardTitle b{font-size:9px}.m3Pill{padding:3px 6px;border:1px solid var(--m-line);border-radius:999px;color:#bdd0df;font-size:5.5px;white-space:nowrap}.m3Pill.ok{color:#5fe39a;border-color:rgba(95,227,154,.22);background:rgba(95,227,154,.06)}.m3Pill.lock{color:#7f92a5}.m3Muted{color:var(--m-muted);font-size:6.5px;line-height:1.3}
+.m3MachineGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.m3Machine{min-width:0;padding:8px;border:1px solid var(--m-line);border-radius:12px;background:rgba(255,255,255,.02)}.m3Machine .name{display:flex;align-items:center;gap:5px;min-width:0;font-weight:900;font-size:8px}.m3Machine .name span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.m3Machine .meta{margin-top:3px;color:var(--m-muted);font-size:5.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.m3Machine .machineBtn{width:100%;margin-top:6px;min-height:33px;padding:5px 6px;border-radius:9px;font-size:6.8px;background:linear-gradient(180deg,#1b344b,#13263a);border:1px solid var(--m-line)}
+.m3Order{padding:8px;border:1px solid var(--m-line);border-radius:12px;background:rgba(255,255,255,.02);margin-bottom:6px}.m3OrderTitle{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:8px}.m3OrderMeta{margin-top:3px;color:var(--m-muted);font-size:6px;line-height:1.2}.m3OrderFoot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px}.m3Money{font-size:9px;font-weight:900}.m3Btn{min-height:33px;padding:6px 8px;border-radius:9px;border:1px solid var(--m-line);background:linear-gradient(180deg,#1a3349,#122438);font-size:6.8px;font-weight:900;color:#eef6ff}.m3Btn.primary{background:linear-gradient(135deg,#3c83ff,#6c5df1)}.m3Btn:disabled{opacity:.35}.m3Progress{height:5px;background:#06101a;border-radius:999px;overflow:hidden;margin-top:6px}.m3Progress i{display:block;height:100%;background:linear-gradient(90deg,#62e3ff,#6d79ff);border-radius:999px}
+.m3CompactList{display:grid;gap:5px}.m3Compact{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--m-line);border-radius:11px;background:rgba(255,255,255,.018)}.m3Avatar{width:28px;height:28px;flex:0 0 28px;border-radius:9px;display:grid;place-items:center;background:rgba(109,133,255,.12);border:1px solid var(--m-line);font-size:13px}.m3CompactMain{min-width:0;flex:1}.m3CompactMain b{display:block;font-size:7.5px}.m3CompactMain span{display:block;margin-top:2px;color:var(--m-muted);font-size:5.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.m3CompactAction{flex:0 0 auto}.m3Disclosure{width:100%;padding:8px;border:1px dashed rgba(255,255,255,.11);border-radius:11px;background:rgba(255,255,255,.018);font-size:7px;font-weight:900;color:#cad6e1;text-align:left}.m3GoalGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.m3Goal{padding:8px;border:1px solid var(--m-line);border-radius:11px;background:rgba(255,255,255,.02)}.m3Goal b{display:block;font-size:7px;line-height:1.2}.m3Goal span{display:block;margin-top:3px;font-size:5.5px;color:var(--m-muted)}
+#mobileBottomNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:215!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:5px!important;padding:6px 6px calc(6px + env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,rgba(6,13,22,0),rgba(6,13,22,.98) 34%)!important;pointer-events:none!important}#mobileBottomNav .mnav{pointer-events:auto!important;min-height:47px!important;border-radius:13px!important;padding:5px 4px!important;font-size:6.8px!important;background:rgba(13,28,43,.98)!important;border:1px solid rgba(255,255,255,.085)!important;box-shadow:0 8px 22px rgba(0,0,0,.24)}#mobileBottomNav .mnav .mi{font-size:15px!important}#mobileBottomNav .mnav.active{box-shadow:inset 0 0 0 1px rgba(106,134,255,.33),0 8px 22px rgba(0,0,0,.24)}
+@media(max-width:390px){.brand{min-width:98px!important}.brand b{font-size:9px!important}.m3Hero{padding:10px}.m3Hero h2{font-size:15px}.m3Tile{min-height:72px;padding:8px}.m3Tile b{font-size:8.5px}.m3Tile span{font-size:6.2px}.m3Stat b{font-size:12px}}
+@media(orientation:landscape){header{height:46px!important;min-height:46px!important}.logo{width:28px!important;height:28px!important}.metric{height:29px!important}#layout{height:calc(100dvh - 46px)!important}#mobileScreenHeader{height:48px!important;min-height:48px!important}.m3Hero{padding:8px 10px}.m3Tile{min-height:62px}}
+}
+
+/* === FORGEWORKS V4 PRODUCTION AUTOMATION + ORDER SETUP === */
+.brand-author{display:block!important;color:var(--cyan)!important;font-size:7px!important;letter-spacing:.01em!important;margin-top:1px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:185px}
+.machine-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}.machine-actions .btn{width:100%;min-height:34px;padding:6px;font-size:8px}
+.auto-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border-radius:999px;border:1px solid rgba(89,226,138,.22);background:rgba(89,226,138,.06);color:var(--green);font-size:7px;font-weight:900}
+.material-line{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:8px}.material-line:last-child{border-bottom:0}.material-line b{font-size:8px}.material-line .stock{color:var(--muted)}.material-line .lack{color:var(--red);font-weight:900}.material-line .ok{color:var(--green);font-weight:900}
+.stage-pill{display:inline-flex;align-items:center;padding:3px 6px;border-radius:999px;background:rgba(85,222,253,.08);border:1px solid rgba(85,222,253,.16);color:var(--cyan);font-size:6px;font-weight:900}
+.order-history{opacity:.9}.assignment-mini{margin-top:6px;display:grid;gap:4px}.assignment-mini div{padding:5px 6px;border-radius:8px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);font-size:6.5px;color:#b9cad9}
+.order-modal{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(2,7,13,.72);backdrop-filter:blur(10px)}
+.order-modal.open{display:flex}.order-modal-card{width:min(560px,calc(100vw - 20px));max-height:min(92dvh,760px);overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:20px;background:linear-gradient(180deg,#122238,#08131f);box-shadow:0 28px 90px rgba(0,0,0,.52);padding:14px}
+.order-modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.order-modal-title{font-size:14px;font-weight:950}.order-modal-sub{font-size:7px;color:var(--muted);margin-top:2px}.order-modal-close{width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.045);font-size:17px;font-weight:900}
+.order-materials{padding:9px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.025);margin-bottom:9px}.order-materials h4{margin:0 0 4px;font-size:9px}.order-material-total{margin-top:7px;padding:7px;border-radius:9px;background:rgba(255,215,106,.06);border:1px solid rgba(255,215,106,.16);color:#ffe19a;font-size:7px;font-weight:900}
+.order-warning{padding:8px;border-radius:11px;background:rgba(255,102,125,.075);border:1px solid rgba(255,102,125,.20);color:#ffb1bd;font-size:7px;line-height:1.35;margin-bottom:9px}.order-ok{padding:8px;border-radius:11px;background:rgba(89,226,138,.055);border:1px solid rgba(89,226,138,.18);color:#9cf0bd;font-size:7px;line-height:1.35;margin-bottom:9px}
+.assignment-list{display:grid;gap:7px}.assignment-row{padding:8px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}.assignment-row-top{display:flex;align-items:center;justify-content:space-between;gap:7px}.assignment-row-top b{font-size:8px}.assignment-row small{display:block;margin-top:2px;color:var(--muted);font-size:6.5px}.assignment-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}.assignment-fields label{font-size:6px;color:var(--muted)}.assignment-fields select{display:block;width:100%;margin-top:3px;height:34px;border-radius:9px;border:1px solid var(--line);background:#0b1827;color:#eef6ff;padding:5px;font-size:7px;outline:none}.order-modal-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:6px;margin-top:10px}.order-modal-actions .btn{width:100%}
+@media(max-width:760px){
+  .brand-author{font-size:6.1px!important;max-width:110px}
+  header .brand{min-width:128px!important}
+  .machine-actions .btn{min-height:30px!important;font-size:6.6px!important;padding:5px!important}
+  .order-modal{padding:8px;align-items:flex-end}
+  .order-modal-card{width:100%;max-height:91dvh;border-radius:18px 18px 0 0;padding:11px}
+  .order-modal-title{font-size:12px}.order-modal-sub{font-size:6.4px}.order-modal-close{width:34px;height:34px}
+  .assignment-fields select{height:36px;font-size:7px}
+  .order-modal-actions{grid-template-columns:1fr 1.4fr}
+}
+@media(max-width:390px){
+  .brand-author{display:block!important;font-size:5.5px!important;max-width:98px}.brand{min-width:120px!important}
+  .order-modal-actions .btn{font-size:7px!important}
+}
+
+</style></head>
 <body>
 <div id="app">
 <header>
-  <div class="brand"><div class="logo">⚒</div><div><b>FORGEWORKS</b><span>INDUSTRIAL TYCOON · PRO</span></div></div>
+  <div class="brand"><div class="logo">⚒</div><div><b>FORGEWORKS</b><span class="brand-author">Создано Сергеем Павловым</span></div></div>
   <div class="metrics">
     <div class="metric"><small>ДЕНЬГИ</small><strong id="mMoney">₽ 18 000</strong></div>
     <div class="metric"><small>ДЕНЬ</small><strong id="mDay">1 · 08:00</strong></div>
@@ -254,6 +314,17 @@ z-index:40;padding:10px 14px;border:1px solid var(--line);border-radius:12px;bac
     <button class="mnav" id="mNavWorkshop"><span class="mi">🏭</span><span>Цех</span></button>
     <button class="mnav good" id="mNavWork"><span class="mi">⚒</span><span>Работа</span></button>
     <button class="mnav" id="mNavMore"><span class="mi">☰</span><span>Меню</span></button>
+  </div>
+</div>
+
+
+<div id="orderModal" class="order-modal" aria-hidden="true">
+  <div class="order-modal-card" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+    <div class="order-modal-head">
+      <div><div id="orderModalTitle" class="order-modal-title">Запуск заказа</div><div id="orderModalSub" class="order-modal-sub"></div></div>
+      <button id="orderModalClose" class="order-modal-close" aria-label="Закрыть">✕</button>
+    </div>
+    <div id="orderModalContent"></div>
   </div>
 </div>
 
@@ -580,367 +651,73 @@ function updateEconomy(dt){
 
 function updateWorkers(dt){
   for(const w of state.staff){
-    const dx = w.tx-w.x;
-    const dy = w.ty-w.y;
-    const d = Math.hypot(dx,dy);
+    const bob = Math.sin(performance.now()*.006+w.x)*1.2;
+    const walking = w.workState === "walking";
+    const working = w.workState === "working";
+    const skin = w.skin || "#edc39b";
+    const shirt = w.c || "#5d88ff";
+    const hair = w.hair || "#2a3340";
 
-    if(d<5){
-      w.timer += dt;
-      if(w.timer>2.5+Math.random()*3){
-        w.tx = 100+Math.random()*1000;
-        w.ty = 150+Math.random()*500;
-        w.timer = 0;
-      }
+    X.fillStyle="rgba(0,0,0,.28)";
+    X.beginPath();
+    X.ellipse(w.x,w.y+24,12,4.5,0,0,Math.PI*2);
+    X.fill();
+
+    // legs
+    X.strokeStyle="#1b2635";
+    X.lineWidth=4.5;
+    X.lineCap="round";
+    X.beginPath();
+    X.moveTo(w.x-4,w.y+9+bob); X.lineTo(w.x-5.5,w.y+21+bob);
+    X.moveTo(w.x+4,w.y+9+bob); X.lineTo(w.x+5.5,w.y+21+bob);
+    X.stroke();
+    // shoes
+    X.strokeStyle="#0b1119"; X.lineWidth=3.5;
+    X.beginPath();
+    X.moveTo(w.x-7,w.y+21+bob); X.lineTo(w.x-2,w.y+21+bob);
+    X.moveTo(w.x+2,w.y+21+bob); X.lineTo(w.x+7,w.y+21+bob);
+    X.stroke();
+
+    // body / workwear
+    rounded(w.x-9,w.y-2+bob,18,16,5,shirt,"rgba(255,255,255,.12)");
+    // arms
+    X.strokeStyle=shirt; X.lineWidth=4; X.lineCap="round";
+    X.beginPath();
+    if(walking){
+      X.moveTo(w.x-8,w.y+1+bob); X.lineTo(w.x-13,w.y+8+bob);
+      X.moveTo(w.x+8,w.y+1+bob); X.lineTo(w.x+13,w.y+6+bob);
+    }else if(working){
+      X.moveTo(w.x-8,w.y+1+bob); X.lineTo(w.x-12,w.y+7+bob);
+      X.moveTo(w.x+8,w.y+1+bob); X.lineTo(w.x+13,w.y+7+bob);
     }else{
-      const sp = (.4+w.skill/100)*dt*60;
-      w.x += dx/d*sp;
-      w.y += dy/d*sp;
+      X.moveTo(w.x-8,w.y+1+bob); X.lineTo(w.x-12,w.y+10+bob);
+      X.moveTo(w.x+8,w.y+1+bob); X.lineTo(w.x+12,w.y+10+bob);
     }
-  }
-}
+    X.stroke();
+    // hands
+    X.fillStyle=skin;
+    for(const p of [[w.x-13,w.y+8+bob],[w.x+13,w.y+8+bob]]){X.beginPath();X.arc(p[0],p[1],2.4,0,Math.PI*2);X.fill();}
 
-const keys = {};
-let joyX = 0;
-let joyY = 0;
-
-window.addEventListener("keydown",e=>{
-  keys[e.key.toLowerCase()] = true;
-  if(e.key.toLowerCase()==="e"){manualWork();}
-  if([" ","arrowup","arrowdown","arrowleft","arrowright"].includes(e.key.toLowerCase())){e.preventDefault();}
-});
-
-window.addEventListener("keyup",e=>{
-  keys[e.key.toLowerCase()] = false;
-});
-
-function updatePlayer(dt){
-  let dx=0;
-  let dy=0;
-  if(keys.a || keys.arrowleft || joyX<-.2){dx--;}
-  if(keys.d || keys.arrowright || joyX>.2){dx++;}
-  if(keys.w || keys.arrowup || joyY<-.2){dy--;}
-  if(keys.s || keys.arrowdown || joyY>.2){dy++;}
-
-  if(dx||dy){
-    const l = Math.hypot(dx,dy);
-    const sp = 2.7*dt*60;
-    state.px += dx/l*sp;
-    state.py += dy/l*sp;
-  }
-
-  state.px = clamp(state.px,45,1155);
-  state.py = clamp(state.py,120,700);
-}
-
-function nearestMachine(){
-  let best=null;
-  let d=Infinity;
-  for(const id of state.owned){
-    const m = getMachine(id);
-    const md = Math.hypot(
-      state.px-(m.x+m.w/2),
-      state.py-(m.y+m.h/2)
-    );
-    if(md<d){
-      d=md;
-      best=m;
+    // neck
+    X.fillStyle=skin; X.fillRect(w.x-3,w.y-6+bob,6,5);
+    // head
+    X.beginPath(); X.arc(w.x,w.y-10+bob,7.5,0,Math.PI*2); X.fill();
+    // hair / hardhat
+    X.fillStyle=hair; X.beginPath(); X.arc(w.x,w.y-12.5+bob,7.8,Math.PI,Math.PI*2); X.fill();
+    if(w.role !== "manager"){
+      X.fillStyle="rgba(255,217,110,.82)";
+      X.fillRect(w.x-8,w.y-15+bob,16,2.8);
+      X.beginPath();X.arc(w.x,w.y-15+bob,6.5,Math.PI,Math.PI*2);X.fill();
     }
-  }
-  return {machine:best,distance:d};
-}
 
-function manualWork(){
-  const n = nearestMachine();
-  if(!n.machine || n.distance>160){
-    showToast("Подойди к станку");
-    return;
-  }
-  if(!state.current){
-    showToast("Нет активного заказа");
-    return;
-  }
-  const p = products[state.current.key];
-  if(!p.steps.includes(n.machine.role)){
-    showToast("Этот станок не нужен");
-    return;
-  }
-
-  state.progress += 1.2+(n.machine.role==="lathe"?.4:0);
-  state.energy = clamp(state.energy-.18,0,100);
-  sound(240,.05,"sine");
-  renderAll();
-}
-
-function buyMachine(id){
-  const m = getMachine(id);
-  if(hasMachine(id)){return;}
-  if(researchTier()<m.unlock){
-    showToast("Нужны исследования");
-    return;
-  }
-  if(state.money<m.cost){
-    showToast("Недостаточно денег");
-    return;
-  }
-
-  state.money -= m.cost;
-  state.costs += m.cost;
-  state.owned.push(id);
-  state.levels[id]=1;
-  log("Установлен "+m.name);
-  showToast("🏭 Оборудование установлено");
-  sound(660,.1,"sine");
-  renderAll();
-}
-
-function upgradeMachine(id){
-  const m = getMachine(id);
-  const level = machineLevel(id);
-  const price = Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,level-1)));
-
-  if(state.money<price){
-    showToast("Недостаточно денег");
-    return;
-  }
-
-  state.money -= price;
-  state.costs += price;
-  state.levels[id]=level+1;
-  log("Модернизация "+m.short+" → L"+(level+1));
-  showToast("⚙️ Станок улучшен");
-  sound(680,.09,"sine");
-  renderAll();
-}
-
-function hire(role){
-  const d = staffDefs.find(x=>x.role===role);
-  if(!d){return;}
-  const ready = role==="manager" || state.owned.some(id=>getMachine(id).role===role);
-
-  if(!ready){
-    showToast("Сначала открой нужный участок");
-    return;
-  }
-
-  if(state.money<d.cost){
-    showToast("Недостаточно денег");
-    return;
-  }
-
-  state.money -= d.cost;
-  state.costs += d.cost;
-
-  const names = ["Антон","Илья","Лена","Олег","Максим","Сергей","Денис","Роман","Марина","Павел"];
-  state.staff.push({
-    id:Date.now()+Math.random(),
-    role:d.role,
-    name:names[Math.floor(Math.random()*names.length)],
-    skill:Math.round(d.skill*(.86+Math.random()*.28)),
-    wage:d.wage,
-    c:d.c,
-    x:100+Math.random()*1000,
-    y:150+Math.random()*500,
-    tx:100+Math.random()*1000,
-    ty:150+Math.random()*500,
-    timer:0
-  });
-
-  log("Нанят "+d.name);
-  showToast("👷 Новый сотрудник");
-  sound(430,.09,"sine");
-  renderAll();
-}
-
-function buyResearch(id){
-  const d = researchDefs.find(x=>x.id===id);
-  if(!d){return;}
-  const level = state.research[id]||0;
-
-  if(level>=d.max){return;}
-
-  const price = Math.round(d.cost*Math.pow(1.55,level));
-
-  if(state.money<price){
-    showToast("Недостаточно денег");
-    return;
-  }
-
-  state.money -= price;
-  state.costs += price;
-  state.research[id]=level+1;
-
-  log("R&D "+d.name+" → L"+(level+1));
-  showToast("🧪 Исследование завершено");
-  sound(700,.1,"sine");
-  createOrders();
-  renderAll();
-}
-
-function buyMaterial(type,amount){
-  const prices = {steel:32,toolSteel:82};
-  const total = prices[type]*amount;
-
-  if(state.money<total){
-    showToast("Недостаточно денег");
-    return;
-  }
-
-  state.money -= total;
-  state.costs += total;
-  state.materials[type] += amount;
-
-  log("Закупка "+type+" × "+amount);
-  showToast("Материал доставлен");
-  sound(760,.06,"sine");
-  renderAll();
-}
-
-function rounded(x,y,w,h,r,fill,stroke){
-  X.beginPath();
-  X.moveTo(x+r,y);
-  X.arcTo(x+w,y,x+w,y+h,r);
-  X.arcTo(x+w,y+h,x,y+h,r);
-  X.arcTo(x,y+h,x,y,r);
-  X.arcTo(x,y,x+w,y,r);
-  X.closePath();
-  if(fill){X.fillStyle=fill;X.fill();}
-  if(stroke){X.strokeStyle=stroke;X.stroke();}
-}
-
-function text(v,x,y,s=12,c="#fff",bold=false,align="left"){
-  X.fillStyle=c;
-  X.font=(bold?"800 ":"500 ")+s+"px system-ui";
-  X.textAlign=align;
-  X.fillText(v,x,y);
-  X.textAlign="left";
-}
-
-function drawScene(){
-  const g = X.createLinearGradient(0,0,0,760);
-  g.addColorStop(0,"#162c42");
-  g.addColorStop(1,"#0b1724");
-  X.fillStyle=g;
-  X.fillRect(0,0,1200,760);
-
-  X.strokeStyle="rgba(150,200,230,.055)";
-  for(let x=0;x<=1200;x+=40){
-    X.beginPath();
-    X.moveTo(x,100);
-    X.lineTo(x,760);
-    X.stroke();
-  }
-
-  for(let y=120;y<=760;y+=40){
-    X.beginPath();
-    X.moveTo(0,y);
-    X.lineTo(1200,y);
-    X.stroke();
-  }
-
-  X.fillStyle="rgba(255,214,105,.13)";
-  for(const lane of [55,380,1130]){
-    X.fillRect(lane,110,14,630);
-  }
-
-  X.fillStyle="rgba(255,214,105,.65)";
-  for(const lane of [55,380,1130]){
-    for(let y=125;y<730;y+=32){
-      X.fillRect(lane,y,14,16);
+    if(working){
+      X.strokeStyle="rgba(89,226,138,.7)";X.lineWidth=1.4;
+      X.beginPath();X.arc(w.x,w.y+2+bob,15,0,Math.PI*2);X.stroke();
     }
+    text(w.name,w.x,w.y-25+bob,7.5,"#d7e5f1",true,"center");
   }
 
-  rounded(90,125,245,150,16,"#14283d","rgba(255,255,255,.08)");
-  text("OFFICE",108,149,13,"#e0edf9",true);
-  X.fillStyle="rgba(85,223,255,.13)";
-  X.fillRect(108,165,209,82);
-  X.fillStyle="rgba(255,255,255,.10)";
-
-  for(let i=0;i<5;i++){
-    X.fillRect(120+i*37,178,24,8);
-  }
-
-  for(let i=0;i<4;i++){
-    X.fillRect(118+i*48,206,34,6);
-  }
-
-  rounded(90,310,245,125,14,"#101e30","rgba(255,255,255,.07)");
-  text("RAW MATERIAL STORAGE",108,336,9,"#9ab0c4",true);
-
-  const crateColors=["#845536","#9b643d","#775033","#a36d42"];
-  for(let i=0;i<4;i++){
-    rounded(112+i*40,355,31,28,4,crateColors[i],"rgba(255,255,255,.05)");
-  }
-
-  text("STEEL "+Math.round(state.materials.steel)+" kg",108,412,9,"#d9e6f0");
-  text("TOOL STEEL "+Math.round(state.materials.toolSteel)+" kg",108,428,9,"#d9e6f0");
-
-  for(const id of state.owned){
-    const m = getMachine(id);
-    const active = state.current && products[state.current.key].steps.includes(m.role);
-    const pulse = .5+.5*Math.sin(performance.now()*.004+m.x);
-
-    rounded(
-      m.x,m.y,m.w,m.h,14,
-      "rgba(20,36,54,.97)",
-      state.selected===m.id ? m.c : "rgba(255,255,255,.08)"
-    );
-
-    X.globalAlpha=active ? .8+.2*pulse : .46;
-    X.fillStyle=m.c;
-    X.fillRect(m.x+14,m.y+13,m.w-28,4);
-    X.globalAlpha=1;
-
-    text(m.icon,m.x+14,m.y+42,22,m.c);
-    text(m.short,m.x+48,m.y+30,12,"#eef5ff",true);
-    text("ур. "+machineLevel(m.id),m.x+48,m.y+46,9,"#8298ad");
-
-    X.fillStyle="rgba(0,0,0,.23)";
-    X.fillRect(m.x+14,m.y+57,m.w-28,m.h-70);
-
-    X.fillStyle=m.c;
-    X.globalAlpha=.72;
-    X.fillRect(m.x+26,m.y+72,41,25);
-    X.fillRect(m.x+90,m.y+69,20,31);
-    X.fillRect(m.x+126,m.y+77,39,14);
-    X.globalAlpha=1;
-
-    X.fillStyle=active ? "#55e58b" : "#536171";
-    X.beginPath();
-    X.arc(m.x+m.w-20,m.y+22,5+(active?pulse*2:0),0,Math.PI*2);
-    X.fill();
-  }
-
-  for(const w of state.staff){
-    const bob = Math.sin(performance.now()*.006+w.x)*1.3;
-    X.fillStyle="rgba(0,0,0,.26)";
-    X.beginPath();
-    X.ellipse(w.x,w.y+18,11,4,0,0,Math.PI*2);
-    X.fill();
-
-    X.strokeStyle="#1d2838";
-    X.lineWidth=5;
-    X.beginPath();
-    X.moveTo(w.x-4,w.y+8+bob);
-    X.lineTo(w.x-5,w.y+18+bob);
-    X.moveTo(w.x+4,w.y+8+bob);
-    X.lineTo(w.x+5,w.y+18+bob);
-    X.stroke();
-
-    rounded(w.x-8,w.y-1+bob,16,18,5,w.c);
-    X.fillStyle="#edc39b";
-    X.beginPath();
-    X.arc(w.x,w.y-9+bob,7,0,Math.PI*2);
-    X.fill();
-
-    X.fillStyle="#eef4f9";
-    X.beginPath();
-    X.arc(w.x,w.y-11+bob,8,Math.PI,Math.PI*2);
-    X.fill();
-
-    text(w.name,w.x,w.y-22+bob,8,"#d7e5f1",false,"center");
-  }
-
-  rounded(state.px-10,state.py-2,20,23,6,"#4e8fff","rgba(255,255,255,.18)");
+  rounded(state.px-10,state.py-2,state.py-2,20,23,6,"#4e8fff","rgba(255,255,255,.18)");
   X.fillStyle="#edc39b";
   X.beginPath();
   X.arc(state.px,state.py-11,8,0,Math.PI*2);
@@ -1388,6 +1165,622 @@ if(!state.events.length){
 
 renderAll();
 setInterval(saveState,10000);
+
+(function installForgeworksMobileV3(){
+  if(!mobileScreen||!mobileLauncher||!mobileHost)return;
+  const META={overview:{title:"ЦЕХ",sub:"СОСТОЯНИЕ · СТАНКИ · ЗАКАЗ В РАБОТЕ"},orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · ПРИЁМ · ПРОИЗВОДСТВО"},staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},tech:{title:"R&D",sub:"ИССЛЕДОВАНИЯ · ТЕХНОЛОГИИ"},finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · РАСХОДЫ · МАТЕРИАЛЫ"},goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}};
+  let page=null;let mobileCurrentPanel=null;let hireExpanded=false;let lockedMachinesExpanded=false;
+  function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
+  function isPhone(){return window.matchMedia("(max-width:760px)").matches;}
+  function shell(h){mobileLauncher.style.display="none";mobileHost.style.display="block";mobileHost.innerHTML="<div class=\"m3Page\">"+h+"</div>";}
+  function nav(name){document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));const map={orders:"mNavOrders",overview:"mNavWorkshop"};if(map[name])document.getElementById(map[name])?.classList.add("active");}
+  function head(name){const m=META[name]||{title:"FORGEWORKS",sub:"МОБИЛЬНЫЙ ПУЛЬТ"};mobileTitle.querySelector("b").textContent=m.title;mobileSubtitle.textContent=m.sub;mobileBack.textContent="‹";mobileHome.textContent="⌂";nav(name);}
+  function machine(m){
+    const owned=hasMachine(m.id),ready=researchTier()>=m.unlock,lvl=machineLevel(m.id),icon=esc(m.icon||"⚙️"),short=esc(m.short),name=esc(m.name);
+    if(owned){
+      const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,lvl-1)));
+      const assigned=state.current?.assignments?.[m.role]?.machineId===m.id;
+      return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${name} · L${lvl} · ${assigned?"В РАБОТЕ":"ONLINE"}</div><div class="machine-actions"><button class="machineBtn" onclick="upgradeMachine('${m.id}')">⚙ L${lvl+1} · ₽ ${money(price)}</button><button class="machineBtn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить нужного</button></div></div>`;
+    }
+    return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${ready?"Доступно":"Нужен Tier "+m.unlock} · ₽ ${money(m.cost)}</div><button class="machineBtn" ${ready?"":"disabled"} onclick="buyMachine('${m.id}')">Купить</button></div>`;
+  }
+  function home(){
+    page=null;mobileCurrentPanel=null;mobileHost.style.display="none";mobileHost.innerHTML="";mobileLauncher.style.display="grid";
+    let h="";
+    h+="<div class=\"m3Hero\"><div class=\"m3HeroTop\"><div class=\"m3Eyebrow\">FORGEWORKS · MOBILE</div><div class=\"m3Live\">● СМЕНА "+(state.running?"АКТИВНА":"ПАУЗА")+"</div></div><h2>Пульт производства</h2><p>Каждый раздел открывается отдельным экраном. Игра остаётся под ним — без выдвижных панелей.</p><div class=\"m3KpiRow\"><div class=\"m3Kpi\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b></div><div class=\"m3Kpi\"><small>ВРЕМЯ</small><b>"+state.day+" · "+currentTime()+"</b></div><div class=\"m3Kpi\"><small>ЗАКАЗОВ</small><b>"+(state.orders.length+(state.current?1:0))+"</b></div></div></div>";
+    const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","R&D","Tier "+researchTier()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"]];
+    tiles.forEach(t=>{h+="<button class=\"m3Tile\" data-v3=\""+t[0]+"\"><span class=\"mi\">"+t[1]+"</span><b>"+t[2]+"</b><span>"+t[3]+"</span><span class=\"arrow\">›</span></button>";});
+    h+="<div class=\"m3Actions\"><button class=\"btn good\" id=\"v3Shift\">⏸ "+(state.running?"Поставить паузу":"Продолжить смену")+"</button><button class=\"btn\" id=\"v3Save\">💾 Сохранить</button></div>";
+    mobileLauncher.innerHTML=h;mobileLauncher.querySelectorAll("[data-v3]").forEach(b=>b.addEventListener("click",()=>openMobilePanel(b.dataset.v3)));document.getElementById("v3Shift")?.addEventListener("click",()=>document.getElementById("shiftBtn").click());document.getElementById("v3Save")?.addEventListener("click",()=>document.getElementById("saveBtn").click());mobileTitle.querySelector("b").textContent="FORGEWORKS";mobileSubtitle.textContent="МОБИЛЬНЫЙ ПУЛЬТ";mobileBack.textContent="‹";mobileHome.textContent="✕";document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));
+  }
+  function overview(){
+    const current=state.current,pct=current?clamp(state.progress/(products[current.key].time*current.quantity)*100,0,100):0,quality=clamp(100-state.defects*2+state.research.qc*2,40,100),owned=machineDefs.filter(m=>hasMachine(m.id)),locked=machineDefs.filter(m=>!hasMachine(m.id)),events=state.events.slice(0,4);
+    let h="<div class=\"m3SectionTitle\"><b>Сейчас в цехе</b><span>День "+state.day+" · "+currentTime()+"</span></div>";
+    h+="<div class=\"m3Grid2\"><div class=\"m3Stat\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b><span class=\"sub\">касса</span></div><div class=\"m3Stat\"><small>ЭНЕРГИЯ</small><b>"+Math.round(state.energy)+"%</b><span class=\"sub\">доступно</span></div><div class=\"m3Stat\"><small>КАЧЕСТВО</small><b>"+Math.round(quality)+"%</b><span class=\"sub\">текущий индекс</span></div><div class=\"m3Stat\"><small>ВЫПУЩЕНО</small><b>"+state.produced+"</b><span class=\"sub\">всего изделий</span></div></div>";
+    h+="<div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>"+(current?"⚒ АКТИВНЫЙ ЗАКАЗ":"📭 НЕТ АКТИВНОГО ЗАКАЗА")+"</b><span class=\"m3Pill "+(current?"ok":"lock")+"\">"+(current?Math.round(pct)+"%":"ГОТОВ К ВЫБОРУ")+"</span></div>";
+    if(current){const p=products[current.key];h+="<div style=\"font-size:8px;font-weight:900\">"+esc(current.name)+" × "+current.quantity+"</div><div class=\"m3Muted\" style=\"margin-top:3px\">"+p.steps.map(esc).join(" → ")+"</div><div class=\"m3Progress\"><i style=\"width:"+pct+"%\"></i></div>";}else{h+="<div class=\"m3Muted\">Открой раздел «Заказы» и выбери следующую партию.</div><button class=\"m3Btn primary\" style=\"width:100%;margin-top:7px\" onclick=\"openMobilePanel('orders')\">📋 Открыть заказы</button>";}h+="</div>";
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>🏭 МОИ СТАНКИ</b><span class=\"m3Pill ok\">"+owned.length+" ONLINE</span></div><div class=\"m3MachineGrid\">"+owned.map(machine).join("")+"</div></div>";
+    if(locked.length){h+="<div class=\"m3Card\"><button class=\"m3Disclosure\" id=\"v3LockedToggle\">"+(lockedMachinesExpanded?"⌃ Скрыть закрытые участки":"⌄ Показать следующие участки")+" · "+locked.length+"</button><div class=\"m3MachineGrid\" style=\"margin-top:6px;"+(lockedMachinesExpanded?"":"display:none")+"\">"+locked.map(machine).join("")+"</div></div>";}
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚡ ПОСЛЕДНИЕ СОБЫТИЯ</b><span class=\"m3Pill\">"+events.length+"</span></div><div class=\"m3CompactList\">"+(events.length?events.map(e=>"<div class=\"m3Compact\"><div class=\"m3Avatar\">•</div><div class=\"m3CompactMain\"><b>"+esc(e.text)+"</b><span>День "+e.day+" · "+String(Math.floor(e.minute/60)).padStart(2,"0")+":"+String(Math.floor(e.minute%60)).padStart(2,"0")+"</span></div></div>").join(""):"<div class=\"m3Muted\">Событий пока нет.</div>")+"</div></div>";
+    shell(h);document.getElementById("v3LockedToggle")?.addEventListener("click",()=>{lockedMachinesExpanded=!lockedMachinesExpanded;overview();});
+  }
+  function orders(){
+    createOrders();
+    let h="<div class=\"m3SectionTitle\"><b>Очередь заказов</b><span>"+state.orders.length+" доступно</span></div>";
+    if(state.current){
+      const c=state.current,p=products[c.key],pct=window.stagePct(c),role=c.stageIndex<p.steps.length?p.steps[Math.min(c.stageIndex,p.steps.length-1)]:p.steps[p.steps.length-1],a=c.assignments?.[role],w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null,mn=a?getMachine(a.machineId):null;
+      h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚒ В ПРОИЗВОДСТВЕ</b><span class=\"m3Pill ok\">"+Math.round(pct)+"%</span></div><div style=\"font-size:8px;font-weight:900\">"+esc(c.name)+" × "+c.quantity+"</div><div class=\"m3Muted\" style=\"margin-top:3px\">Этап: "+esc(getRoleName(role))+" · "+(mn?esc(mn.short):"нет станка")+" · "+(w?esc(w.name):"нет сотрудника")+"</div><div class=\"m3Progress\"><i style=\"width:"+pct+"%\"></i></div></div>";
+    }else{
+      h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>📭 Производство свободно</b><span class=\"m3Pill\">можно принять</span></div><div class=\"m3Muted\">Выберите заказ, настройте сотрудников и станки один раз — дальше производство идёт автоматически.</div></div>";
+    }
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>📋 НОВЫЕ ЗАКАЗЫ</b><span class=\"m3Pill\">"+state.orders.length+"</span></div>";
+    state.orders.slice(0,10).forEach(o=>{const p=products[o.key],mat=window.materialSummary(o),mats=window.requiredMaterials(o);h+="<div class=\"m3Order\"><div class=\"m3OrderTitle\"><b>"+(o.urgent?"🔥 ":"")+esc(o.name)+"</b><span class=\"m3Pill\">T"+p.tier+"</span></div><div class=\"m3OrderMeta\">"+o.quantity+" шт · награда ₽ "+money(o.reward)+"<br>"+mat+"</div><div class=\"m3OrderMeta\" style=\"margin-top:4px\">Маршрут: "+p.steps.map(getRoleName).map(esc).join(" → ")+"</div><div class=\"m3OrderFoot\"><span class=\"m3Money\">"+(mats.total>0?"🛒 ₽ "+money(mats.total):"✅ Материалов хватает")+"</span><button class=\"m3Btn primary\" onclick=\"openOrderSetup("+o.id+")\">"+(mats.total>0?"Настроить / купить":"Настроить и запустить")+"</button></div></div>";});
+    if(!state.orders.length)h+="<div class=\"m3Muted\">Очередь пуста.</div>";
+    h+="</div>";
+    shell(h);
+  }
+  function staff(){
+    let h="<div class=\"m3SectionTitle\"><b>Команда</b><span>"+state.staff.length+" человек</span></div><div class=\"m3Card\"><div class=\"m3CardTitle\"><b>👷 СОТРУДНИКИ</b><span class=\"m3Pill ok\">"+state.staff.length+"</span></div><div class=\"m3CompactList\">";
+    if(state.staff.length){state.staff.forEach(w=>h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">👷</div><div class=\"m3CompactMain\"><b>"+esc(w.name)+"</b><span>"+esc(w.role)+" · навык "+w.skill+" · ₽ "+money(w.wage)+"/день</span></div></div>");}else h+="<div class=\"m3Muted\">Ты работаешь один.</div>";h+="</div></div><div class=\"m3Card\"><button class=\"m3Disclosure\" id=\"v3HireToggle\">"+(hireExpanded?"⌃ Скрыть кандидатов":"⌄ Найм специалистов")+"</button><div class=\"m3CompactList\" style=\"margin-top:6px;"+(hireExpanded?"":"display:none")+"\">";
+    staffDefs.forEach(d=>{const ready=d.role==="manager"||state.owned.some(id=>getMachine(id).role===d.role);h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">👤</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+"</b><span>"+esc(d.role)+" · старт ₽ "+money(d.cost)+" · ₽ "+money(d.wage)+"/день</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn\" "+(ready?"":"disabled")+" onclick=\"hire('"+d.role+"')\">Нанять</button></div></div>";});h+="</div></div>";shell(h);document.getElementById("v3HireToggle")?.addEventListener("click",()=>{hireExpanded=!hireExpanded;staff();});
+  }
+  function tech(){let h="<div class=\"m3SectionTitle\"><b>Исследования</b><span>Tier "+researchTier()+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>TECH TIER</small><b>"+researchTier()+"</b><span class=\"sub\">открытый уровень</span></div><div class=\"m3Stat\"><small>R&D УРОВНЕЙ</small><b>"+Object.values(state.research).reduce((a,b)=>a+b,0)+"</b><span class=\"sub\">накоплено</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>🧪 ДЕРЕВО ТЕХНОЛОГИЙ</b></div><div class=\"m3CompactList\">";researchDefs.forEach(d=>{const level=state.research[d.id]||0,maxed=level>=d.max,price=Math.round(d.cost*Math.pow(1.55,level));h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">🧪</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+" · L"+level+"/"+d.max+"</b><span>"+esc(d.desc)+" · "+(maxed?"MAX":"след.: ₽ "+money(price))+"</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn "+(maxed?"":"primary")+"\" "+(maxed?"disabled":"")+" onclick=\"buyResearch('"+d.id+"')\">"+(maxed?"MAX":"Улучшить")+"</button></div></div>";});h+="</div></div>";shell(h);}
+  function finance(){let h="<div class=\"m3SectionTitle\"><b>Финансы</b><span>день "+state.day+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>КАССА</small><b>₽ "+money(state.money)+"</b><span class=\"sub\">сейчас</span></div><div class=\"m3Stat\"><small>ВЫРУЧКА</small><b>₽ "+money(state.revenue)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>РАСХОДЫ</small><b>₽ "+money(state.costs)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>ЗАРПЛАТЫ</small><b>₽ "+money(state.wages)+"</b><span class=\"sub\">всего</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>📦 МАТЕРИАЛЫ</b></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>СТАЛЬ</small><b>"+Math.round(state.materials.steel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('steel',50)\">+50 кг · ₽ 1 600</button></div><div class=\"m3Stat\"><small>ИНСТРУМЕНТАЛЬНАЯ</small><b>"+Math.round(state.materials.toolSteel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('toolSteel',25)\">+25 кг · ₽ 2 050</button></div></div></div>";shell(h);}
+  function goals(){const g=[["Первый сотрудник","Найм",state.staff.length>=1],["Фрезерный участок","Станок",hasMachine("mill")],["Шлифовка","Станок",hasMachine("grind")],["Контроль качества","ОТК",hasMachine("qc")],["EDM","Электроэрозия",hasMachine("edm")],["Ножевой участок","Ножи",hasMachine("knife")],["Магнитные цилиндры","Цилиндры",hasMachine("cyl")],["Репутация 50","Клиенты",state.rep>=50],["100 изделий","Производство",state.produced>=100]];let h="<div class=\"m3SectionTitle\"><b>Развитие завода</b><span>"+g.filter(x=>x[2]).length+"/"+g.length+"</span></div><div class=\"m3Card\"><div class=\"m3GoalGrid\">";g.forEach(x=>h+="<div class=\"m3Goal\"><b>"+(x[2]?"✅":"⬜")+" "+esc(x[0])+"</b><span>"+esc(x[1])+"</span></div>");h+="</div></div><div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚡ БЫСТРЫЕ ДЕЙСТВИЯ</b></div><div class=\"m3Grid2\"><button class=\"m3Btn\" onclick=\"buyMaterial('steel',50)\">Сталь +50</button><button class=\"m3Btn\" onclick=\"buyMaterial('toolSteel',25)\">Инстр. сталь +25</button></div></div>";shell(h);}
+  function pageOpen(name){if(!isPhone())return;page=name;mobileCurrentPanel=name;hireExpanded=false;head(name);if(name==="overview")overview();else if(name==="orders")orders();else if(name==="staff")staff();else if(name==="tech")tech();else if(name==="finance")finance();else if(name==="goals")goals();else{home();}mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;}
+  returnMobilePanel=function(){};
+  openMobileLauncher=function(){if(!isPhone())return;mobileCurrentPanel=null;home();mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;};
+  openMobilePanel=function(name){pageOpen(name);};
+  closeMobileScreen=function(){page=null;mobileCurrentPanel=null;mobileScreen.classList.remove("open");mobileScreen.setAttribute("aria-hidden","true");mobileHost.style.display="none";mobileHost.innerHTML="";};
+  const oldRenderAll=window.renderAll;
+  window.renderAll=function(){oldRenderAll();if(isPhone()&&mobileScreen.classList.contains("open")&&page){const p=page;if(p==="overview")overview();else if(p==="orders")orders();else if(p==="staff")staff();else if(p==="tech")tech();else if(p==="finance")finance();else if(p==="goals")goals();mobileBody.scrollTop=0;}};
+  mobileLauncher.style.display="none";mobileHost.style.display="none";mobileScreen.classList.remove("open");mobileScreen.setAttribute("aria-hidden","true");
+  window.addEventListener("resize",()=>{if(!isPhone()&&mobileScreen.classList.contains("open"))closeMobileScreen();},{passive:true});
+})();
+
+
+/* ========================================================================
+   FORGEWORKS V4 — AUTOMATIC PRODUCTION / MATERIALS / STAFF ASSIGNMENT
+   ======================================================================== */
+(function(){
+  "use strict";
+
+  const moneyName = {steel:"Сталь",toolSteel:"Инструментальная сталь"};
+  const materialPrices = {steel:32, toolSteel:82};
+  const orderModal = document.getElementById("orderModal");
+  const orderModalContent = document.getElementById("orderModalContent");
+  const orderModalSub = document.getElementById("orderModalSub");
+
+  function ensureV4State(){
+    if(!Array.isArray(state.history)) state.history=[];
+    if(!state.history.length && Array.isArray(state.completedOrders)) state.history = state.completedOrders;
+    if(state.current){
+      const hadStage=Number.isInteger(state.current.stageIndex) && Number.isFinite(state.current.stageProgress);
+      if(!state.current.assignments || typeof state.current.assignments !== "object") state.current.assignments = {};
+      if(!hadStage){
+        const legacyTotal=products[state.current.key]?.time*state.current.quantity || 1;
+        const legacyStage=legacyTotal/(products[state.current.key]?.steps?.length || 1);
+        const legacyProgress=Math.max(0,Number(state.progress||0));
+        state.current.stageIndex=Math.min(Math.max(Math.floor(legacyProgress/legacyStage),0),(products[state.current.key]?.steps?.length || 1)-1);
+        state.current.stageProgress=Math.max(0,legacyProgress-state.current.stageIndex*legacyStage);
+      }
+      if(!state.current.startedAt) state.current.startedAt = Date.now();
+      const missingPlan=Object.keys(state.current.assignments).length < (products[state.current.key]?.steps?.length || 0);
+      if(missingPlan){
+        const migratedPlan=defaultPlan(state.current);
+        state.current.assignments=migratedPlan;
+        assignPlan(state.current,migratedPlan);
+      }
+    }
+    for(const w of state.staff){
+      if(!Number.isFinite(w.x)) w.x=150+Math.random()*900;
+      if(!Number.isFinite(w.y)) w.y=150+Math.random()*480;
+      if(!Number.isFinite(w.tx)) w.tx=w.x;
+      if(!Number.isFinite(w.ty)) w.ty=w.y;
+      if(!Number.isFinite(w.timer)) w.timer=0;
+      if(!w.workState) w.workState="idle";
+      if(!("assignedMachine" in w)) w.assignedMachine=null;
+      if(!("assignedOrderId" in w)) w.assignedOrderId=null;
+    }
+  }
+  ensureV4State();
+
+  function escV4(v){
+    return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+  }
+  function rolesForOrder(order){return products[order.key]?.steps || [];}
+  function machinesForRole(role){return state.owned.map(getMachine).filter(m=>m && m.role===role);}
+  function workersForRole(role){return state.staff.filter(w=>w.role===role);}
+  function machineWorkPoint(m){return {x:clamp(m.x+m.w/2,50,1150),y:clamp(m.y+m.h+24,120,720)};}
+
+  function releaseWorker(w){
+    if(!w)return;
+    w.assignedMachine=null;
+    w.assignedOrderId=null;
+    w.workState="idle";
+    w.tx=100+Math.random()*1000;
+    w.ty=160+Math.random()*500;
+  }
+
+  function sendWorkerToMachine(workerId,machineId,orderId=null){
+    const w=state.staff.find(x=>String(x.id)===String(workerId));
+    const m=getMachine(machineId);
+    if(!w || !m)return false;
+    w.assignedMachine=machineId;
+    w.assignedOrderId=orderId;
+    w.workState="walking";
+    const p=machineWorkPoint(m);
+    w.tx=p.x;w.ty=p.y;
+    w.timer=0;
+    return true;
+  }
+
+  function bestWorker(role,used){
+    const pool=workersForRole(role).filter(w=>!used.has(String(w.id)) || (state.current && w.assignedOrderId===state.current.id));
+    pool.sort((a,b)=>(b.skill||0)-(a.skill||0));
+    return pool[0] || null;
+  }
+
+  function defaultPlan(order){
+    const used=new Set();
+    const plan={};
+    for(const role of rolesForOrder(order)){
+      const machine=machinesForRole(role)[0] || null;
+      const worker=bestWorker(role,used);
+      if(worker) used.add(String(worker.id));
+      plan[role]={staffId:worker?String(worker.id):"",machineId:machine?machine.id:""};
+    }
+    return plan;
+  }
+
+  function requiredMaterials(order){
+    const p=products[order.key];
+    const out=[];
+    let missingTotal=0;
+    for(const type of Object.keys(p.mat)){
+      const need=(p.mat[type]||0)*order.quantity;
+      const stock=Math.max(0,Number(state.materials[type]||0));
+      const missing=Math.max(0,need-stock);
+      const purchase=Math.ceil(missing)*materialPrices[type];
+      missingTotal+=purchase;
+      out.push({type,need,stock,missing,purchase});
+    }
+    return {items:out,total:missingTotal};
+  }
+
+  function materialSummary(order){
+    const info=requiredMaterials(order);
+    return info.items.map(x=>{
+      const label=moneyName[x.type]||x.type;
+      if(x.missing>0) return `<span class="bad">${escV4(label)} ${Math.round(x.need)} кг · не хватает ${Math.round(x.missing)} кг</span>`;
+      return `<span class="good">${escV4(label)} ${Math.round(x.need)} кг · есть ${Math.round(x.stock)} кг</span>`;
+    }).join("<br>");
+  }
+
+  function stageDuration(order){
+    const steps=rolesForOrder(order).length || 1;
+    return (products[order.key].time*order.quantity)/steps;
+  }
+
+  function currentStage(order){
+    const steps=rolesForOrder(order);
+    if(!steps.length)return null;
+    return steps[Math.min(order.stageIndex||0,steps.length-1)];
+  }
+
+  function stagePct(order){
+    const steps=rolesForOrder(order);
+    if(!steps.length)return 0;
+    const done=Math.min(order.stageIndex||0,steps.length);
+    const part=(order.stageProgress||0)/stageDuration(order);
+    return clamp((done+part)/steps.length*100,0,100);
+  }
+
+  function stageAssignment(order,role){
+    if(!order || !order.assignments)return null;
+    return order.assignments[role] || null;
+  }
+
+  function validatePlan(order,plan){
+    for(const role of rolesForOrder(order)){
+      const a=plan[role];
+      if(!a || !a.staffId || !a.machineId){return `Для этапа «${role}» нужен сотрудник и станок`;
+      }
+      const w=state.staff.find(x=>String(x.id)===String(a.staffId));
+      const m=getMachine(a.machineId);
+      if(!w || w.role!==role)return `Выбран неподходящий сотрудник для «${role}»`;
+      if(!m || !hasMachine(m.id) || m.role!==role)return `Выбран неподходящий станок для «${role}»`;
+    }
+    return "";
+  }
+
+  function assignPlan(order,plan){
+    for(const role of rolesForOrder(order)){
+      const a=plan[role];
+      if(a)sendWorkerToMachine(a.staffId,a.machineId,order.id);
+    }
+  }
+
+  function openOrderSetup(id){
+    ensureV4State();
+    if(state.current){showToast("Сначала закончи текущий заказ");return;}
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    const p=products[order.key];
+    const mats=requiredMaterials(order);
+    const plan=defaultPlan(order);
+    const missing=mats.total;
+
+    orderModalSub.textContent=`${order.quantity} шт · награда ₽ ${money(order.reward)} · этапов ${p.steps.length}`;
+    let h="";
+    h+=`<div class="order-materials"><h4>📦 Материалы на заказ</h4>`;
+    for(const x of mats.items){
+      const label=moneyName[x.type]||x.type;
+      h+=`<div class="material-line"><span><b>${escV4(label)}</b> · нужно ${Math.round(x.need)} кг</span><span class="${x.missing>0?"lack":"ok"}">${x.missing>0?`не хватает ${Math.round(x.missing)} кг`:`есть ${Math.round(x.stock)} кг`}</span></div>`;
+    }
+    if(missing>0) h+=`<div class="order-material-total">Можно докупить недостающее автоматически · потратится ₽ ${money(missing)}</div>`;
+    h+=`</div>`;
+    if(missing>0){
+      h+=state.money>=missing
+        ? `<div class="order-warning">⚠ Материалов не хватает. Кнопка запуска может автоматически купить недостающее на сумму <b>₽ ${money(missing)}</b>, после чего заказ сразу уйдёт в работу.</div>`
+        : `<div class="order-warning">⚠ Не хватает материалов на ₽ ${money(missing)}, а в кассе только ₽ ${money(state.money)}. Нужна дополнительная закупка.</div>`;
+    }else{
+      h+=`<div class="order-ok">✅ Все материалы уже на складе. После запуска сотрудники автоматически пойдут к нужным станкам и начнут работу без ручных кликов.</div>`;
+    }
+    h+=`<div class="assignment-list"><div style="font-size:9px;font-weight:900;margin-bottom:1px">👷 Кто и на каком станке работает</div>`;
+    p.steps.forEach((role,index)=>{
+      const workers=workersForRole(role);
+      const machines=machinesForRole(role);
+      h+=`<div class="assignment-row"><div class="assignment-row-top"><b>${index+1}. ${escV4(getRoleName(role))}</b><span class="stage-pill">${escV4(role)}</span></div><small>Сотрудник сам пойдёт к выбранному станку и будет работать автоматически.</small><div class="assignment-fields"><label>Сотрудник<select data-role="${escV4(role)}" data-kind="staff">${workers.length?workers.map(w=>`<option value="${escV4(String(w.id))}" ${plan[role]?.staffId===String(w.id)?"selected":""}>${escV4(w.name)} · ${w.skill}</option>`).join(""):"<option value=\"\">Нет сотрудника</option>"}</select></label><label>Станок<select data-role="${escV4(role)}" data-kind="machine">${machines.length?machines.map(m=>`<option value="${escV4(m.id)}" ${plan[role]?.machineId===m.id?"selected":""}>${escV4(m.short)} · L${machineLevel(m.id)}</option>`).join(""):"<option value=\"\">Нет станка</option>"}</select></label></div></div>`;
+    });
+    h+=`</div><div class="order-modal-actions"><button class="btn" id="orderAutoAssign">⚡ Автораспределить</button><button class="btn primary" id="orderLaunch">${missing>0?`🛒 Докупить и запустить`:`🚀 Запустить заказ`}</button></div>`;
+    orderModalContent.innerHTML=h;
+    orderModal.classList.add("open");orderModal.setAttribute("aria-hidden","false");
+
+    document.getElementById("orderModalClose").onclick=closeOrderSetup;
+    document.getElementById("orderAutoAssign").onclick=()=>{applyPlanToSelects(defaultPlan(order));showToast("Автораспределение готово");};
+    document.getElementById("orderLaunch").onclick=()=>{
+      const selected={};
+      p.steps.forEach(role=>{
+        selected[role]={
+          staffId:orderModalContent.querySelector(`select[data-role="${role}"][data-kind="staff"]`)?.value||"",
+          machineId:orderModalContent.querySelector(`select[data-role="${role}"][data-kind="machine"]`)?.value||""
+        };
+      });
+      startOrder(order.id,selected,missing>0);
+    };
+  }
+
+  function applyPlanToSelects(plan){
+    for(const [role,a] of Object.entries(plan)){
+      const s=orderModalContent.querySelector(`select[data-role="${role}"][data-kind="staff"]`);
+      const m=orderModalContent.querySelector(`select[data-role="${role}"][data-kind="machine"]`);
+      if(s){for(const o of s.options)o.selected=o.value===String(a.staffId);}
+      if(m){for(const o of m.options)o.selected=o.value===String(a.machineId);}
+    }
+  }
+
+  function closeOrderSetup(){orderModal?.classList.remove("open");orderModal?.setAttribute("aria-hidden","true");}
+  window.openOrderSetup=openOrderSetup;
+
+  function startOrder(id,plan,buyMissing){
+    if(state.current){showToast("Сначала закончи текущий заказ");return;}
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    const p=products[order.key];
+    const error=validatePlan(order,plan);
+    if(error){showToast("⚠ "+error);sound(180,.1,"sawtooth");return;}
+
+    const mats=requiredMaterials(order);
+    if(mats.total>0 && !buyMissing){showToast("Нужно подтвердить закупку материалов");return;}
+    if(mats.total>state.money){showToast("Недостаточно денег на закупку материалов");return;}
+
+    for(const x of mats.items){
+      if(x.missing>0){
+        const buy=Math.ceil(x.missing);
+        state.money-=buy*materialPrices[x.type];
+        state.costs+=buy*materialPrices[x.type];
+        state.materials[x.type]=(state.materials[x.type]||0)+buy;
+        log(`Автозакупка ${moneyName[x.type]||x.type} × ${buy} кг`);
+      }
+    }
+    for(const x of mats.items)state.materials[x.type]-=x.need;
+
+    order.assignments=plan;
+    order.stageIndex=0;
+    order.stageProgress=0;
+    order.startedAt=Date.now();
+    state.current=order;
+    state.progress=0;
+    state.orders=state.orders.filter(o=>String(o.id)!==String(id));
+    assignPlan(order,plan);
+    log(`Принят заказ: ${order.name} × ${order.quantity} · сотрудники распределены`);
+    showToast("🚀 Заказ запущен · сотрудники идут к станкам");
+    sound(520,.08,"sine");
+    closeOrderSetup();
+    renderAll();
+  }
+
+  window.materialSummary=materialSummary;
+
+  window.materialSummary=materialSummary;
+  window.requiredMaterials=requiredMaterials;
+  window.stagePct=stagePct;
+
+  function getRoleName(role){
+    const d=staffDefs.find(x=>x.role===role);
+    return d?.name || role;
+  }
+
+  // Accepting a queued order now opens the setup screen instead of failing on missing stock.
+  acceptOrder = function(id){openOrderSetup(id);};
+  window.acceptOrder=acceptOrder;
+
+  // Auto station assignment from machine cards and the workshop button.
+  function autoAssignStaffToMachine(machineId){
+    const m=getMachine(machineId);
+    if(!m || !hasMachine(machineId))return;
+    const candidates=workersForRole(m.role).slice().sort((a,b)=>(b.skill||0)-(a.skill||0));
+    const worker=candidates[0];
+    if(!worker){showToast("Нет сотрудника нужной специальности");return;}
+    sendWorkerToMachine(worker.id,machineId,state.current?state.current.id:null);
+    if(state.current){
+      if(!state.current.assignments)state.current.assignments={};
+      const role=m.role;
+      state.current.assignments[role]={staffId:String(worker.id),machineId};
+    }
+    log(`${worker.name} направлен на ${m.short}`);
+    showToast(`👷 ${worker.name} идёт к ${m.short}`);
+    sound(430,.06,"sine");
+    renderAll();
+  }
+  function autoAssignCurrentOrder(){
+    if(!state.current){showToast("Сначала запусти заказ");return;}
+    const order=state.current;
+    const plan=defaultPlan(order);
+    for(const role of rolesForOrder(order)){
+      if(!plan[role].staffId || !plan[role].machineId){continue;}
+      order.assignments[role]=plan[role];
+      sendWorkerToMachine(plan[role].staffId,plan[role].machineId,order.id);
+    }
+    log("Автораспределение сотрудников по заказу");
+    showToast("⚡ Сотрудники направлены на нужные станки");
+    renderAll();
+  }
+  window.autoAssignStaffToMachine=autoAssignStaffToMachine;
+  window.autoAssignCurrentOrder=autoAssignCurrentOrder;
+
+  // Sequential automatic production: each employee walks to the required station,
+  // works there, then the next stage starts automatically.
+  productionSpeed = function(product){
+    if(!state.current)return 0;
+    const role=currentStage(state.current);
+    if(!role)return 0;
+    const a=stageAssignment(state.current,role);
+    const w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null;
+    const m=a?getMachine(a.machineId):null;
+    if(!w || !m || !hasMachine(m.id) || w.role!==role || m.role!==role)return 0;
+    const skill=(w.skill||50)/100;
+    const baseSpeed=.62+skill;
+    const automation=1+(state.research.auto||0)*.06;
+    const machineBonus=1+(machineLevel(m.id)-1)*.08;
+    const cnc=1+(state.research.cnc||0)*.08;
+    return baseSpeed*automation*machineBonus*cnc;
+  };
+
+  function finishOrderV4(){
+    const order=state.current;
+    if(!order)return;
+    const p=products[order.key];
+    let quality=0;
+    for(const role of p.steps){
+      const m=getMachine(order.assignments?.[role]?.machineId) || machineDefs.find(x=>x.role===role);
+      quality+=m?m.quality:70;
+    }
+    quality=quality/p.steps.length + (state.research.qc||0)*1.8 + Math.random()*6-3;
+    quality=clamp(quality,45,100);
+    const defectChance=clamp((100-quality)/350-(state.research.grind||0)*.025,.01,.30);
+    const defective=Math.random()<defectChance;
+    const revenue=defective?Math.round(order.reward*.58):order.reward;
+
+    state.money+=revenue;state.revenue+=revenue;state.dailyRevenue+=revenue;
+    state.produced+=order.quantity;state.dailyProduced+=order.quantity;
+    const historyItem={...order,finishedDay:state.day,finishedMinute:state.minute,revenue,quality:Math.round(quality),defective};
+    state.history.unshift(historyItem);state.history=state.history.slice(0,30);
+
+    for(const w of state.staff){if(w.assignedOrderId===order.id)releaseWorker(w);}
+    state.current=null;state.progress=0;createOrders();
+
+    if(defective){
+      state.defects+=order.quantity;state.rep=clamp(state.rep-1,0,100);log(`Брак партии: ${order.name} · начислено ₽ ${money(revenue)}`);showToast(`⚠️ Заказ закрыт · ₽ ${money(revenue)}`);sound(170,.12,"sawtooth");
+    }else{
+      state.rep=clamp(state.rep+(order.urgent?1.1:.45),0,100);state.contractStreak+=1;log(`✅ Заказ сдан автоматически: ${order.name} · +₽ ${money(revenue)}`);showToast(`✅ Заказ сдан · +₽ ${money(revenue)}`);sound(920,.10,"sine");
+    }
+  }
+  finishOrder = finishOrderV4;
+  window.finishOrder=finishOrder;
+
+  updateEconomy = function(dt){
+    if(!state.running)return;
+    state.minute+=dt*2.8;
+    state.energy-=dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12);
+    state.energy=clamp(state.energy,0,100);
+
+    if(state.current){
+      const order=state.current;
+      const p=products[order.key];
+      const role=currentStage(order);
+      const a=stageAssignment(order,role);
+      const w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null;
+      const m=a?getMachine(a.machineId):null;
+      const sp=productionSpeed(p);
+      const atStation=w&&w.assignedMachine===m?.id&&Math.hypot(w.x-(m.x+m.w/2),w.y-(m.y+m.h+24))<28;
+      if(sp>0 && atStation){
+        order.stageProgress+=dt*sp;
+        const d=stageDuration(order);
+        if(order.stageProgress>=d){
+          order.stageProgress=0;
+          if(w)releaseWorker(w);
+          order.stageIndex+=1;
+          state.progress=clamp((order.stageIndex/(p.steps.length||1))*(p.time*order.quantity),0,p.time*order.quantity);
+          if(order.stageIndex>=p.steps.length){finishOrderV4();}
+          else{
+            const nextRole=currentStage(order);
+            const next=order.assignments?.[nextRole];
+            if(next)sendWorkerToMachine(next.staffId,next.machineId,order.id);
+            log(`Этап завершён: ${role} · следующий: ${getRoleName(nextRole)}`);
+            sound(640,.06,"triangle");
+          }
+        }
+      }
+      if(state.current===order){
+        const done=order.stageIndex||0;
+        state.progress=clamp((done+(order.stageProgress/stageDuration(order)))*(p.time*order.quantity)/(p.steps.length||1),0,p.time*order.quantity);
+      }
+    }
+
+    if(state.energy<=0){state.running=false;log("Производство остановлено: нет энергии");showToast("⚠️ Энергия закончилась");sound(160,.12,"sawtooth");}
+    if(state.minute>=1080)nextDay();
+  };
+
+  updateWorkers = function(dt){
+    for(const w of state.staff){
+      if(w.assignedMachine && w.assignedOrderId!=null){
+        const m=getMachine(w.assignedMachine);
+        if(m && hasMachine(m.id)){
+          const p=machineWorkPoint(m);
+          w.tx=p.x;w.ty=p.y;
+          const dx=w.tx-w.x,dy=w.ty-w.y,d=Math.hypot(dx,dy);
+          if(d>7){
+            const sp=(.55+(w.skill||50)/100)*dt*60;
+            w.x+=dx/d*sp;w.y+=dy/d*sp;w.workState="walking";
+          }else{
+            w.x=w.tx;w.y=w.ty;w.workState="working";w.timer+=dt;
+          }
+          continue;
+        }
+        w.assignedMachine=null;w.assignedOrderId=null;w.workState="idle";
+      }
+      const dx=w.tx-w.x,dy=w.ty-w.y,d=Math.hypot(dx,dy);
+      if(d<5){
+        w.timer+=dt;
+        if(w.timer>2.5+Math.random()*3){w.tx=100+Math.random()*1000;w.ty=150+Math.random()*500;w.timer=0;}
+        w.workState="idle";
+      }else{
+        const sp=(.4+(w.skill||50)/100)*dt*60;w.x+=dx/d*sp;w.y+=dy/d*sp;w.workState="walking";
+      }
+    }
+  };
+
+  // Manual work is retained as an emergency player action, but it is no longer needed.
+  manualWork = function(){
+    if(state.current){showToast("Автоматическая работа уже включена — просто следи за цехом");return;}
+    showToast("Нет активного заказа");
+  };
+  window.manualWork=manualWork;
+
+  function activeMachineForCurrent(m){
+    const o=state.current;if(!o)return false;
+    const role=currentStage(o);const a=stageAssignment(o,role);return !!a && a.machineId===m.id;
+  }
+  window.activeMachineForCurrent=activeMachineForCurrent;
+
+  // Machine renderer: add direct automatic dispatch.
+  const originalRenderMachines = renderMachines;
+  renderMachines = function(){
+    const box=document.getElementById("machines");
+    if(!box)return;
+    box.innerHTML=`<div class="item"><div class="row"><b>⚡ АВТОРАССТАНОВКА</b><span class="auto-badge">${state.current?"АКТИВНА":"ГОТОВА"}</span></div><div class="tiny muted">${state.current?"Разошли сотрудников по этапам текущего заказа.":"Запусти заказ — и сотрудники будут идти по производственному маршруту автоматически."}</div><button class="btn good" style="margin-top:6px;width:100%" onclick="autoAssignCurrentOrder()" ${state.current?"":"disabled"}>⚡ Отправить нужных сотрудников</button></div>`;
+    for(const m of machineDefs){
+      if(hasMachine(m.id)){
+        const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,machineLevel(m.id)-1)));
+        const worker=workersForRole(m.role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
+        const assigned=state.current?.assignments?.[m.role]?.machineId===m.id;
+        box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${m.short}</b><span class="${assigned?"good":"tag"}">${assigned?"В РАБОТЕ":"ONLINE"}</span></div><div class="tiny muted">${m.name} · L${machineLevel(m.id)}${worker?` · 👷 ${escV4(worker.name)}`:""}</div><div class="machine-actions"><button class="btn" onclick="upgradeMachine('${m.id}')">⚙ L${machineLevel(m.id)+1} · ₽ ${money(price)}</button><button class="btn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить</button></div></div>`);
+      }else{
+        const ready=researchTier()>=m.unlock;
+        box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${m.short}</b><span class="tag">${ready?"ДОСТУПЕН":"ЗАКРЫТ"}</span></div><div class="tiny muted">${m.name}</div><div class="row" style="margin-top:6px"><span>₽ ${money(m.cost)}</span><button class="btn" ${ready?"":"disabled"} onclick="buyMachine('${m.id}')">Купить</button></div></div>`);
+      }
+    }
+  };
+  window.renderMachines=renderMachines;
+
+  // Order renderer with material usage visible before opening the setup dialog.
+  renderOrders = function(){
+    createOrders();
+    const box=document.getElementById("orders");
+    if(!box)return;
+    box.innerHTML="";
+    document.getElementById("orderCount").textContent=state.orders.length;
+    if(state.current){
+      const p=products[state.current.key],pct=stagePct(state.current),role=currentStage(state.current),a=stageAssignment(state.current,role),w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null,m=a?getMachine(a.machineId):null;
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>🔨 В ПРОИЗВОДСТВЕ</b><span class="auto-badge">${Math.round(pct)}%</span></div><div class="tiny">${escV4(state.current.name)} × ${state.current.quantity}</div><div class="tiny muted" style="margin-top:4px">Этап: ${escV4(getRoleName(role))} · ${m?escV4(m.short):"нет станка"} · ${w?escV4(w.name):"нет сотрудника"}</div><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div><div class="tiny muted" style="margin-top:5px">${p.steps.join(" → ")}</div></div>`);
+    }
+    for(const o of state.orders.slice(0,10)){
+      const p=products[o.key],mats=requiredMaterials(o),needsBuy=mats.total>0;
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${o.urgent?"🔥 ":""}${escV4(o.name)}</b><span class="tag">T${p.tier}</span></div><div class="tiny muted">Количество: ${o.quantity} · Награда ₽ ${money(o.reward)}</div><div class="assignment-mini">${materialSummary(o)}</div><div class="tiny muted" style="margin-top:6px">Маршрут: ${p.steps.map(getRoleName).map(escV4).join(" → ")}</div><div class="row" style="margin-top:7px"><span class="${needsBuy?"warn":"good"}">${needsBuy?`Докупить · ₽ ${money(mats.total)}`:`Материалов хватает`}</span><button class="btn primary" onclick="openOrderSetup(${o.id})">${needsBuy?"Настроить / купить":"Настроить и запустить"}</button></div></div>`);
+    }
+    if(!state.orders.length)box.insertAdjacentHTML("beforeend","<div class=\"item\"><b>Очередь пуста.</b></div>");
+  };
+  window.renderOrders=renderOrders;
+
+  // Staff renderer shows assignment state.
+  renderStaff = function(){
+    const box=document.getElementById("staff");if(!box)return;box.innerHTML="";
+    if(!state.staff.length)box.innerHTML=`<div class="item"><b>Ты работаешь один.</b><div class="tiny muted">Найми первого специалиста — после запуска заказа он сможет автоматически идти к своему станку.</div></div>`;
+    for(const w of state.staff){
+      const m=w.assignedMachine?getMachine(w.assignedMachine):null;
+      const status=w.workState==="working"?`<span class="good">РАБОТАЕТ · ${m?escV4(m.short):""}</span>`:w.workState==="walking"?`<span class="cyan">ИДЁТ → ${m?escV4(m.short):""}</span>`:`<span class="tag">ГОТОВ</span>`;
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>👤 ${escV4(w.name)}</b>${status}</div><div class="tiny muted">${escV4(getRoleName(w.role))} · навык ${w.skill} · ₽ ${money(w.wage)}/день</div></div>`);
+    }
+    const candidates=document.getElementById("candidates");
+    if(candidates){
+      candidates.innerHTML="";
+      for(const d of staffDefs){const ready=d.role==="manager"||state.owned.some(id=>getMachine(id).role===d.role);candidates.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${escV4(d.name)}</b><span>₽ ${money(d.cost)}</span></div><div class="tiny muted">${escV4(d.role)} · навык ~${d.skill}</div><button class="btn" style="margin-top:6px;width:100%" ${ready?"":"disabled"} onclick="hire('${d.role}')">Нанять</button></div>`);}
+    }
+  };
+  window.renderStaff=renderStaff;
+
+  const baseProgressRender = renderAll;
+  renderAll = function(){
+    ensureV4State();
+    baseProgressRender();
+    // The V3 mobile renderer is re-called through the existing global wrapper.
+    if(typeof saveState === "function" && state.current && state.current.stageIndex>=rolesForOrder(state.current).length){state.current=null;}
+  };
+  window.renderAll=renderAll;
+
+  // Make the old mobile order page show material usage. The existing V3 controls then open our setup dialog.
+  const originalMobilePanelHost = document.getElementById("mobilePanelHost");
+  const originalMobileHostObserver = new MutationObserver(()=>{
+    if(!originalMobilePanelHost)return;
+    originalMobilePanelHost.querySelectorAll('[onclick^="acceptOrder("]').forEach(btn=>{
+      const match=btn.getAttribute("onclick")?.match(/acceptOrder\(([^)]+)\)/);
+      if(match){btn.setAttribute("onclick",`openOrderSetup(${match[1]})`);}
+    });
+  });
+  if(originalMobilePanelHost)originalMobileHostObserver.observe(originalMobilePanelHost,{childList:true,subtree:true});
+
+  // Extend the existing mobile machine cards with automatic dispatch buttons by watching their rerenders.
+  const mobileWatcher = new MutationObserver(()=>{
+    if(!originalMobilePanelHost)return;
+    originalMobilePanelHost.querySelectorAll(".m3Machine").forEach(card=>{
+      if(card.querySelector(".v4Dispatch"))return;
+      const title=card.querySelector(".name span:last-child")?.textContent||"";
+      const m=machineDefs.find(x=>x.short===title);
+      if(!m || !hasMachine(m.id))return;
+      const btn=document.createElement("button");btn.className="machineBtn v4Dispatch";btn.textContent="👷 Отправить нужного";btn.onclick=()=>autoAssignStaffToMachine(m.id);card.appendChild(btn);
+    });
+  });
+  if(originalMobilePanelHost)mobileWatcher.observe(originalMobilePanelHost,{childList:true,subtree:true});
+
+  orderModal?.addEventListener("click",e=>{if(e.target===orderModal)closeOrderSetup();});
+  window.addEventListener("keydown",e=>{if(e.key==="Escape")closeOrderSetup();});
+
+  // Re-render immediately so migrated old saves get the new worker fields.
+  try{renderAll();}catch(e){console.error("V4 render init",e);}
+})();
+
 window.addEventListener("keydown",e=>{if(e.key==="Escape"&&mobileScreen.classList.contains("open"))closeMobileScreen();});
 window.addEventListener("beforeunload",saveState);
 requestAnimationFrame(loop);
