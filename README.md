@@ -1,6 +1,6 @@
 # FORGEWORKS PRO
 
-Industrial manufacturing tycoon.
+Industrial manufacturing tycoon · V5 Smart Factory.
 
 Created by Sergey Pavlov.
 
