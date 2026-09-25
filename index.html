@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>FORGEWORKS PRO V5.6 — Stable Production</title>
+<title>FORGEWORKS PRO V5.8 — New Game / Production Fix</title>
 <style>
 :root{
   --bg:#07111d;--panel:#0e1b2b;--panel2:#13263a;--line:rgba(255,255,255,.10);
@@ -49,8 +49,8 @@ background:linear-gradient(180deg,rgba(20,36,54,.96),rgba(9,18,29,.97))}
 .btn.warn{background:linear-gradient(135deg,#b57a20,#dfa03d)}.btn.red{background:linear-gradient(135deg,#a63b54,#d95169)}
 .btn:disabled{opacity:.35}.bar{height:7px;background:#06101a;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:99px}
 .bottom{position:absolute;left:14px;right:14px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;z-index:3}
-#mobileToggle{display:none}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
-z-index:40;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#13273e;font-size:10px;font-weight:800;transition:.2s}
+#mobileToggle{display:none}.toast{position:fixed;left:50%;bottom:78px;max-width:min(86vw,300px);transform:translate(-50%,12px);opacity:0;pointer-events:none;
+z-index:120;padding:7px 11px;border:1px solid var(--line);border-radius:10px;background:rgba(19,39,62,.97);font-size:8px;line-height:1.25;text-align:center;font-weight:800;transition:.2s;box-shadow:0 10px 28px rgba(0,0,0,.28)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 #joy{display:none!important;position:absolute;left:16px;bottom:83px;width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:rgba(4,10,18,.35);touch-action:none;z-index:4}
 #knob{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px;border-radius:50%;background:rgba(85,222,253,.22);border:1px solid rgba(85,222,253,.42)}
@@ -85,6 +85,7 @@ z-index:40;padding:10px 14px;border:1px solid var(--line);border-radius:12px;bac
   #touchE{width:62px;height:62px;right:13px;bottom:79px;font-size:18px}
   #mobileScreen{position:fixed;inset:0;z-index:70;display:none;flex-direction:column;background:radial-gradient(circle at 85% 0%,rgba(93,117,255,.17),transparent 34%),linear-gradient(180deg,#07111d 0%,#091522 100%);padding-top:env(safe-area-inset-top)}
   #mobileScreen.open{display:flex}
+  .toast{bottom:72px;max-width:84vw;font-size:8px;padding:7px 10px}
   #mobileScreenHeader{height:58px;min-height:58px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:5px;padding:5px 7px;border-bottom:1px solid var(--line);background:rgba(7,17,29,.94);backdrop-filter:blur(16px)}
   .mobileBack,.mobileHeadAction{width:42px;height:42px;padding:0;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);font-size:17px;font-weight:900}
   #mobileScreenTitle{min-width:0;text-align:center}#mobileScreenTitle b{display:block;font-size:12px;letter-spacing:.08em}#mobileScreenTitle span{display:block;margin-top:2px;font-size:6.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -287,8 +288,10 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
 #fwAuth.hidden{display:none}.fw-auth-card{width:min(430px,calc(100vw - 28px));padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:linear-gradient(180deg,#12263a,#07111c);box-shadow:0 30px 100px rgba(0,0,0,.55)}
 .fw-auth-logo{width:58px;height:58px;border-radius:17px;display:grid;place-items:center;font-size:29px;background:linear-gradient(135deg,#62e3ff,#5d75ff 60%,#a45bff);margin-bottom:13px}.fw-auth-card h1{margin:0;font-size:20px;letter-spacing:.06em}.fw-auth-card p{margin:5px 0 18px;color:#8fa8be;font-size:9px;line-height:1.45}
 .fw-auth-label{display:block;margin:10px 0 5px;color:#9eb3c6;font-size:8px;font-weight:800}.fw-auth-input{width:100%;height:46px;padding:0 13px;border:1px solid rgba(255,255,255,.11);border-radius:12px;background:#081522;color:#eef6ff;outline:none;font-size:13px}.fw-auth-btn{width:100%;height:48px;margin-top:14px;border:0;border-radius:13px;background:linear-gradient(135deg,#3a80ff,#6b5cf2);font-weight:900;font-size:11px}.fw-auth-msg{min-height:18px;margin-top:9px;color:#ffcf67;font-size:8px}.fw-auth-user{display:none;margin-top:10px;padding:8px;border-radius:10px;color:#8fe5ad;background:rgba(89,226,138,.06);font-size:8px}#fwLogout{position:fixed;right:10px;top:10px;z-index:9000;display:none;height:34px;padding:0 10px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(8,19,31,.9);font-size:8px;font-weight:900}
+#fwNewGame{position:fixed;right:10px;top:50px;z-index:9000;display:none;height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:linear-gradient(135deg,#8d3046,#c54e68);font-size:8px;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+#fwNewGame:active{transform:scale(.97)}
 </style>
-<div id="fwAuth"><div class="fw-auth-card"><div class="fw-auth-logo">⚒</div><h1>FORGEWORKS PRO</h1><p>Введи логин и пароль. Если аккаунта ещё нет — он создастся автоматически. Прогресс каждого игрока хранится отдельно.</p><label class="fw-auth-label">ЛОГИН</label><input id="fwLogin" class="fw-auth-input" maxlength="24" autocomplete="username" placeholder="например: sergey"><label class="fw-auth-label">ПАРОЛЬ</label><input id="fwPassword" class="fw-auth-input" type="password" maxlength="64" autocomplete="current-password" placeholder="не менее 4 символов"><button id="fwAuthBtn" class="fw-auth-btn">ВОЙТИ / СОЗДАТЬ АККАУНТ</button><div id="fwAuthMsg" class="fw-auth-msg"></div><div id="fwAuthUser" class="fw-auth-user"></div></div></div><button id="fwLogout">👤 Выйти</button>
+<div id="fwAuth"><div class="fw-auth-card"><div class="fw-auth-logo">⚒</div><h1>FORGEWORKS PRO</h1><p>Введи логин и пароль. Если аккаунта ещё нет — он создастся автоматически. Прогресс каждого игрока хранится отдельно.</p><label class="fw-auth-label">ЛОГИН</label><input id="fwLogin" class="fw-auth-input" maxlength="24" autocomplete="username" placeholder="например: sergey"><label class="fw-auth-label">ПАРОЛЬ</label><input id="fwPassword" class="fw-auth-input" type="password" maxlength="64" autocomplete="current-password" placeholder="не менее 4 символов"><button id="fwAuthBtn" class="fw-auth-btn">ВОЙТИ / СОЗДАТЬ АККАУНТ</button><div id="fwAuthMsg" class="fw-auth-msg"></div><div id="fwAuthUser" class="fw-auth-user"></div></div></div><button id="fwLogout">👤 Выйти</button><button id="fwNewGame">↻ НОВАЯ ИГРА</button>
 <div id="app" style="visibility:hidden">
 <header>
   <div class="brand"><div class="logo">⚒</div><div><b>FORGEWORKS</b><span class="brand-author">Создано Сергеем Павловым</span></div></div>
@@ -462,8 +465,8 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
 
 const C = document.getElementById("scene");
 const X = C.getContext("2d");
-const SAVE_KEY_PREFIX = "forgeworks_professional_v7_account_";
-let ACTIVE_SAVE_KEY = "forgeworks_professional_v7_guest";
+const SAVE_KEY_PREFIX = "forgeworks_professional_v8_account_";
+let ACTIVE_SAVE_KEY = "forgeworks_professional_v8_guest";
 const toastEl = document.getElementById("toast");
 
 const machineDefs = [
@@ -1342,7 +1345,7 @@ setInterval(saveState,10000);
     page=null;mobileCurrentPanel=null;mobileHost.style.display="none";mobileHost.innerHTML="";mobileLauncher.style.display="grid";
     let h="";
     h+="<div class=\"m3Hero\"><div class=\"m3HeroTop\"><div class=\"m3Eyebrow\">FORGEWORKS · СМАРТФОН</div><div class=\"m3Live\">● СМЕНА "+(state.running?"АКТИВНА":"ПАУЗА")+"</div></div><h2>Пульт производства</h2><p>Каждый раздел открывается отдельным экраном. Игра остаётся под ним — без выдвижных панелей.</p><div class=\"m3KpiRow\"><div class=\"m3Kpi\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b></div><div class=\"m3Kpi\"><small>ВРЕМЯ</small><b>"+state.day+" · "+currentTime()+"</b></div><div class=\"m3Kpi\"><small>ЗАКАЗОВ</small><b>"+(state.orders.length+(state.current?1:0))+"</b></div></div></div>";
-    const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","ТЕХНОЛОГИИ","Уровень "+researchУровень()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"]];
+    const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","ТЕХНОЛОГИИ","Уровень "+researchУровень()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"],["account","👤","Аккаунт","Сохранение и выход"]];
     tiles.forEach(t=>{h+="<button class=\"m3Tile\" data-v3=\""+t[0]+"\"><span class=\"mi\">"+t[1]+"</span><b>"+t[2]+"</b><span>"+t[3]+"</span><span class=\"arrow\">›</span></button>";});
     h+="<div class=\"m3Actions\"><button class=\"btn good\" id=\"v3Shift\">⏸ "+(state.running?"Поставить паузу":"Продолжить смену")+"</button><button class=\"btn\" id=\"v3Save\">💾 Сохранить</button></div>";
     mobileLauncher.innerHTML=h;
@@ -1354,6 +1357,19 @@ setInterval(saveState,10000);
     }
     mobileLauncher.querySelectorAll("[data-v3]").forEach(b=>b.addEventListener("click",()=>openMobilePanel(b.dataset.v3)));document.getElementById("v3Shift")?.addEventListener("click",()=>document.getElementById("shiftBtn").click());document.getElementById("v3Save")?.addEventListener("click",()=>document.getElementById("saveBtn").click());mobileTitle.querySelector("b").textContent="FORGEWORKS";mobileSubtitle.textContent="МОБИЛЬНЫЙ ПУЛЬТ";mobileBack.textContent="‹";mobileHome.textContent="✕";document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));
   }
+  function account(){
+    const login=(typeof ACTIVE_SAVE_KEY!=="undefined"?decodeURIComponent(String(ACTIVE_SAVE_KEY).split("_account_").pop()):"").replace(/%20/g," ");
+    let h="<div class=\"m3SectionTitle\"><b>Аккаунт</b><span>Личные данные игры</span></div>";
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>👤 ТЕКУЩИЙ ИГРОК</b><span class=\"m3Pill ok\">АКТИВЕН</span></div>";
+    h+="<div style=\"font-size:12px;font-weight:900\">"+esc(login||"Игрок")+"</div><div class=\"m3Muted\" style=\"margin-top:4px\">Для этого логина используется отдельное сохранение.</div></div>";
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚙ УПРАВЛЕНИЕ ИГРОЙ</b></div>";
+    h+="<button class=\"m3Btn primary\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById(\"fwNewGame\").click()\">↻ Новая игра</button>";
+    h+="<button class=\"m3Btn danger\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById(\"fwLogout\").click()\">↪ Выйти из аккаунта</button>";
+    h+="</div>";
+    h+="<div class=\"m3Muted\" style=\"padding:4px 2px\">Выход не удаляет сохранение. После повторного входа прогресс этого аккаунта останется.</div>";
+    shell(h);
+  }
+
   function overview(){
     const current=state.current,pct=current?clamp(state.progress/(products[current.key].time*current.quantity)*100,0,100):0,quality=clamp(100-state.defects*2+state.research.qc*2,40,100),owned=machineDefs.filter(m=>hasMachine(m.id)),locked=machineDefs.filter(m=>!hasMachine(m.id)),events=state.events.slice(0,4);
     let h="<div class=\"m3SectionTitle\"><b>Сейчас в цехе</b><span>День "+state.day+" · "+currentTime()+"</span></div>";
@@ -2269,8 +2285,8 @@ window.addEventListener("beforeunload",saveState);
     for(const w of state.staff.slice().sort((a,b)=>a.y-b.y))drawCharacterV5(w,false);
     drawCharacterV5({workState:"idle"},true);
     // world callouts
-    roundV5(24,24,328,78,16,"rgba(18,40,57,.86)","rgba(255,255,255,.18)",2);
-    textV5(state.running?"● ПРОИЗВОДСТВО · РАБОТАЕТ":"● СМЕНА НА ПАУЗЕ",42,48,14,state.running?"#61e79c":"#ff748a",true);
+    roundV5(24,24,164,39,11,"rgba(18,40,57,.90)","rgba(255,255,255,.16)",1.5);
+    textV5(state.running?"● ЦЕХ · В РАБОТЕ":"● ЦЕХ · ПАУЗА",35,48,8,state.running?"#61e79c":"#ff748a",true);
     const action=state.current?"В работе: "+state.current.name:"Следующий шаг: выбери заказ";
     textV5(action,42,70,9,"#d6e7f2",false);
     roundV5(900,24,276,78,16,"rgba(18,40,57,.86)","rgba(255,255,255,.18)",2);
@@ -3517,18 +3533,21 @@ requestAnimationFrame(loop);
 <script>
 (function(){
 "use strict";
-const auth=document.getElementById("fwAuth"),app=document.getElementById("app"),loginEl=document.getElementById("fwLogin"),passEl=document.getElementById("fwPassword"),btn=document.getElementById("fwAuthBtn"),msg=document.getElementById("fwAuthMsg"),logout=document.getElementById("fwLogout"),userBox=document.getElementById("fwAuthUser");
+const auth=document.getElementById("fwAuth"),app=document.getElementById("app"),loginEl=document.getElementById("fwLogin"),passEl=document.getElementById("fwPassword"),btn=document.getElementById("fwAuthBtn"),msg=document.getElementById("fwAuthMsg"),logout=document.getElementById("fwLogout"),newGame=document.getElementById("fwNewGame"),userBox=document.getElementById("fwAuthUser");
 const ACC="forgeworks_accounts_v1";
+const OLD_SAVE_PREFIX="forgeworks_professional_v7_account_";
+const NEW_SAVE_PREFIX="forgeworks_professional_v8_account_";
 function accounts(){try{return JSON.parse(localStorage.getItem(ACC)||"{}")}catch(_){return {}}}
 async function hash(s){if(crypto?.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return String(h>>>0)}
 function fresh(){return clone(base)}
 function loadUser(login){ACTIVE_SAVE_KEY=SAVE_KEY_PREFIX+encodeURIComponent(login.toLowerCase());try{const raw=localStorage.getItem(ACTIVE_SAVE_KEY);if(!raw)return fresh();const s=JSON.parse(raw);const b=fresh();return {...b,...s,research:{...b.research,...(s.research||{})},levels:{...b.levels,...(s.levels||{})},materials:{...b.materials,...(s.materials||{})},staff:Array.isArray(s.staff)?s.staff:[],orders:Array.isArray(s.orders)?s.orders:[],owned:Array.isArray(s.owned)&&s.owned.length?s.owned:b.owned,events:Array.isArray(s.events)?s.events:[]}}catch(_){return fresh()}}
 function saveQuiet(){try{localStorage.setItem(ACTIVE_SAVE_KEY,JSON.stringify(state))}catch(_){}}
-async function doLogin(){const login=(loginEl.value||"").trim(),pw=passEl.value||"";msg.textContent="";if(!/^[a-zA-Z0-9_\-а-яА-ЯёЁ]{3,24}$/.test(login)){msg.textContent="Логин: 3–24 символа.";return}if(pw.length<4){msg.textContent="Пароль минимум 4 символа.";return}btn.disabled=true;btn.textContent="ПРОВЕРКА…";try{const a=accounts(),k=login.toLowerCase(),ph=await hash(pw);if(a[k]&&a[k].passwordHash!==ph){msg.textContent="Неверный пароль.";return}if(!a[k])a[k]={login,passwordHash:ph,createdAt:Date.now()};a[k].lastLogin=Date.now();localStorage.setItem(ACC,JSON.stringify(a));state=loadUser(a[k].login);state.running=false;if(!state.events.length){log("Аккаунт «"+a[k].login+"» создан. Новая игра начата.")}auth.classList.add("hidden");app.style.visibility="visible";logout.style.display="block";logout.textContent="👤 "+a[k].login+" · Выйти";userBox.style.display="block";userBox.textContent="Аккаунт: "+a[k].login+" · сохранение отдельно";renderAll();if(window.fwRefresh)window.fwRefresh();if(window.drawScene)window.drawScene();saveQuiet()}finally{btn.disabled=false;btn.textContent="ВОЙТИ / СОЗДАТЬ АККАУНТ"}}
+async function doLogin(){const login=(loginEl.value||"").trim(),pw=passEl.value||"";msg.textContent="";if(!/^[a-zA-Z0-9_\-а-яА-ЯёЁ]{3,24}$/.test(login)){msg.textContent="Логин: 3–24 символа.";return}if(pw.length<4){msg.textContent="Пароль минимум 4 символа.";return}btn.disabled=true;btn.textContent="ПРОВЕРКА…";try{const a=accounts(),k=login.toLowerCase(),ph=await hash(pw);if(a[k]&&a[k].passwordHash!==ph){msg.textContent="Неверный пароль.";return}if(!a[k])a[k]={login,passwordHash:ph,createdAt:Date.now()};a[k].lastLogin=Date.now();localStorage.setItem(ACC,JSON.stringify(a));state=loadUser(a[k].login);state.running=false;auth.classList.add("hidden");app.style.visibility="visible";logout.style.display="none";newGame.style.display="none";logout.textContent="👤 "+a[k].login+" · Выйти";userBox.style.display="block";userBox.textContent="Аккаунт: "+a[k].login+" · отдельное сохранение";renderAll();if(window.fwRefresh)window.fwRefresh();if(window.drawScene)window.drawScene();saveQuiet()}finally{btn.disabled=false;btn.textContent="ВОЙТИ / СОЗДАТЬ АККАУНТ"}}
 btn.onclick=doLogin;[loginEl,passEl].forEach(x=>x.addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()}));logout.onclick=()=>{saveQuiet();state=fresh();state.running=false;app.style.visibility="hidden";logout.style.display="none";auth.classList.remove("hidden");passEl.value="";msg.textContent="";loginEl.focus()};
+newGame.onclick=()=>{if(!ACTIVE_SAVE_KEY||ACTIVE_SAVE_KEY.indexOf(NEW_SAVE_PREFIX)!==0)return;if(!confirm("Начать НОВУЮ ИГРУ? Текущий прогресс этого аккаунта будет удалён без возможности восстановления."))return;try{localStorage.removeItem(ACTIVE_SAVE_KEY);localStorage.removeItem(OLD_SAVE_PREFIX+ACTIVE_SAVE_KEY.slice(NEW_SAVE_PREFIX.length));}catch(_e){}state=fresh();state.running=false;state.current=null;state.orders=[];state.staff=[];state.owned=Array.isArray(base.owned)?base.owned.slice():[];state.events=[];state.minute=480;state.day=1;state.progress=0;state.energy=100;createOrders();log("Новая игра начата. Завод сброшен полностью.");renderAll();if(window.fwRefresh)window.fwRefresh();if(window.drawScene)window.drawScene();saveQuiet();showToast("🆕 Новая игра начата");};
 function machineAt(e){const r=C.getBoundingClientRect(),x=(e.clientX-r.left)*C.width/r.width,y=(e.clientY-r.top)*C.height/r.height;let hit=null,best=1e9;for(const id of state.owned){const m=getMachine(id);if(!m)continue;const px=20;if(x>=m.x-px&&x<=m.x+m.w+px&&y>=m.y-px&&y<=m.y+m.h+px){const d=Math.hypot(x-m.x-m.w/2,y-m.y-m.h/2);if(d<best){best=d;hit=m}}}return hit}
 C.addEventListener("pointerup",e=>{if(!auth.classList.contains("hidden")&&state.current){const m=machineAt(e);if(m){e.preventDefault();e.stopImmediatePropagation();window.fwMachineClick?window.fwMachineClick(m.id):null}}},true);
-window.__fwProductionTick=function(dt){if(!state.current||!state.running)return;const o=state.current,p=products[o.key],role=typeof currentStage==="function"?currentStage(o):p.steps[o.stageIndex||0],a=o.assignments?.[role];if(!a?.staffId||!a?.machineId){state.running=false;return}const m=getMachine(a.machineId);if(!m||!hasMachine(m.id)||m.role!==role){state.running=false;return}let skill=1.32;if(String(a.staffId)!==String(typeof SELF_ID!=="undefined"?SELF_ID:"__player__")){const w=state.staff.find(x=>String(x.id)===String(a.staffId));if(!w){state.running=false;return}skill=.62+(Number(w.skill||50)/100);w.assignedMachine=m.id;w.assignedOrderId=o.id;w.workState="working";w.x=m.x+m.w/2;w.y=m.y+m.h+24}state.minute+=dt*2.8;state.energy=clamp(state.energy-dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12),0,100);o.stageProgress=Number(o.stageProgress||0)+dt*skill*(1+(state.research.auto||0)*.06)*(1+(machineLevel(m.id)-1)*.08)*(1+(state.research.cnc||0)*.08);const dur=Math.max(.1,stageDuration(o));if(o.stageProgress>=dur){o.stageProgress=0;o.stageIndex=(o.stageIndex||0)+1;if(o.stageIndex>=p.steps.length){finishOrder();state.running=false}else{const nr=currentStage(o),na=o.assignments?.[nr];state.running=!!(na?.staffId&&na?.machineId);showToast("✅ Этап завершён · "+(typeof roleLabel==="function"?roleLabel(nr):nr))}}if(state.energy<=0)state.running=false};
+window.__fwProductionTick=function(dt){if(!state.current)return;const o=state.current,p=products[o.key],role=typeof currentStage==="function"?currentStage(o):p.steps[o.stageIndex||0],a=o.assignments?.[role];if(!a?.staffId||!a?.machineId){state.running=false;return}const m=getMachine(a.machineId);if(!m||!hasMachine(m.id)||m.role!==role){state.running=false;return}state.running=true;let skill=1.32;if(String(a.staffId)!==String(typeof SELF_ID!=="undefined"?SELF_ID:"__player__")){const w=state.staff.find(x=>String(x.id)===String(a.staffId));if(!w){state.running=false;return}skill=.62+(Number(w.skill||50)/100);w.assignedMachine=m.id;w.assignedOrderId=o.id;w.workState="working";w.x=m.x+m.w/2;w.y=m.y+m.h+24}state.minute+=dt*2.8;state.energy=clamp(state.energy-dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12),0,100);o.stageProgress=Number(o.stageProgress||0)+dt*skill*(1+(state.research.auto||0)*.06)*(1+(machineLevel(m.id)-1)*.08)*(1+(state.research.cnc||0)*.08);const rawDur=Number(typeof stageDuration==="function"?stageDuration(o):30);const dur=Math.max(1,Math.min(rawDur,120));if(o.stageProgress>=dur){o.stageProgress=0;o.stageIndex=(o.stageIndex||0)+1;if(o.stageIndex>=p.steps.length){finishOrder();state.running=false}else{const nr=currentStage(o),na=o.assignments?.[nr];state.running=!!(na?.staffId&&na?.machineId);showToast("✅ Этап завершён · "+(typeof roleLabel==="function"?roleLabel(nr):nr))}}if(state.energy<=0)state.running=false};
 setInterval(()=>{if(!auth.classList.contains("hidden"))saveQuiet()},10000);window.addEventListener("beforeunload",saveQuiet);loginEl.focus();
 })();
 </script>
