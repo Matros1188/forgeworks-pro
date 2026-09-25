@@ -1,9 +1,5 @@
-# FORGEWORKS PRO
+# FORGEWORKS PRO V5
 
 Industrial manufacturing tycoon.
-
-Created by Sergey Pavlov.
-
-V5: casual cartoon 2.5D factory + mobile-first controls.
 
 Game: https://Matros1188.github.io/forgeworks-pro/
