@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -1061,6 +1062,20 @@ function openMobilePanel(name){
 }
 function closeMobileScreen(){returnMobilePanel();mobileLauncher.style.display="grid";mobileHost.style.display="none";mobileScreen.classList.remove("open");mobileScreen.setAttribute("aria-hidden","true");}
 document.querySelectorAll("[data-mobile-panel]").forEach(btn=>btn.addEventListener("click",()=>openMobilePanel(btn.dataset.mobilePanel)));
+function manualWork(){
+  if(state.current){
+    const p=products[state.current.key];
+    const max=p.time*state.current.quantity;
+    state.progress=clamp(state.progress+Math.max(2.5,max*.025),0,max);
+    renderAll();
+    showToast("⚒ Ручной импульс · производство ускорено");
+    sound(620,.055,"triangle");
+  }else{
+    showToast("📋 Сначала выбери заказ");
+    sound(210,.07,"sine");
+  }
+}
+
 document.getElementById("mNavOrders").addEventListener("click",()=>openMobilePanel("orders"));
 document.getElementById("mNavWorkshop").addEventListener("click",()=>openMobilePanel("overview"));
 document.getElementById("mNavWork").addEventListener("click",()=>{closeMobileScreen();manualWork();});
@@ -2114,3 +2129,4 @@ requestAnimationFrame(loop);
 </script>
 </body>
 </html>
+
