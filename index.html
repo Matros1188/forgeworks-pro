@@ -195,7 +195,47 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   #mobileBottomNav .mnav.primary{background:linear-gradient(135deg,#4d8dff,#745df1)!important}
 }
 @media(max-width:380px){#v5MobileHUD{left:6px;right:6px;top:6px}.v5OrderFab{min-height:44px}.v5FabText em{font-size:8px}}
-</style></head>
+</style>
+<style>
+/* === FORGEWORKS V5.2 SMARTPHONE POLISH === */
+@media(max-width:760px){
+  #sceneWrap{padding:2px 2px calc(64px + env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,#071421,#0a1820)!important}
+  #scene{border-radius:16px!important;border:2px solid rgba(255,255,255,.10)!important;box-shadow:0 12px 32px rgba(0,0,0,.22)!important}
+  header{box-shadow:0 4px 18px rgba(0,0,0,.20)!important}
+  .brand b{font-size:9.8px!important}.brand .brand-author{font-size:6px!important;color:#87a2b8!important}
+  .metric{background:linear-gradient(180deg,rgba(20,36,51,.88),rgba(10,22,34,.92))!important;border-color:rgba(255,255,255,.10)!important}
+  .metric small{font-size:5.6px!important;letter-spacing:.02em}.metric strong{font-size:8.6px!important}
+  #v5MobileHUD{top:7px!important;left:8px!important;right:8px!important;grid-template-columns:minmax(0,1fr) 46px!important;gap:7px!important}
+  .v5OrderFab{min-height:48px!important;border-radius:16px!important;padding:7px 10px!important;box-shadow:0 10px 22px rgba(0,0,0,.18)!important}
+  .v5FabText em{font-size:8.3px!important}.v5FabText b{font-size:6px!important}
+  .v5PauseFab{width:46px!important;height:48px!important;border-radius:16px!important}
+  #joy{width:82px!important;height:82px!important;bottom:72px!important;left:10px!important}
+  #knob{width:38px!important;height:38px!important;margin:-19px!important}
+  #touchE{width:60px!important;height:60px!important;right:10px!important;bottom:72px!important;border-radius:20px!important}
+  #mobileScreenBody{padding:8px 8px calc(78px + env(safe-area-inset-bottom))!important}
+  #mobileScreenHeader{height:56px!important;min-height:56px!important}
+  #mobileScreenTitle b{font-size:12px!important}.mobileScreenTitle span{font-size:6.5px!important}
+  #mobileLauncher{gap:8px!important}
+  .mobileWelcome{padding:13px!important;border-radius:17px!important}
+  .mobileWelcome .eyebrow{font-size:6.5px!important}.mobileWelcome h2{font-size:19px!important}.mobileWelcome p{font-size:8.4px!important;line-height:1.4!important}
+  .mobileTile{min-height:92px!important;padding:11px!important;border-radius:16px!important;box-shadow:0 9px 22px rgba(0,0,0,.16)!important}
+  .mobileTile .ico{font-size:23px!important}.mobileTile b{font-size:10.5px!important;margin-top:7px!important}.mobileTile span{font-size:7.4px!important;line-height:1.28!important}
+  #mobileBottomNav{gap:6px!important;padding:7px 7px calc(7px + env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,rgba(5,13,22,.05),rgba(5,13,22,.97) 28%)!important}
+  #mobileBottomNav .mnav{min-height:50px!important;border-radius:15px!important;font-size:8.5px!important}
+  #mobileBottomNav .mnav .mi{font-size:17px!important}
+  #mobilePanelHost .card{border-radius:15px!important}.m3Card{border-radius:15px!important}.m3Machine{border-radius:13px!important}
+  .m3SectionTitle b{font-size:11.5px!important}.m3Muted{font-size:7.1px!important}.m3OrderTitle b{font-size:9px!important}.m3OrderMeta{font-size:6.7px!important}
+}
+@media(max-width:380px){
+  header{height:50px!important;min-height:50px!important}
+  #layout{height:calc(100dvh - 50px)!important}
+  .brand{min-width:102px!important}.brand b{font-size:9px!important}.metric{height:32px!important}.metric small{font-size:5px!important}.metric strong{font-size:7.8px!important}
+  #mobileScreenHeader{height:53px!important;min-height:53px!important}
+  #mobileScreenBody{padding-left:6px!important;padding-right:6px!important}
+  #mobileLauncher{gap:6px!important}.mobileTile{min-height:84px!important;padding:9px!important}.mobileTile .ico{font-size:20px!important}.mobileTile b{font-size:9.5px!important}.mobileTile span{font-size:6.8px!important}
+}
+</style>
+</head>
 <body>
 <div id="app">
 <header>
@@ -233,7 +273,7 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   <button class="tab active" data-panel="overview">ЦЕХ</button>
   <button class="tab" data-panel="orders">ЗАКАЗЫ</button>
   <button class="tab" data-panel="staff">ЛЮДИ</button>
-  <button class="tab" data-panel="tech">R&amp;D</button>
+  <button class="tab" data-panel="tech">ТЕХНОЛОГИИ</button>
   <button class="tab" data-panel="finance">ФИНАНСЫ</button>
   <button class="tab" data-panel="goals">ЦЕЛИ</button>
 </div>
@@ -243,7 +283,7 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
 <section id="panel-overview" class="panel active">
   <div class="card">
     <h3>ТЫ НАЧИНАЕШЬ ОДИН</h3>
-    <div class="tiny muted">Одна токарка, небольшой склад и твои руки. Цель — открыть точное производство и дойти до магнитных цилиндров.</div>
+    <div class="tiny muted">Один токарный станок, небольшой склад и твои руки. Цель — открыть точное производство и дойти до магнитных цилиндров.</div>
   </div>
 
   <div class="card">
@@ -285,7 +325,7 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   <div class="card"><h3>ИССЛЕДОВАНИЯ</h3><div id="research"></div></div>
   <div class="card">
     <h3>ОТКРЫТЫЙ УРОВЕНЬ ТЕХНОЛОГИЙ</h3>
-    <div class="row"><span class="muted tiny">Tier</span><b id="tierLabel">1</b></div>
+    <div class="row"><span class="muted tiny">Уровень</span><b id="tierLabel">1</b></div>
   </div>
 </section>
 
@@ -330,14 +370,14 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
   <div id="mobileScreenBody">
     <div id="mobileLauncher">
       <div class="mobileWelcome">
-        <div class="eyebrow">SMART FACTORY CONTROL</div>
+        <div class="eyebrow">ПУЛЬТ ЗАВОДА</div>
         <h2>Управление цехом</h2>
         <p>Разделы открываются отдельным экраном. Больше никаких выдвижных панелей и меню, которое перекрывает игру.</p>
       </div>
       <button class="mobileTile" data-mobile-panel="overview"><i class="ico">🏭</i><b>Цех</b><span>Станки, выпуск, активный заказ</span><i class="dot"></i></button>
       <button class="mobileTile" data-mobile-panel="orders"><i class="ico">📋</i><b>Заказы</b><span>Принять и запустить производство</span><i class="dot"></i></button>
       <button class="mobileTile" data-mobile-panel="staff"><i class="ico">👷</i><b>Люди</b><span>Команда и найм</span><i class="dot"></i></button>
-      <button class="mobileTile" data-mobile-panel="tech"><i class="ico">🧪</i><b>R&amp;D</b><span>Исследования и технологии</span><i class="dot"></i></button>
+      <button class="mobileTile" data-mobile-panel="tech"><i class="ico">🧪</i><b>Технологии</b><span>Исследования и технологии</span><i class="dot"></i></button>
       <button class="mobileTile" data-mobile-panel="finance"><i class="ico">💰</i><b>Финансы</b><span>Деньги и материалы</span><i class="dot"></i></button>
       <button class="mobileTile" data-mobile-panel="goals"><i class="ico">🎯</i><b>Цели</b><span>Развитие и прогресс</span><i class="dot"></i></button>
       <div class="mobileQuick"><button id="mobileShift" class="btn good">⏸ Смена</button><button id="mobileSave" class="btn">💾 Сохранить</button></div>
@@ -345,9 +385,9 @@ header{height:52px!important;min-height:52px!important;padding:5px 6px!important
     <div id="mobilePanelHost"></div>
   </div>
   <div id="mobileBottomNav">
-    <button class="mnav primary" id="mNavOrders"><span class="mi">📋</span><span>Заказы</span></button>
     <button class="mnav" id="mNavWorkshop"><span class="mi">🏭</span><span>Цех</span></button>
-    <button class="mnav good" id="mNavWork"><span class="mi">⚒</span><span>Работа</span></button>
+    <button class="mnav primary" id="mNavOrders"><span class="mi">📋</span><span>Заказы</span></button>
+    <button class="mnav good" id="mNavStaff"><span class="mi">👷</span><span>Люди</span></button>
     <button class="mnav" id="mNavMore"><span class="mi">☰</span><span>Меню</span></button>
   </div>
 </div>
@@ -374,13 +414,13 @@ const SAVE_KEY = "forgeworks_professional_v1";
 const toastEl = document.getElementById("toast");
 
 const machineDefs = [
-  {id:"lathe",name:"Токарный станок",short:"TOKARNO-01",role:"lathe",cost:0,unlock:1,power:.8,quality:78,x:425,y:430,w:210,h:115,c:"#55ddff",icon:"⚙️"},
-  {id:"mill",name:"Фрезерный станок",short:"MILL-02",role:"mill",cost:16500,unlock:2,power:1.2,quality:82,x:680,y:430,w:210,h:115,c:"#7189ff",icon:"🔧"},
-  {id:"grind",name:"Шлифовальный станок",short:"GRIND-01",role:"grind",cost:22000,unlock:3,power:1.45,quality:90,x:900,y:300,w:225,h:110,c:"#a486ff",icon:"💠"},
-  {id:"qc",name:"Контроль качества",short:"QC-STATION",role:"qc",cost:28000,unlock:4,power:.65,quality:98,x:150,y:430,w:210,h:110,c:"#59e6c0",icon:"📐"},
-  {id:"edm",name:"Электроэрозионный",short:"EDM-01",role:"edm",cost:35000,unlock:5,power:2.3,quality:95,x:900,y:470,w:225,h:110,c:"#ffbe5b",icon:"⚡"},
-  {id:"knife",name:"Ножевой участок",short:"KNIFE LINE",role:"knife",cost:42000,unlock:6,power:1.7,quality:92,x:640,y:285,w:225,h:110,c:"#ff7489",icon:"🔪"},
-  {id:"cyl",name:"Сборка магнитных цилиндров",short:"CYLINDER LAB",role:"cyl",cost:60000,unlock:7,power:1.9,quality:96,x:385,y:285,w:240,h:110,c:"#5edfff",icon:"⭕"}
+  {id:"lathe",name:"Токарный станок",short:"ТОКАРНЫЙ №1",role:"lathe",cost:0,unlock:1,power:.8,quality:78,x:425,y:430,w:210,h:115,c:"#55ddff",icon:"⚙️"},
+  {id:"mill",name:"Фрезерный станок",short:"ФРЕЗЕРНЫЙ №1",role:"mill",cost:16500,unlock:2,power:1.2,quality:82,x:680,y:430,w:210,h:115,c:"#7189ff",icon:"🔧"},
+  {id:"grind",name:"Шлифовальный станок",short:"ШЛИФОВАЛЬНЫЙ №1",role:"grind",cost:22000,unlock:3,power:1.45,quality:90,x:900,y:300,w:225,h:110,c:"#a486ff",icon:"💠"},
+  {id:"qc",name:"Контроль качества",short:"ПОСТ ОТК №1",role:"qc",cost:28000,unlock:4,power:.65,quality:98,x:150,y:430,w:210,h:110,c:"#59e6c0",icon:"📐"},
+  {id:"edm",name:"Электроэрозионный",short:"ЭЛЕКТРОЭРОЗИЯ №1",role:"edm",cost:35000,unlock:5,power:2.3,quality:95,x:900,y:470,w:225,h:110,c:"#ffbe5b",icon:"⚡"},
+  {id:"knife",name:"Ножевой участок",short:"НОЖЕВОЙ УЧАСТОК",role:"knife",cost:42000,unlock:6,power:1.7,quality:92,x:640,y:285,w:225,h:110,c:"#ff7489",icon:"🔪"},
+  {id:"cyl",name:"Сборка магнитных цилиндров",short:"СБОРКА ЦИЛИНДРОВ",role:"cyl",cost:60000,unlock:7,power:1.9,quality:96,x:385,y:285,w:240,h:110,c:"#5edfff",icon:"⭕"}
 ];
 
 const products = {
@@ -396,7 +436,7 @@ const staffDefs = [
   {role:"lathe",name:"Токарь",cost:8500,wage:900,skill:55,c:"#69ddff"},
   {role:"mill",name:"Фрезеровщик",cost:10000,wage:1000,skill:58,c:"#7e94ff"},
   {role:"grind",name:"Шлифовщик",cost:11000,wage:1100,skill:62,c:"#aa8dff"},
-  {role:"edm",name:"EDM-оператор",cost:12500,wage:1300,skill:58,c:"#ffbf63"},
+  {role:"edm",name:"Оператор электроэрозии",cost:12500,wage:1300,skill:58,c:"#ffbf63"},
   {role:"cyl",name:"Сборщик цилиндров",cost:10500,wage:1200,skill:64,c:"#b08cff"},
   {role:"knife",name:"Ножевик",cost:9800,wage:1100,skill:66,c:"#ff7b88"},
   {role:"qc",name:"Контролёр ОТК",cost:8800,wage:1000,skill:72,c:"#6ee6c8"},
@@ -404,14 +444,14 @@ const staffDefs = [
 ];
 
 const researchDefs = [
-  {id:"cnc",name:"ЧПУ-модуль",desc:"ускоряет механообработку",cost:9500,max:4},
-  {id:"edm",name:"EDM Control",desc:"точная электроэрозия",cost:15000,max:3},
-  {id:"grind",name:"Precision Grinding",desc:"снижает брак",cost:12500,max:3},
-  {id:"cyl",name:"Magnetic Cylinder Tech",desc:"открывает цилиндры",cost:18000,max:4},
-  {id:"knife",name:"Knife Engineering",desc:"открывает ножевой участок",cost:17000,max:4},
-  {id:"auto",name:"Микроавтоматизация",desc:"усиливает персонал",cost:21000,max:5},
-  {id:"qc",name:"Оптический QC",desc:"повышает качество",cost:14000,max:4},
-  {id:"energy",name:"Energy Recovery",desc:"снижает расход энергии",cost:9000,max:5}
+  {id:"cnc",name:"Модуль ЧПУ",desc:"Ускоряет точную механообработку",cost:9500,max:4},
+  {id:"edm",name:"Точная электроэрозия",desc:"Повышает точность электроэрозионной обработки",cost:15000,max:3},
+  {id:"grind",name:"Прецизионная шлифовка",desc:"Снижает риск брака и повышает качество",cost:12500,max:3},
+  {id:"cyl",name:"Технология магнитных цилиндров",desc:"Открывает производство магнитных цилиндров",cost:18000,max:4},
+  {id:"knife",name:"Ножевые технологии",desc:"Открывает и улучшает ножевой участок",cost:17000,max:4},
+  {id:"auto",name:"Микроавтоматизация",desc:"Усиливает эффективность сотрудников",cost:21000,max:5},
+  {id:"qc",name:"Оптический контроль",desc:"Повышает точность контроля качества",cost:14000,max:4},
+  {id:"energy",name:"Восстановление энергии",desc:"Снижает расход энергии производства",cost:9000,max:5}
 ];
 
 const base = {
@@ -487,7 +527,7 @@ function currentTime(){
   const m = Math.floor(state.minute%60);
   return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
 }
-function researchTier(){
+function researchУровень(){
   const total = Object.values(state.research).reduce((a,b)=>a+b,0);
   return Math.max(1,Math.floor(total/2)+1);
 }
@@ -522,7 +562,7 @@ function sound(freq=520,d=.07,type="sine"){
 
 function createOrders(){
   while(state.orders.length<4){
-    const available = Object.entries(products).filter(pair=>pair[1].tier<=researchTier());
+    const available = Object.entries(products).filter(pair=>pair[1].tier<=researchУровень());
     const chosen = available[Math.floor(Math.random()*available.length)];
     const key = chosen[0];
     const p = chosen[1];
@@ -766,14 +806,14 @@ function updateWorkers(dt){
   text("ТЫ",state.px,state.py-27,9,"#fff",true,"center");
 
   rounded(18,18,360,62,15,"rgba(6,13,23,.80)","rgba(255,255,255,.08)");
-  text(state.running?"● ПРОИЗВОДСТВО ONLINE":"● СМЕНА ПАУЗА",34,42,13,state.running?"#58e58a":"#ff647c",true);
-  text("WASD / стрелки · E — ручная работа",34,61,9,"#8297ad");
+  text(state.running?"● ПРОИЗВОДСТВО · РАБОТАЕТ":"● СМЕНА ПАУЗА",34,42,13,state.running?"#58e58a":"#ff647c",true);
+  text("Управление: WASD / стрелки · E — работа",34,61,9,"#8297ad");
 
   text(currentTime(),600,43,15,"#fff",true,"center");
   text("ДЕНЬ "+state.day,600,62,9,"#8297ad",false,"center");
 
   rounded(900,18,280,62,15,"rgba(6,13,23,.80)","rgba(255,255,255,.08)");
-  text("FORGEWORKS INDUSTRIAL",920,41,12,"#dbe8f7",true);
+  text("ПРОИЗВОДСТВЕННЫЙ ЦЕХ",920,41,12,"#dbe8f7",true);
   text(state.current?"Заказ: "+state.current.name:"Очередь готова",920,61,9,"#8297ad");
 }
 
@@ -788,14 +828,14 @@ function renderMachines(){
         `<div class="item">
           <div class="row">
             <b>${m.icon} ${m.short}</b>
-            <span class="good">ONLINE</span>
+            <span class="good">РАБОТАЕТ</span>
           </div>
           <div class="tiny muted">${m.name} · L${machineLevel(m.id)}</div>
           <button class="btn" style="margin-top:6px;width:100%" onclick="upgradeMachine('${m.id}')">⚙ Улучшить</button>
         </div>`
       );
     }else{
-      const ready = researchTier()>=m.unlock;
+      const ready = researchУровень()>=m.unlock;
       box.insertAdjacentHTML(
         "beforeend",
         `<div class="item">
@@ -842,7 +882,7 @@ function renderOrders(){
       `<div class="item">
         <div class="row">
           <b>${o.urgent?"🔥 ":""}${o.name}</b>
-          <span class="tag">T${p.tier}</span>
+          <span class="tag">УР. ${p.tier}</span>
         </div>
         <div class="tiny muted">Количество: ${o.quantity}</div>
         <div class="row" style="margin-top:6px">
@@ -917,7 +957,7 @@ function renderResearch(){
     );
   }
 
-  document.getElementById("tierLabel").textContent = researchTier();
+  document.getElementById("tierLabel").textContent = researchУровень();
 }
 
 function renderFinance(){
@@ -1033,7 +1073,7 @@ const mobilePanelMeta = {
   overview:{title:"ЦЕХ",sub:"ПРОИЗВОДСТВО · СТАНКИ · СОБЫТИЯ"},
   orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · КЛИЕНТЫ · ПРОИЗВОДСТВО"},
   staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},
-  tech:{title:"R&D",sub:"ИССЛЕДОВАНИЯ · ТЕХНОЛОГИИ"},
+  tech:{title:"ТЕХНОЛОГИИ",sub:"ИССЛЕДОВАНИЯ · РАЗВИТИЕ ПРОИЗВОДСТВА"},
   finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · ЗАТРАТЫ · МАТЕРИАЛЫ"},
   goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}
 };
@@ -1080,7 +1120,7 @@ function manualWork(){
 
 document.getElementById("mNavOrders").addEventListener("click",()=>openMobilePanel("orders"));
 document.getElementById("mNavWorkshop").addEventListener("click",()=>openMobilePanel("overview"));
-document.getElementById("mNavWork").addEventListener("click",()=>{closeMobileScreen();manualWork();});
+document.getElementById("mNavStaff").addEventListener("click",()=>openMobilePanel("staff"));
 document.getElementById("mNavMore").addEventListener("click",openMobileLauncher);
 document.getElementById("mobileBack").addEventListener("click",()=>mobileCurrentPanel?openMobileLauncher():closeMobileScreen());
 document.getElementById("mobileHome").addEventListener("click",openMobileLauncher);
@@ -1213,7 +1253,7 @@ createOrders();
 
 if(!state.events.length){
   log("Смена открыта. Ты начинаешь один.");
-  log("Первый станок — TOKARNO-01.");
+  log("Первый станок — Токарный станок №1.");
   log("Цель — превратить мастерскую в завод.");
 }
 
@@ -1222,27 +1262,27 @@ setInterval(saveState,10000);
 
 (function installForgeworksMobileV3(){
   if(!mobileScreen||!mobileLauncher||!mobileHost)return;
-  const META={overview:{title:"ЦЕХ",sub:"СОСТОЯНИЕ · СТАНКИ · ЗАКАЗ В РАБОТЕ"},orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · ПРИЁМ · ПРОИЗВОДСТВО"},staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},tech:{title:"R&D",sub:"ИССЛЕДОВАНИЯ · ТЕХНОЛОГИИ"},finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · РАСХОДЫ · МАТЕРИАЛЫ"},goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}};
+  const META={overview:{title:"ЦЕХ",sub:"СОСТОЯНИЕ · СТАНКИ · ЗАКАЗ В РАБОТЕ"},orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · ПРИЁМ · ПРОИЗВОДСТВО"},staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},tech:{title:"ТЕХНОЛОГИИ",sub:"ИССЛЕДОВАНИЯ · РАЗВИТИЕ ПРОИЗВОДСТВА"},finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · РАСХОДЫ · МАТЕРИАЛЫ"},goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}};
   let page=null;let mobileCurrentPanel=null;let hireExpanded=false;let lockedMachinesExpanded=false;
   function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
   function isPhone(){return window.matchMedia("(max-width:760px)").matches;}
   function shell(h){mobileLauncher.style.display="none";mobileHost.style.display="block";mobileHost.innerHTML="<div class=\"m3Page\">"+h+"</div>";}
-  function nav(name){document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));const map={orders:"mNavOrders",overview:"mNavWorkshop"};if(map[name])document.getElementById(map[name])?.classList.add("active");}
+  function nav(name){document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));const map={orders:"mNavOrders",overview:"mNavWorkshop",staff:"mNavStaff"};if(map[name])document.getElementById(map[name])?.classList.add("active");}
   function head(name){const m=META[name]||{title:"FORGEWORKS",sub:"МОБИЛЬНЫЙ ПУЛЬТ"};mobileTitle.querySelector("b").textContent=m.title;mobileSubtitle.textContent=m.sub;mobileBack.textContent="‹";mobileHome.textContent="⌂";nav(name);}
   function machine(m){
-    const owned=hasMachine(m.id),ready=researchTier()>=m.unlock,lvl=machineLevel(m.id),icon=esc(m.icon||"⚙️"),short=esc(m.short),name=esc(m.name);
+    const owned=hasMachine(m.id),ready=researchУровень()>=m.unlock,lvl=machineLevel(m.id),icon=esc(m.icon||"⚙️"),short=esc(m.short),name=esc(m.name);
     if(owned){
       const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,lvl-1)));
       const assigned=state.current?.assignments?.[m.role]?.machineId===m.id;
-      return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${name} · L${lvl} · ${assigned?"В РАБОТЕ":"ONLINE"}</div><div class="machine-actions"><button class="machineBtn" onclick="upgradeMachine('${m.id}')">⚙ L${lvl+1} · ₽ ${money(price)}</button><button class="machineBtn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить нужного</button></div></div>`;
+      return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${name} · L${lvl} · ${assigned?"В РАБОТЕ":"РАБОТАЕТ"}</div><div class="machine-actions"><button class="machineBtn" onclick="upgradeMachine('${m.id}')">⚙ L${lvl+1} · ₽ ${money(price)}</button><button class="machineBtn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить нужного</button></div></div>`;
     }
-    return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${ready?"Доступно":"Нужен Tier "+m.unlock} · ₽ ${money(m.cost)}</div><button class="machineBtn" ${ready?"":"disabled"} onclick="buyMachine('${m.id}')">Купить</button></div>`;
+    return `<div class="m3Machine"><div class="name"><span>${icon}</span><span>${short}</span></div><div class="meta">${ready?"Доступно":"Откроется на уровне "+m.unlock} · ₽ ${money(m.cost)}</div><button class="machineBtn" ${ready?"":"disabled"} onclick="buyMachine('${m.id}')">Купить</button></div>`;
   }
   function home(){
     page=null;mobileCurrentPanel=null;mobileHost.style.display="none";mobileHost.innerHTML="";mobileLauncher.style.display="grid";
     let h="";
-    h+="<div class=\"m3Hero\"><div class=\"m3HeroTop\"><div class=\"m3Eyebrow\">FORGEWORKS · MOBILE</div><div class=\"m3Live\">● СМЕНА "+(state.running?"АКТИВНА":"ПАУЗА")+"</div></div><h2>Пульт производства</h2><p>Каждый раздел открывается отдельным экраном. Игра остаётся под ним — без выдвижных панелей.</p><div class=\"m3KpiRow\"><div class=\"m3Kpi\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b></div><div class=\"m3Kpi\"><small>ВРЕМЯ</small><b>"+state.day+" · "+currentTime()+"</b></div><div class=\"m3Kpi\"><small>ЗАКАЗОВ</small><b>"+(state.orders.length+(state.current?1:0))+"</b></div></div></div>";
-    const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","R&D","Tier "+researchTier()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"]];
+    h+="<div class=\"m3Hero\"><div class=\"m3HeroTop\"><div class=\"m3Eyebrow\">FORGEWORKS · СМАРТФОН</div><div class=\"m3Live\">● СМЕНА "+(state.running?"АКТИВНА":"ПАУЗА")+"</div></div><h2>Пульт производства</h2><p>Каждый раздел открывается отдельным экраном. Игра остаётся под ним — без выдвижных панелей.</p><div class=\"m3KpiRow\"><div class=\"m3Kpi\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b></div><div class=\"m3Kpi\"><small>ВРЕМЯ</small><b>"+state.day+" · "+currentTime()+"</b></div><div class=\"m3Kpi\"><small>ЗАКАЗОВ</small><b>"+(state.orders.length+(state.current?1:0))+"</b></div></div></div>";
+    const tiles=[["overview","🏭","Цех","Станки и состояние производства"],["orders","📋","Заказы",(state.current?"1 в производстве · ":"")+state.orders.length+" в очереди"],["staff","👷","Люди",state.staff.length+" сотрудников · найм"],["tech","🧪","ТЕХНОЛОГИИ","Уровень "+researchУровень()+" · исследования"],["finance","💰","Финансы","Касса, расходы, материалы"],["goals","🎯","Цели","Развитие завода"]];
     tiles.forEach(t=>{h+="<button class=\"m3Tile\" data-v3=\""+t[0]+"\"><span class=\"mi\">"+t[1]+"</span><b>"+t[2]+"</b><span>"+t[3]+"</span><span class=\"arrow\">›</span></button>";});
     h+="<div class=\"m3Actions\"><button class=\"btn good\" id=\"v3Shift\">⏸ "+(state.running?"Поставить паузу":"Продолжить смену")+"</button><button class=\"btn\" id=\"v3Save\">💾 Сохранить</button></div>";
     mobileLauncher.innerHTML=h;mobileLauncher.querySelectorAll("[data-v3]").forEach(b=>b.addEventListener("click",()=>openMobilePanel(b.dataset.v3)));document.getElementById("v3Shift")?.addEventListener("click",()=>document.getElementById("shiftBtn").click());document.getElementById("v3Save")?.addEventListener("click",()=>document.getElementById("saveBtn").click());mobileTitle.querySelector("b").textContent="FORGEWORKS";mobileSubtitle.textContent="МОБИЛЬНЫЙ ПУЛЬТ";mobileBack.textContent="‹";mobileHome.textContent="✕";document.querySelectorAll("#mobileBottomNav .mnav").forEach(b=>b.classList.remove("active"));
@@ -1253,7 +1293,7 @@ setInterval(saveState,10000);
     h+="<div class=\"m3Grid2\"><div class=\"m3Stat\"><small>ДЕНЬГИ</small><b>₽ "+money(state.money)+"</b><span class=\"sub\">касса</span></div><div class=\"m3Stat\"><small>ЭНЕРГИЯ</small><b>"+Math.round(state.energy)+"%</b><span class=\"sub\">доступно</span></div><div class=\"m3Stat\"><small>КАЧЕСТВО</small><b>"+Math.round(quality)+"%</b><span class=\"sub\">текущий индекс</span></div><div class=\"m3Stat\"><small>ВЫПУЩЕНО</small><b>"+state.produced+"</b><span class=\"sub\">всего изделий</span></div></div>";
     h+="<div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>"+(current?"⚒ АКТИВНЫЙ ЗАКАЗ":"📭 НЕТ АКТИВНОГО ЗАКАЗА")+"</b><span class=\"m3Pill "+(current?"ok":"lock")+"\">"+(current?Math.round(pct)+"%":"ГОТОВ К ВЫБОРУ")+"</span></div>";
     if(current){const p=products[current.key];h+="<div style=\"font-size:8px;font-weight:900\">"+esc(current.name)+" × "+current.quantity+"</div><div class=\"m3Muted\" style=\"margin-top:3px\">"+p.steps.map(esc).join(" → ")+"</div><div class=\"m3Progress\"><i style=\"width:"+pct+"%\"></i></div>";}else{h+="<div class=\"m3Muted\">Открой раздел «Заказы» и выбери следующую партию.</div><button class=\"m3Btn primary\" style=\"width:100%;margin-top:7px\" onclick=\"openMobilePanel('orders')\">📋 Открыть заказы</button>";}h+="</div>";
-    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>🏭 МОИ СТАНКИ</b><span class=\"m3Pill ok\">"+owned.length+" ONLINE</span></div><div class=\"m3MachineGrid\">"+owned.map(machine).join("")+"</div></div>";
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>🏭 МОИ СТАНКИ</b><span class=\"m3Pill ok\">"+owned.length+" РАБОТАЕТ</span></div><div class=\"m3MachineGrid\">"+owned.map(machine).join("")+"</div></div>";
     if(locked.length){h+="<div class=\"m3Card\"><button class=\"m3Disclosure\" id=\"v3LockedToggle\">"+(lockedMachinesExpanded?"⌃ Скрыть закрытые участки":"⌄ Показать следующие участки")+" · "+locked.length+"</button><div class=\"m3MachineGrid\" style=\"margin-top:6px;"+(lockedMachinesExpanded?"":"display:none")+"\">"+locked.map(machine).join("")+"</div></div>";}
     h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚡ ПОСЛЕДНИЕ СОБЫТИЯ</b><span class=\"m3Pill\">"+events.length+"</span></div><div class=\"m3CompactList\">"+(events.length?events.map(e=>"<div class=\"m3Compact\"><div class=\"m3Avatar\">•</div><div class=\"m3CompactMain\"><b>"+esc(e.text)+"</b><span>День "+e.day+" · "+String(Math.floor(e.minute/60)).padStart(2,"0")+":"+String(Math.floor(e.minute%60)).padStart(2,"0")+"</span></div></div>").join(""):"<div class=\"m3Muted\">Событий пока нет.</div>")+"</div></div>";
     shell(h);document.getElementById("v3LockedToggle")?.addEventListener("click",()=>{lockedMachinesExpanded=!lockedMachinesExpanded;overview();});
@@ -1278,7 +1318,7 @@ setInterval(saveState,10000);
     if(state.staff.length){state.staff.forEach(w=>h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">👷</div><div class=\"m3CompactMain\"><b>"+esc(w.name)+"</b><span>"+esc(w.role)+" · навык "+w.skill+" · ₽ "+money(w.wage)+"/день</span></div></div>");}else h+="<div class=\"m3Muted\">Ты работаешь один.</div>";h+="</div></div><div class=\"m3Card\"><button class=\"m3Disclosure\" id=\"v3HireToggle\">"+(hireExpanded?"⌃ Скрыть кандидатов":"⌄ Найм специалистов")+"</button><div class=\"m3CompactList\" style=\"margin-top:6px;"+(hireExpanded?"":"display:none")+"\">";
     staffDefs.forEach(d=>{const ready=d.role==="manager"||state.owned.some(id=>getMachine(id).role===d.role);h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">👤</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+"</b><span>"+esc(d.role)+" · старт ₽ "+money(d.cost)+" · ₽ "+money(d.wage)+"/день</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn\" "+(ready?"":"disabled")+" onclick=\"hire('"+d.role+"')\">Нанять</button></div></div>";});h+="</div></div>";shell(h);document.getElementById("v3HireToggle")?.addEventListener("click",()=>{hireExpanded=!hireExpanded;staff();});
   }
-  function tech(){let h="<div class=\"m3SectionTitle\"><b>Исследования</b><span>Tier "+researchTier()+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>TECH TIER</small><b>"+researchTier()+"</b><span class=\"sub\">открытый уровень</span></div><div class=\"m3Stat\"><small>R&D УРОВНЕЙ</small><b>"+Object.values(state.research).reduce((a,b)=>a+b,0)+"</b><span class=\"sub\">накоплено</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>🧪 ДЕРЕВО ТЕХНОЛОГИЙ</b></div><div class=\"m3CompactList\">";researchDefs.forEach(d=>{const level=state.research[d.id]||0,maxed=level>=d.max,price=Math.round(d.cost*Math.pow(1.55,level));h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">🧪</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+" · L"+level+"/"+d.max+"</b><span>"+esc(d.desc)+" · "+(maxed?"MAX":"след.: ₽ "+money(price))+"</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn "+(maxed?"":"primary")+"\" "+(maxed?"disabled":"")+" onclick=\"buyResearch('"+d.id+"')\">"+(maxed?"MAX":"Улучшить")+"</button></div></div>";});h+="</div></div>";shell(h);}
+  function tech(){let h="<div class=\"m3SectionTitle\"><b>Исследования</b><span>Уровень "+researchУровень()+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>УРОВЕНЬ ТЕХНОЛОГИЙ</small><b>"+researchУровень()+"</b><span class=\"sub\">открытый уровень</span></div><div class=\"m3Stat\"><small>УРОВЕНЬ ТЕХНОЛОГИЙ</small><b>"+Object.values(state.research).reduce((a,b)=>a+b,0)+"</b><span class=\"sub\">накоплено</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>🧪 ДЕРЕВО ТЕХНОЛОГИЙ</b></div><div class=\"m3CompactList\">";researchDefs.forEach(d=>{const level=state.research[d.id]||0,maxed=level>=d.max,price=Math.round(d.cost*Math.pow(1.55,level));h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">🧪</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+" · L"+level+"/"+d.max+"</b><span>"+esc(d.desc)+" · "+(maxed?"MAX":"след.: ₽ "+money(price))+"</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn "+(maxed?"":"primary")+"\" "+(maxed?"disabled":"")+" onclick=\"buyResearch('"+d.id+"')\">"+(maxed?"MAX":"Улучшить")+"</button></div></div>";});h+="</div></div>";shell(h);}
   function finance(){let h="<div class=\"m3SectionTitle\"><b>Финансы</b><span>день "+state.day+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>КАССА</small><b>₽ "+money(state.money)+"</b><span class=\"sub\">сейчас</span></div><div class=\"m3Stat\"><small>ВЫРУЧКА</small><b>₽ "+money(state.revenue)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>РАСХОДЫ</small><b>₽ "+money(state.costs)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>ЗАРПЛАТЫ</small><b>₽ "+money(state.wages)+"</b><span class=\"sub\">всего</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>📦 МАТЕРИАЛЫ</b></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>СТАЛЬ</small><b>"+Math.round(state.materials.steel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('steel',50)\">+50 кг · ₽ 1 600</button></div><div class=\"m3Stat\"><small>ИНСТРУМЕНТАЛЬНАЯ</small><b>"+Math.round(state.materials.toolSteel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('toolSteel',25)\">+25 кг · ₽ 2 050</button></div></div></div>";shell(h);}
   function goals(){const g=[["Первый сотрудник","Найм",state.staff.length>=1],["Фрезерный участок","Станок",hasMachine("mill")],["Шлифовка","Станок",hasMachine("grind")],["Контроль качества","ОТК",hasMachine("qc")],["EDM","Электроэрозия",hasMachine("edm")],["Ножевой участок","Ножи",hasMachine("knife")],["Магнитные цилиндры","Цилиндры",hasMachine("cyl")],["Репутация 50","Клиенты",state.rep>=50],["100 изделий","Производство",state.produced>=100]];let h="<div class=\"m3SectionTitle\"><b>Развитие завода</b><span>"+g.filter(x=>x[2]).length+"/"+g.length+"</span></div><div class=\"m3Card\"><div class=\"m3GoalGrid\">";g.forEach(x=>h+="<div class=\"m3Goal\"><b>"+(x[2]?"✅":"⬜")+" "+esc(x[0])+"</b><span>"+esc(x[1])+"</span></div>");h+="</div></div><div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚡ БЫСТРЫЕ ДЕЙСТВИЯ</b></div><div class=\"m3Grid2\"><button class=\"m3Btn\" onclick=\"buyMaterial('steel',50)\">Сталь +50</button><button class=\"m3Btn\" onclick=\"buyMaterial('toolSteel',25)\">Инстр. сталь +25</button></div></div>";shell(h);}
   function pageOpen(name){if(!isPhone())return;page=name;mobileCurrentPanel=name;hireExpanded=false;head(name);if(name==="overview")overview();else if(name==="orders")orders();else if(name==="staff")staff();else if(name==="tech")tech();else if(name==="finance")finance();else if(name==="goals")goals();else{home();}mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;}
@@ -1750,9 +1790,9 @@ setInterval(saveState,10000);
         const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,machineLevel(m.id)-1)));
         const worker=workersForRole(m.role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
         const assigned=state.current?.assignments?.[m.role]?.machineId===m.id;
-        box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${m.short}</b><span class="${assigned?"good":"tag"}">${assigned?"В РАБОТЕ":"ONLINE"}</span></div><div class="tiny muted">${m.name} · L${machineLevel(m.id)}${worker?` · 👷 ${escV4(worker.name)}`:""}</div><div class="machine-actions"><button class="btn" onclick="upgradeMachine('${m.id}')">⚙ L${machineLevel(m.id)+1} · ₽ ${money(price)}</button><button class="btn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить</button></div></div>`);
+        box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${m.short}</b><span class="${assigned?"good":"tag"}">${assigned?"В РАБОТЕ":"РАБОТАЕТ"}</span></div><div class="tiny muted">${m.name} · L${machineLevel(m.id)}${worker?` · 👷 ${escV4(worker.name)}`:""}</div><div class="machine-actions"><button class="btn" onclick="upgradeMachine('${m.id}')">⚙ L${machineLevel(m.id)+1} · ₽ ${money(price)}</button><button class="btn" onclick="autoAssignStaffToMachine('${m.id}')">👷 Отправить</button></div></div>`);
       }else{
-        const ready=researchTier()>=m.unlock;
+        const ready=researchУровень()>=m.unlock;
         box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${m.short}</b><span class="tag">${ready?"ДОСТУПЕН":"ЗАКРЫТ"}</span></div><div class="tiny muted">${m.name}</div><div class="row" style="margin-top:6px"><span>₽ ${money(m.cost)}</span><button class="btn" ${ready?"":"disabled"} onclick="buyMachine('${m.id}')">Купить</button></div></div>`);
       }
     }
@@ -1772,7 +1812,7 @@ setInterval(saveState,10000);
     }
     for(const o of state.orders.slice(0,10)){
       const p=products[o.key],mats=requiredMaterials(o),needsBuy=mats.total>0;
-      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${o.urgent?"🔥 ":""}${escV4(o.name)}</b><span class="tag">T${p.tier}</span></div><div class="tiny muted">Количество: ${o.quantity} · Награда ₽ ${money(o.reward)}</div><div class="assignment-mini">${materialSummary(o)}</div><div class="tiny muted" style="margin-top:6px">Маршрут: ${p.steps.map(getRoleName).map(escV4).join(" → ")}</div><div class="row" style="margin-top:7px"><span class="${needsBuy?"warn":"good"}">${needsBuy?`Докупить · ₽ ${money(mats.total)}`:`Материалов хватает`}</span><button class="btn primary" onclick="openOrderSetup(${o.id})">${needsBuy?"Настроить / купить":"Настроить и запустить"}</button></div></div>`);
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${o.urgent?"🔥 ":""}${escV4(o.name)}</b><span class="tag">УР. ${p.tier}</span></div><div class="tiny muted">Количество: ${o.quantity} · Награда ₽ ${money(o.reward)}</div><div class="assignment-mini">${materialSummary(o)}</div><div class="tiny muted" style="margin-top:6px">Маршрут: ${p.steps.map(getRoleName).map(escV4).join(" → ")}</div><div class="row" style="margin-top:7px"><span class="${needsBuy?"warn":"good"}">${needsBuy?`Докупить · ₽ ${money(mats.total)}`:`Материалов хватает`}</span><button class="btn primary" onclick="openOrderSetup(${o.id})">${needsBuy?"Настроить / купить":"Настроить и запустить"}</button></div></div>`);
     }
     if(!state.orders.length)box.insertAdjacentHTML("beforeend","<div class=\"item\"><b>Очередь пуста.</b></div>");
   };
@@ -1978,7 +2018,7 @@ window.addEventListener("beforeunload",saveState);
     X.fillStyle=assigned?"#58e39b":"#66a0c2";X.beginPath();X.arc(x+w-25,y+96,5,0,Math.PI*2);X.fill();
     // badge
     roundV5(x+8,y+h-21,92,16,8,assigned?"#d9ffe9":"rgba(20,41,54,.88)","rgba(255,255,255,.10)");
-    textV5(assigned?"В РАБОТЕ":"ONLINE",x+54,y+h-13,7,assigned?"#187248":"#e7f2f9",true,"center");
+    textV5(assigned?"В РАБОТЕ":"РАБОТАЕТ",x+54,y+h-13,7,assigned?"#187248":"#e7f2f9",true,"center");
     textV5(m.short,x+w/2,y+h+7,9,"#263946",true,"center");
     if(state.selected===m.id){
       X.strokeStyle="#ffd86a";X.lineWidth=3;X.setLineDash([8,6]);X.beginPath();X.roundRect(x-6,y-6,w+4,h+18,18);X.stroke();X.setLineDash([]);
@@ -2094,12 +2134,12 @@ window.addEventListener("beforeunload",saveState);
     [[145,515,"#e2ac58"],[235,565,"#8eb06c"],[1030,520,"#ca7f54"],[960,615,"#e1ba63"]].forEach(([x,y,c])=>{roundV5(x,y,42,33,7,c,"rgba(36,53,55,.24)",2);X.strokeStyle="rgba(255,255,255,.22)";X.lineWidth=2;X.beginPath();X.moveTo(x+8,y+8);X.lineTo(x+34,y+25);X.stroke();});
     // active production beam/path
     drawOrderArrowV5();
-    for(const m of machineDefs){if(hasMachine(m.id)||researchTier()>=m.unlock-1)drawMachineV5(m);}
+    for(const m of machineDefs){if(hasMachine(m.id)||researchУровень()>=m.unlock-1)drawMachineV5(m);}
     for(const w of state.staff.slice().sort((a,b)=>a.y-b.y))drawCharacterV5(w,false);
     drawCharacterV5({workState:"idle"},true);
     // world callouts
     roundV5(24,24,328,78,16,"rgba(18,40,57,.86)","rgba(255,255,255,.18)",2);
-    textV5(state.running?"● ПРОИЗВОДСТВО ONLINE":"● СМЕНА НА ПАУЗЕ",42,48,14,state.running?"#61e79c":"#ff748a",true);
+    textV5(state.running?"● ПРОИЗВОДСТВО · РАБОТАЕТ":"● СМЕНА НА ПАУЗЕ",42,48,14,state.running?"#61e79c":"#ff748a",true);
     const action=state.current?"В работе: "+state.current.name:"Следующий шаг: выбери заказ";
     textV5(action,42,70,9,"#d6e7f2",false);
     roundV5(900,24,276,78,16,"rgba(18,40,57,.86)","rgba(255,255,255,.18)",2);
