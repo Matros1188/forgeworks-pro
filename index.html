@@ -1103,7 +1103,9 @@ function openMobilePanel(name){
   renderAll();
 }
 function closeMobileScreen(){returnMobilePanel();mobileLauncher.style.display="grid";mobileHost.style.display="none";mobileScreen.classList.remove("open");mobileScreen.setAttribute("aria-hidden","true");}
-document.querySelectorAll("[data-mobile-panel]").forEach(btn=>btn.addEventListener("click",()=>openMobilePanel(btn.dataset.mobilePanel)));
+/* V5.2.1: force the order launcher tile too. */
+  document.querySelectorAll("[data-mobile-panel]").forEach(btn=>btn.addEventListener("click",()=>openMobilePanel(btn.dataset.mobilePanel)));
+  document.querySelectorAll('[data-mobile-panel="orders"]').forEach(btn=>btn.addEventListener("click",e=>{if(isPhone()){e.preventDefault();e.stopImmediatePropagation();window.__fwOrdersSafe();}},true));
 function manualWork(){
   if(state.current){
     const p=products[state.current.key];
@@ -1118,7 +1120,9 @@ function manualWork(){
   }
 }
 
-document.getElementById("mNavOrders").addEventListener("click",()=>openMobilePanel("orders"));
+/* V5.2.1: force the order screen before legacy handlers. */
+  document.getElementById("mNavOrders").addEventListener("click",()=>openMobilePanel("orders"));
+  document.getElementById("mNavOrders").addEventListener("click",e=>{if(isPhone()){e.preventDefault();e.stopImmediatePropagation();window.__fwOrdersSafe();}},true);
 document.getElementById("mNavWorkshop").addEventListener("click",()=>openMobilePanel("overview"));
 document.getElementById("mNavStaff").addEventListener("click",()=>openMobilePanel("staff"));
 document.getElementById("mNavMore").addEventListener("click",openMobileLauncher);
@@ -1321,7 +1325,56 @@ setInterval(saveState,10000);
   function tech(){let h="<div class=\"m3SectionTitle\"><b>Исследования</b><span>Уровень "+researchУровень()+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>УРОВЕНЬ ТЕХНОЛОГИЙ</small><b>"+researchУровень()+"</b><span class=\"sub\">открытый уровень</span></div><div class=\"m3Stat\"><small>УРОВЕНЬ ТЕХНОЛОГИЙ</small><b>"+Object.values(state.research).reduce((a,b)=>a+b,0)+"</b><span class=\"sub\">накоплено</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>🧪 ДЕРЕВО ТЕХНОЛОГИЙ</b></div><div class=\"m3CompactList\">";researchDefs.forEach(d=>{const level=state.research[d.id]||0,maxed=level>=d.max,price=Math.round(d.cost*Math.pow(1.55,level));h+="<div class=\"m3Compact\"><div class=\"m3Avatar\">🧪</div><div class=\"m3CompactMain\"><b>"+esc(d.name)+" · L"+level+"/"+d.max+"</b><span>"+esc(d.desc)+" · "+(maxed?"MAX":"след.: ₽ "+money(price))+"</span></div><div class=\"m3CompactAction\"><button class=\"m3Btn "+(maxed?"":"primary")+"\" "+(maxed?"disabled":"")+" onclick=\"buyResearch('"+d.id+"')\">"+(maxed?"MAX":"Улучшить")+"</button></div></div>";});h+="</div></div>";shell(h);}
   function finance(){let h="<div class=\"m3SectionTitle\"><b>Финансы</b><span>день "+state.day+"</span></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>КАССА</small><b>₽ "+money(state.money)+"</b><span class=\"sub\">сейчас</span></div><div class=\"m3Stat\"><small>ВЫРУЧКА</small><b>₽ "+money(state.revenue)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>РАСХОДЫ</small><b>₽ "+money(state.costs)+"</b><span class=\"sub\">всего</span></div><div class=\"m3Stat\"><small>ЗАРПЛАТЫ</small><b>₽ "+money(state.wages)+"</b><span class=\"sub\">всего</span></div></div><div class=\"m3Card\" style=\"margin-top:7px\"><div class=\"m3CardTitle\"><b>📦 МАТЕРИАЛЫ</b></div><div class=\"m3Grid2\"><div class=\"m3Stat\"><small>СТАЛЬ</small><b>"+Math.round(state.materials.steel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('steel',50)\">+50 кг · ₽ 1 600</button></div><div class=\"m3Stat\"><small>ИНСТРУМЕНТАЛЬНАЯ</small><b>"+Math.round(state.materials.toolSteel)+" кг</b><button class=\"m3Btn\" style=\"width:100%;margin-top:6px\" onclick=\"buyMaterial('toolSteel',25)\">+25 кг · ₽ 2 050</button></div></div></div>";shell(h);}
   function goals(){const g=[["Первый сотрудник","Найм",state.staff.length>=1],["Фрезерный участок","Станок",hasMachine("mill")],["Шлифовка","Станок",hasMachine("grind")],["Контроль качества","ОТК",hasMachine("qc")],["EDM","Электроэрозия",hasMachine("edm")],["Ножевой участок","Ножи",hasMachine("knife")],["Магнитные цилиндры","Цилиндры",hasMachine("cyl")],["Репутация 50","Клиенты",state.rep>=50],["100 изделий","Производство",state.produced>=100]];let h="<div class=\"m3SectionTitle\"><b>Развитие завода</b><span>"+g.filter(x=>x[2]).length+"/"+g.length+"</span></div><div class=\"m3Card\"><div class=\"m3GoalGrid\">";g.forEach(x=>h+="<div class=\"m3Goal\"><b>"+(x[2]?"✅":"⬜")+" "+esc(x[0])+"</b><span>"+esc(x[1])+"</span></div>");h+="</div></div><div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚡ БЫСТРЫЕ ДЕЙСТВИЯ</b></div><div class=\"m3Grid2\"><button class=\"m3Btn\" onclick=\"buyMaterial('steel',50)\">Сталь +50</button><button class=\"m3Btn\" onclick=\"buyMaterial('toolSteel',25)\">Инстр. сталь +25</button></div></div>";shell(h);}
-  function pageOpen(name){if(!isPhone())return;page=name;mobileCurrentPanel=name;hireExpanded=false;head(name);if(name==="overview")overview();else if(name==="orders")orders();else if(name==="staff")staff();else if(name==="tech")tech();else if(name==="finance")finance();else if(name==="goals")goals();else{home();}mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;}
+  function pageOpen(name){
+    if(!isPhone())return;
+    page=name;mobileCurrentPanel=name;hireExpanded=false;head(name);
+    if(name==="overview")overview();
+    else if(name==="orders")orders();
+    else if(name==="staff")staff();
+    else if(name==="tech")tech();
+    else if(name==="finance")finance();
+    else if(name==="goals")goals();
+    else home();
+    mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;
+  }
+
+  /* V5.2.1 — orders screen is isolated from production patch timing. */
+  function ordersSafe(){
+    if(!isPhone())return;
+    const escSafe=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+    createOrders();
+    page="orders";mobileCurrentPanel="orders";
+    head("orders");
+    let h="<div class=\"m3SectionTitle\"><b>Заказы</b><span>Новые заказы и производство</span></div>";
+    if(state.current){
+      const c=state.current;
+      const p=products[c.key];
+      const max=Math.max(1,p.time*c.quantity);
+      const pct=Math.max(0,Math.min(100,(state.progress/max)*100));
+      h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚒ В ПРОИЗВОДСТВЕ</b><span class=\"m3Pill ok\">"+Math.round(pct)+"%</span></div>"+
+         "<div style=\"font-size:9px;font-weight:900\">"+escSafe(c.name)+" × "+c.quantity+" шт.</div>"+
+         "<div class=\"m3Muted\" style=\"margin-top:4px\">Маршрут: "+p.steps.map(x=>escSafe(getRoleName(x))).join(" → ")+"</div>"+
+         "<div class=\"m3Progress\"><i style=\"width:"+pct+"%\"></i></div></div>";
+    }
+    h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>📋 ДОСТУПНЫЕ ЗАКАЗЫ</b><span class=\"m3Pill\">"+state.orders.length+" шт.</span></div>";
+    if(!state.orders.length){
+      h+="<div class=\"m3Muted\">Новых заказов пока нет.</div>";
+    }else{
+      state.orders.slice(0,10).forEach(o=>{
+        const p=products[o.key];
+        h+="<div class=\"m3Order\"><div class=\"m3OrderTitle\"><b>"+(o.urgent?"🔥 ":"")+escSafe(o.name)+"</b><span class=\"m3Pill\">Ур. "+p.tier+"</span></div>"+
+           "<div class=\"m3OrderMeta\">Количество: "+o.quantity+" шт.<br>Награда: ₽ "+money(o.reward)+"</div>"+
+           "<div class=\"m3OrderMeta\" style=\"margin-top:4px\">Маршрут: "+p.steps.map(x=>escSafe(getRoleName(x))).join(" → ")+"</div>"+
+           "<div class=\"m3OrderFoot\"><span class=\"m3Money\">К запуску</span><button class=\"m3Btn primary v521-order-open\" data-order-id=\""+o.id+"\">Настроить и запустить</button></div></div>";
+      });
+    }
+    h+="</div>";
+    shell(h);
+    mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;
+    mobileHost.querySelectorAll(".v521-order-open").forEach(btn=>btn.addEventListener("click",()=>{const id=Number(btn.dataset.orderId);if(typeof window.openOrderSetup==="function")window.openOrderSetup(id);}));
+  }
+
+  window.__fwOrdersSafe=ordersSafe;
   returnMobilePanel=function(){};
   openMobileLauncher=function(){if(!isPhone())return;mobileCurrentPanel=null;home();mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;};
   openMobilePanel=function(name){pageOpen(name);};
