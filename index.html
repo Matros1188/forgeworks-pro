@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>FORGEWORKS PRO V5.8 — New Game / Production Fix</title>
+<title>FORGEWORKS PRO V5.10 — ALL BUTTONS FIX</title>
 <style>
 :root{
   --bg:#07111d;--panel:#0e1b2b;--panel2:#13263a;--line:rgba(255,255,255,.10);
@@ -500,6 +500,11 @@ const staffDefs = [
   {role:"manager",name:"Мастер смены",cost:15000,wage:1600,skill:76,c:"#d1dcff"},
   {role:"press",name:"Оператор пресса",cost:11500,wage:1250,skill:61,c:"#ff9369"}
 ];
+
+function getRoleName(role){
+  const d=staffDefs.find(x=>x.role===role);
+  return d?.name || role;
+}
 
 const researchDefs = [
   {id:"cnc",name:"Модуль ЧПУ",desc:"Ускоряет точную механообработку",cost:9500,max:4},
@@ -1133,7 +1138,7 @@ const mobilePanelMeta = {
   staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},
   tech:{title:"ТЕХНОЛОГИИ",sub:"ИССЛЕДОВАНИЯ · РАЗВИТИЕ ПРОИЗВОДСТВА"},
   finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · ЗАТРАТЫ · МАТЕРИАЛЫ"},
-  goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}
+  goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"},account:{title:"АККАУНТ",sub:"ПРОФИЛЬ · СОХРАНЕНИЕ · ВЫХОД"}
 };
 function isPhoneLayout(){return window.matchMedia("(max-width:760px)").matches;}
 function returnMobilePanel(){
@@ -1325,7 +1330,7 @@ setInterval(saveState,10000);
 
 (function installForgeworksMobileV3(){
   if(!mobileScreen||!mobileLauncher||!mobileHost)return;
-  const META={overview:{title:"ЦЕХ",sub:"СОСТОЯНИЕ · СТАНКИ · ЗАКАЗ В РАБОТЕ"},orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · ПРИЁМ · ПРОИЗВОДСТВО"},staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},tech:{title:"ТЕХНОЛОГИИ",sub:"ИССЛЕДОВАНИЯ · РАЗВИТИЕ ПРОИЗВОДСТВА"},finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · РАСХОДЫ · МАТЕРИАЛЫ"},goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"}};
+  const META={overview:{title:"ЦЕХ",sub:"СОСТОЯНИЕ · СТАНКИ · ЗАКАЗ В РАБОТЕ"},orders:{title:"ЗАКАЗЫ",sub:"ОЧЕРЕДЬ · ПРИЁМ · ПРОИЗВОДСТВО"},staff:{title:"ЛЮДИ",sub:"КОМАНДА · НАЙМ · НАВЫКИ"},tech:{title:"ТЕХНОЛОГИИ",sub:"ИССЛЕДОВАНИЯ · РАЗВИТИЕ ПРОИЗВОДСТВА"},finance:{title:"ФИНАНСЫ",sub:"ДЕНЬГИ · РАСХОДЫ · МАТЕРИАЛЫ"},goals:{title:"ЦЕЛИ",sub:"РАЗВИТИЕ · ПРОГРЕСС"},account:{title:"АККАУНТ",sub:"ПРОФИЛЬ · СОХРАНЕНИЕ · ВЫХОД"}};
   let page=null;let mobileCurrentPanel=null;let hireExpanded=false;let lockedMachinesExpanded=false;
   function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
   function isPhone(){return window.matchMedia("(max-width:760px)").matches;}
@@ -1363,8 +1368,8 @@ setInterval(saveState,10000);
     h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>👤 ТЕКУЩИЙ ИГРОК</b><span class=\"m3Pill ok\">АКТИВЕН</span></div>";
     h+="<div style=\"font-size:12px;font-weight:900\">"+esc(login||"Игрок")+"</div><div class=\"m3Muted\" style=\"margin-top:4px\">Для этого логина используется отдельное сохранение.</div></div>";
     h+="<div class=\"m3Card\"><div class=\"m3CardTitle\"><b>⚙ УПРАВЛЕНИЕ ИГРОЙ</b></div>";
-    h+="<button class=\"m3Btn primary\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById(\"fwNewGame\").click()\">↻ Новая игра</button>";
-    h+="<button class=\"m3Btn danger\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById(\"fwLogout\").click()\">↪ Выйти из аккаунта</button>";
+    h+="<button class=\"m3Btn primary\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById('fwNewGame').click()\">↻ Новая игра</button>";
+    h+="<button class=\"m3Btn danger\" style=\"width:100%;margin-top:7px\" onclick=\"document.getElementById('fwLogout').click()\">↪ Выйти из аккаунта</button>";
     h+="</div>";
     h+="<div class=\"m3Muted\" style=\"padding:4px 2px\">Выход не удаляет сохранение. После повторного входа прогресс этого аккаунта останется.</div>";
     shell(h);
@@ -1413,6 +1418,7 @@ setInterval(saveState,10000);
     else if(name==="tech")tech();
     else if(name==="finance")finance();
     else if(name==="goals")goals();
+    else if(name==="account")account();
     else home();
     mobileScreen.classList.add("open");mobileScreen.setAttribute("aria-hidden","false");mobileBody.scrollTop=0;
   }
@@ -1704,8 +1710,8 @@ setInterval(saveState,10000);
     for(const x of mats.items){
       if(x.missing>0){
         const buy=Math.ceil(x.missing);
-        state.money-=buy*materialPrices[x.type];
-        state.costs+=buy*materialPrices[x.type];
+        state.money-=buy*MANUAL_MATERIAL_PRICES[x.type];
+        state.costs+=buy*MANUAL_MATERIAL_PRICES[x.type];
         state.materials[x.type]=(state.materials[x.type]||0)+buy;
         log(`Автозакупка ${moneyName[x.type]||x.type} × ${buy} кг`);
       }
@@ -3050,6 +3056,14 @@ requestAnimationFrame(loop);
   "use strict";
 
   const SELF_ID = "__player__";
+  function rolesForOrder(order){ return order && products[order.key]?.steps || []; }
+  function machinesForRole(role){ return state.owned.map(getMachine).filter(m=>m && m.role===role); }
+  function workersForRole(role){ return state.staff.filter(w=>w.role===role); }
+  function currentStage(order){ const steps=rolesForOrder(order); return steps.length ? steps[Math.min(Number(order?.stageIndex||0),steps.length-1)] : null; }
+  function stageDuration(order){ const steps=rolesForOrder(order).length || 1; return ((products[order.key]?.time||30)*Number(order.quantity||1))/steps; }
+  const moneyName = {steel:"Сталь",toolSteel:"Инструментальная сталь"};
+  const orderModalBody = document.getElementById("orderModalContent");
+  const MANUAL_MATERIAL_PRICES = {steel:32,toolSteel:82};
   const oldEsc = window.escV4 || (v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])));
   const roleLabel = role => {
     try { return typeof getRoleName === "function" ? getRoleName(role) : role; } catch(_){ return role; }
@@ -3282,7 +3296,7 @@ requestAnimationFrame(loop);
     });
     h+=`</div>`;
     h+=`<div class="order-actions" style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px">`;
-    h+=`<button class="btn" onclick="closeOrderSetup()">Отмена</button>`;
+    h+=`<button type="button" class="btn" onclick="window.fwCloseOrderSetup()">Отмена</button>`;
     const complete=p.steps.every(role=>!!selectedMachineForRole(order,role));
     const canBuy=mats.total<=0 || state.money>=mats.total;
     h+=`<button class="btn good" ${complete&&canBuy?"":"disabled"} onclick="window.fwAcceptSelectedOrder('${oldEsc(String(order.id))}',${mats.total>0?"true":"false"})">📦 Принять заказ</button>`;
@@ -3292,7 +3306,6 @@ requestAnimationFrame(loop);
   }
 
   function openOrderSetupManual(id){
-    ensureV4State();
     if(state.current){toast("Сначала закончи текущий заказ");return;}
     const order=state.orders.find(o=>String(o.id)===String(id));
     if(!order)return;
@@ -3315,8 +3328,8 @@ requestAnimationFrame(loop);
       for(const x of mats.items){
         if(x.missing>0){
           const buy=Math.ceil(x.missing);
-          state.money-=buy*materialPrices[x.type];
-          state.costs+=buy*materialPrices[x.type];
+          state.money-=buy*MANUAL_MATERIAL_PRICES[x.type];
+          state.costs+=buy*MANUAL_MATERIAL_PRICES[x.type];
           state.materials[x.type]=(state.materials[x.type]||0)+buy;
           log(`Автозакупка ${moneyName[x.type]||x.type} × ${buy} кг`);
         }
@@ -3474,6 +3487,7 @@ requestAnimationFrame(loop);
   }
 
   window.fwCloseWorkerPicker=closeWorkerPicker;
+  window.fwCloseOrderSetup=()=>{try{closeOrderSetup();}catch(_e){}};
   window.fwMachineClick=machineClick;
   window.fwAssignWorker=assignWorker;
   window.fwChooseMachine=chooseMachine;
@@ -3546,8 +3560,41 @@ async function doLogin(){const login=(loginEl.value||"").trim(),pw=passEl.value|
 btn.onclick=doLogin;[loginEl,passEl].forEach(x=>x.addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()}));logout.onclick=()=>{saveQuiet();state=fresh();state.running=false;app.style.visibility="hidden";logout.style.display="none";auth.classList.remove("hidden");passEl.value="";msg.textContent="";loginEl.focus()};
 newGame.onclick=()=>{if(!ACTIVE_SAVE_KEY||ACTIVE_SAVE_KEY.indexOf(NEW_SAVE_PREFIX)!==0)return;if(!confirm("Начать НОВУЮ ИГРУ? Текущий прогресс этого аккаунта будет удалён без возможности восстановления."))return;try{localStorage.removeItem(ACTIVE_SAVE_KEY);localStorage.removeItem(OLD_SAVE_PREFIX+ACTIVE_SAVE_KEY.slice(NEW_SAVE_PREFIX.length));}catch(_e){}state=fresh();state.running=false;state.current=null;state.orders=[];state.staff=[];state.owned=Array.isArray(base.owned)?base.owned.slice():[];state.events=[];state.minute=480;state.day=1;state.progress=0;state.energy=100;createOrders();log("Новая игра начата. Завод сброшен полностью.");renderAll();if(window.fwRefresh)window.fwRefresh();if(window.drawScene)window.drawScene();saveQuiet();showToast("🆕 Новая игра начата");};
 function machineAt(e){const r=C.getBoundingClientRect(),x=(e.clientX-r.left)*C.width/r.width,y=(e.clientY-r.top)*C.height/r.height;let hit=null,best=1e9;for(const id of state.owned){const m=getMachine(id);if(!m)continue;const px=20;if(x>=m.x-px&&x<=m.x+m.w+px&&y>=m.y-px&&y<=m.y+m.h+px){const d=Math.hypot(x-m.x-m.w/2,y-m.y-m.h/2);if(d<best){best=d;hit=m}}}return hit}
-C.addEventListener("pointerup",e=>{if(!auth.classList.contains("hidden")&&state.current){const m=machineAt(e);if(m){e.preventDefault();e.stopImmediatePropagation();window.fwMachineClick?window.fwMachineClick(m.id):null}}},true);
+C.addEventListener("pointerup",e=>{if(auth.classList.contains("hidden")&&state.current){const m=machineAt(e);if(m){e.preventDefault();e.stopImmediatePropagation();window.fwMachineClick?window.fwMachineClick(m.id):null}}},true);
 window.__fwProductionTick=function(dt){if(!state.current)return;const o=state.current,p=products[o.key],role=typeof currentStage==="function"?currentStage(o):p.steps[o.stageIndex||0],a=o.assignments?.[role];if(!a?.staffId||!a?.machineId){state.running=false;return}const m=getMachine(a.machineId);if(!m||!hasMachine(m.id)||m.role!==role){state.running=false;return}state.running=true;let skill=1.32;if(String(a.staffId)!==String(typeof SELF_ID!=="undefined"?SELF_ID:"__player__")){const w=state.staff.find(x=>String(x.id)===String(a.staffId));if(!w){state.running=false;return}skill=.62+(Number(w.skill||50)/100);w.assignedMachine=m.id;w.assignedOrderId=o.id;w.workState="working";w.x=m.x+m.w/2;w.y=m.y+m.h+24}state.minute+=dt*2.8;state.energy=clamp(state.energy-dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12),0,100);o.stageProgress=Number(o.stageProgress||0)+dt*skill*(1+(state.research.auto||0)*.06)*(1+(machineLevel(m.id)-1)*.08)*(1+(state.research.cnc||0)*.08);const rawDur=Number(typeof stageDuration==="function"?stageDuration(o):30);const dur=Math.max(1,Math.min(rawDur,120));if(o.stageProgress>=dur){o.stageProgress=0;o.stageIndex=(o.stageIndex||0)+1;if(o.stageIndex>=p.steps.length){finishOrder();state.running=false}else{const nr=currentStage(o),na=o.assignments?.[nr];state.running=!!(na?.staffId&&na?.machineId);showToast("✅ Этап завершён · "+(typeof roleLabel==="function"?roleLabel(nr):nr))}}if(state.energy<=0)state.running=false};
+/* V5.10 — FINAL BUTTON SAFETY LAYER */
+(function(){
+  function fire(name,args){
+    try{if(typeof window[name]!=="function")return;window[name].apply(window,args);}
+    catch(err){console.error("FORGEWORKS button:",name,err);try{showToast("⚠ Действие не выполнено");}catch(_e){}}
+  }
+  function parse(raw){
+    const s=String(raw||"").trim();let m;
+    m=s.match(/^(?:window\.)?hire\(['"]([^'"]*)['"]\)$/);if(m)return ["hire",[m[1]]];
+    m=s.match(/^(?:window\.)?buyMachine\(['"]([^'"]*)['"]\)$/);if(m)return ["buyMachine",[m[1]]];
+    m=s.match(/^(?:window\.)?upgradeMachine\(['"]([^'"]*)['"]\)$/);if(m)return ["upgradeMachine",[m[1]]];
+    m=s.match(/^(?:window\.)?buyResearch\(['"]([^'"]*)['"]\)$/);if(m)return ["buyResearch",[m[1]]];
+    m=s.match(/^(?:window\.)?buyMaterial\(['"]([^'"]*)['"]\s*,\s*([0-9.]+)\)$/);if(m)return ["buyMaterial",[m[1],Number(m[2])]];
+    m=s.match(/^(?:window\.)?(?:acceptOrder|openOrderSetup)\(([0-9]+)\)$/);if(m)return ["openOrderSetup",[Number(m[1])]];
+    m=s.match(/^window\.fwMachineClick\(['"]([^'"]*)['"]\)$/);if(m)return ["fwMachineClick",[m[1]]];
+    m=s.match(/^window\.fwChooseMachine\(['"]([^'"]*)['"]\s*,\s*['"]([^'"]*)['"]\s*,\s*['"]([^'"]*)['"]\)$/);if(m)return ["fwChooseMachine",[m[1],m[2],m[3]]];
+    m=s.match(/^window\.fwAcceptSelectedOrder\(['"]([^'"]*)['"]\s*,\s*(true|false)\)$/);if(m)return ["fwAcceptSelectedOrder",[m[1],m[2]==="true"]];
+    m=s.match(/^window\.fwAssignWorker\(['"]([^'"]*)['"]\s*,\s*['"]([^'"]*)['"]\s*,\s*['"]([^'"]*)['"]\)$/);if(m)return ["fwAssignWorker",[m[1],m[2],m[3]]];
+    m=s.match(/^window\.fwCloseOrderSetup\(\)$/);if(m)return ["fwCloseOrderSetup",[]];
+    return null;
+  }
+  document.addEventListener("click",function(e){
+    const el=e.target&&e.target.closest?e.target.closest("button[onclick]"):null;
+    if(!el||el.disabled)return;
+    const parsed=parse(el.getAttribute("onclick"));if(!parsed)return;
+    if(typeof window[parsed[0]]!=="function")return;
+    e.preventDefault();e.stopImmediatePropagation();fire(parsed[0],parsed[1]);
+  },true);
+  const st=document.createElement("style");
+  st.textContent=`#orderModal{z-index:1200!important}#fwWorkerOverlay{z-index:1300!important}#fwAuth{z-index:10000!important}#fwLogout,#fwNewGame{z-index:10001!important}.order-modal-card{position:relative;z-index:1201}.fw-worker-modal{position:relative;z-index:1301}#mobileScreen button{touch-action:manipulation;-webkit-user-select:none;user-select:none}`;
+  document.head.appendChild(st);
+})();
+
 setInterval(()=>{if(!auth.classList.contains("hidden"))saveQuiet()},10000);window.addEventListener("beforeunload",saveQuiet);loginEl.focus();
 })();
 </script>
