@@ -2427,6 +2427,46 @@ requestAnimationFrame(loop);
       if(isPhoneFinal()){e.preventDefault();e.stopImmediatePropagation();openOrdersFinal();}
     },true);
   }
+
+  // V5.4.1 — guaranteed mobile Orders route.
+  let fwOrdersOpenAt=0;
+  function fwOpenOrders(e){
+    if(!isPhoneFinal()) return;
+    const target=e.target && e.target.closest ? e.target.closest("#mNavOrders,[data-mobile-panel=orders],[data-v3=orders],#v5OrderFab") : null;
+    if(!target) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const now=Date.now();
+    if(now-fwOrdersOpenAt<300) return;
+    fwOrdersOpenAt=now;
+    openOrdersFinal();
+  }
+  document.addEventListener("pointerup",fwOpenOrders,true);
+  document.addEventListener("touchend",fwOpenOrders,true);
+  document.addEventListener("click",fwOpenOrders,true);
+
+  const fwOldOrderButton=document.getElementById("mNavOrders");
+  if(fwOldOrderButton){
+    const fwNewOrderButton=fwOldOrderButton.cloneNode(true);
+    fwOldOrderButton.replaceWith(fwNewOrderButton);
+    const fwOrderAction=(e)=>{
+      if(!isPhoneFinal()) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const now=Date.now();
+      if(now-fwOrdersOpenAt<300) return;
+      fwOrdersOpenAt=now;
+      openOrdersFinal();
+    };
+    fwNewOrderButton.addEventListener("pointerup",fwOrderAction);
+    fwNewOrderButton.addEventListener("touchend",fwOrderAction);
+    fwNewOrderButton.addEventListener("click",fwOrderAction);
+    fwNewOrderButton.style.pointerEvents="auto";
+    fwNewOrderButton.style.touchAction="manipulation";
+    fwNewOrderButton.style.zIndex="1001";
+  }
+  const fwBottom=document.getElementById("mobileBottomNav");
+  if(fwBottom){fwBottom.style.pointerEvents="auto";fwBottom.style.zIndex="999";}
 })();
 </script>
 </body>
