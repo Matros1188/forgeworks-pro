@@ -1,5 +1,1 @@
-# FORGEWORKS PRO
-
-Mobile-first industrial tycoon.
-
-Game: https://Matros1188.github.io/forgeworks-pro/
+# FORGEWORKS PRO\n\nIndustrial manufacturing tycoon.\n\nGame: https://Matros1188.github.io/forgeworks-pro/
