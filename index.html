@@ -3015,6 +3015,494 @@ requestAnimationFrame(loop);
   // One immediate redraw so a newly hired worker appears without waiting for input.
   try{ if(typeof window.drawScene === "function") window.drawScene(); }catch(_e){}
 })();
+
+/* ======================================================================
+   FORGEWORKS PRO V5.6 — MANUAL PRODUCTION FLOW
+   Order -> choose machine -> accept -> click machine -> choose worker
+   Worker assignment is the ONLY event that starts the current stage.
+   ====================================================================== */
+(function installManualProductionFlow(){
+  "use strict";
+
+  const SELF_ID = "__player__";
+  const oldEsc = window.escV4 || (v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])));
+  const roleLabel = role => {
+    try { return typeof getRoleName === "function" ? getRoleName(role) : role; } catch(_){ return role; }
+  };
+  const toast = msg => {
+    try { showToast(msg); } catch(_){ try { fwToast(msg); } catch(__){} }
+  };
+
+  function ensureAssignments(order){
+    if(!order.assignments || typeof order.assignments !== "object") order.assignments = {};
+    for(const role of rolesForOrder(order)){
+      const a=order.assignments[role];
+      if(!a || typeof a !== "object") order.assignments[role]={staffId:"",machineId:""};
+      else {
+        if(a.staffId==null) a.staffId="";
+        if(a.machineId==null) a.machineId="";
+      }
+    }
+    return order.assignments;
+  }
+
+  function selectedMachineForRole(order,role){
+    const a=ensureAssignments(order)[role];
+    return a?.machineId || "";
+  }
+
+  function machineStageRole(order,machineId){
+    const roles=rolesForOrder(order);
+    for(const role of roles){
+      if(String(selectedMachineForRole(order,role))===String(machineId)) return role;
+    }
+    return null;
+  }
+
+  function activeAssignment(order){
+    if(!order) return null;
+    const role=currentStage(order);
+    return role ? ensureAssignments(order)[role] : null;
+  }
+
+  function workerBusy(workerId,ignoreOrderId){
+    const w=state.staff.find(x=>String(x.id)===String(workerId));
+    if(!w) return true;
+    return !!w.assignedOrderId && String(w.assignedOrderId)!==String(ignoreOrderId||"");
+  }
+
+  function machineBusyForOtherOrder(machineId,ignoreOrderId){
+    for(const w of state.staff){
+      if(String(w.assignedMachine)===String(machineId) && w.assignedOrderId && String(w.assignedOrderId)!==String(ignoreOrderId||"")) return w;
+    }
+    return false;
+  }
+
+  function injectManualStyles(){
+    if(document.getElementById("fwManualProductionStyles")) return;
+    const s=document.createElement("style");
+    s.id="fwManualProductionStyles";
+    s.textContent=`
+      .fw-machine-choice{margin-top:7px;padding:8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.025)}
+      .fw-machine-choice button{width:100%;margin-top:5px;min-height:36px;border:1px solid rgba(255,255,255,.10);border-radius:9px;background:linear-gradient(135deg,#152b42,#1b3854);color:#eaf5ff;font-size:8px;font-weight:900}
+      .fw-machine-choice button.selected{background:linear-gradient(135deg,#287bc9,#5b63e8);border-color:rgba(100,229,255,.55);box-shadow:0 0 0 1px rgba(100,229,255,.12) inset}
+      .fw-machine-choice button:disabled{opacity:.35}
+      .fw-machine-choice small{display:block;color:#8399ad;font-size:6.5px;line-height:1.3;margin-top:3px}
+      .fw-machine-assign{width:100%;margin-top:6px!important;min-height:36px!important;background:linear-gradient(135deg,#2377c7,#5e62e7)!important}
+      .fw-worker-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(2,7,13,.72);backdrop-filter:blur(12px)}
+      .fw-worker-modal{width:min(440px,calc(100vw - 24px));max-height:min(78dvh,620px);overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:linear-gradient(180deg,#12253a,#091522);box-shadow:0 30px 90px rgba(0,0,0,.55);padding:12px}
+      .fw-worker-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}.fw-worker-head b{font-size:12px}.fw-worker-close{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.04);font-size:18px}
+      .fw-worker-sub{color:#8fa8be;font-size:7px;line-height:1.4;margin-bottom:8px}.fw-worker-list{display:grid;gap:6px}
+      .fw-worker-btn{width:100%;padding:9px;text-align:left;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.035);color:#eef6ff}.fw-worker-btn:active{transform:scale(.985)}
+      .fw-worker-btn .top{display:flex;justify-content:space-between;gap:8px}.fw-worker-btn .name{font-size:9px;font-weight:900}.fw-worker-btn .role{font-size:6px;color:#55defd}.fw-worker-btn .meta{display:block;margin-top:3px;color:#8fa8be;font-size:6.5px}
+      .fw-worker-btn.self{background:linear-gradient(135deg,#304f9b,#5147a8)}
+      .fw-machine-state{font-size:6.5px;color:#8fa8be;margin-top:3px}.fw-machine-state.ready{color:#59e28a}.fw-machine-state.wait{color:#ffd76a}
+    `;
+    document.head.appendChild(s);
+  }
+
+  function closeWorkerPicker(){ document.getElementById("fwWorkerOverlay")?.remove(); }
+
+  function openWorkerPicker(machineId,role){
+    if(!state.current){ toast("Сначала прими заказ"); return; }
+    const order=state.current;
+    ensureAssignments(order);
+    const expectedRole=role || machineStageRole(order,machineId) || currentStage(order);
+    if(!expectedRole){ toast("Этот станок не выбран для текущего заказа"); return; }
+    if(!rolesForOrder(order).includes(expectedRole)){ toast("Станок не нужен этому заказу"); return; }
+    if(String(selectedMachineForRole(order,expectedRole))!==String(machineId)){
+      toast("Сначала выбери этот станок в карточке заказа");
+      return;
+    }
+    const m=getMachine(machineId);
+    if(!m || !hasMachine(machineId)){ toast("Станок недоступен"); return; }
+    if(m.role!==expectedRole){ toast("Неподходящий станок для этапа"); return; }
+
+    closeWorkerPicker();
+    const overlay=document.createElement("div");
+    overlay.id="fwWorkerOverlay";
+    overlay.className="fw-worker-overlay";
+    overlay.addEventListener("click",e=>{if(e.target===overlay)closeWorkerPicker();});
+
+    const candidates=workersForRole(expectedRole)
+      .filter(w=>!workerBusy(w.id,order.id))
+      .sort((a,b)=>(b.skill||0)-(a.skill||0));
+
+    let html=`<div class="fw-worker-modal">
+      <div class="fw-worker-head"><b>👷 Выбрать работника</b><button class="fw-worker-close" onclick="window.fwCloseWorkerPicker()">×</button></div>
+      <div class="fw-worker-sub">${oldEsc(m.short)} · этап «${oldEsc(roleLabel(expectedRole))}»<br>После выбора работника этот этап сразу начнёт производиться.</div>
+      <div class="fw-worker-list">`;
+
+    html+=`<button class="fw-worker-btn self" onclick="window.fwAssignWorker('${oldEsc(machineId)}','${oldEsc(expectedRole)}','${SELF_ID}')"><div class="top"><span class="name">👤 Я сам</span><span class="role">ИСПОЛНИТЕЛЬ</span></div><span class="meta">Взять работу на себя и немедленно запустить этап.</span></button>`;
+
+    if(!candidates.length){
+      html+=`<div class="item" style="margin:0"><b>Нет свободных работников</b><div class="tiny muted" style="margin-top:4px">Найми специалиста нужной специальности или выбери «Я сам».</div></div>`;
+    }else{
+      for(const w of candidates){
+        html+=`<button class="fw-worker-btn" onclick="window.fwAssignWorker('${oldEsc(machineId)}','${oldEsc(expectedRole)}','${oldEsc(String(w.id))}')"><div class="top"><span class="name">👷 ${oldEsc(w.name)}</span><span class="role">${oldEsc(roleLabel(w.role))}</span></div><span class="meta">Навык ${Number(w.skill||0)} · ₽ ${money(w.wage)}/день</span></button>`;
+      }
+    }
+    html+=`</div></div>`;
+    overlay.innerHTML=html;
+    document.body.appendChild(overlay);
+  }
+
+  function assignWorker(machineId,role,workerId){
+    const order=state.current;
+    if(!order){toast("Нет активного заказа");return false;}
+    ensureAssignments(order);
+    const m=getMachine(machineId);
+    if(!m || !hasMachine(machineId)){toast("Станок недоступен");return false;}
+    if(String(selectedMachineForRole(order,role))!==String(machineId)){toast("Этот станок не выбран для заказа");return false;}
+    if(m.role!==role){toast("Неподходящий станок");return false;}
+
+    // Remove the previous worker from this stage if there was one.
+    const previous=order.assignments[role]?.staffId;
+    if(previous && String(previous)!==SELF_ID && String(previous)!==String(workerId)){
+      const old=state.staff.find(w=>String(w.id)===String(previous));
+      if(old) releaseWorker(old);
+    }
+
+    if(String(workerId)!==SELF_ID){
+      const w=state.staff.find(x=>String(x.id)===String(workerId));
+      if(!w || w.role!==role){toast("Этот работник не подходит для этапа");return false;}
+      if(workerBusy(w.id,order.id)){toast("Работник уже занят другим заказом");return false;}
+      if(machineBusyForOtherOrder(machineId,order.id)){toast("Станок уже занят другим заказом");return false;}
+      order.assignments[role]={staffId:String(workerId),machineId:String(machineId)};
+      sendWorkerToMachine(w.id,machineId,order.id);
+      w.workState="walking";
+      w.assignedOrderId=order.id;
+      toast(`🚀 ${w.name} назначен · производство началось`);
+      log(`${w.name} назначен на ${m.short} · заказ ${order.name} начал производство`);
+    }else{
+      if(machineBusyForOtherOrder(machineId,order.id)){toast("Станок уже занят другим заказом");return false;}
+      order.assignments[role]={staffId:SELF_ID,machineId:String(machineId)};
+      state.px=machineWorkPoint(m).x; state.py=machineWorkPoint(m).y;
+      toast("🚀 Ты назначен · производство началось");
+      log(`Ты назначен на ${m.short} · заказ ${order.name} начал производство`);
+    }
+
+    order.productionStartedAt=order.productionStartedAt || Date.now();
+    state.running=true;
+    state.progress=state.progress||0;
+    state.current=order;
+    closeWorkerPicker();
+    renderAll();
+    try{ if(typeof window.fwRefresh === "function") window.fwRefresh(); }catch(_e){}
+    sound(620,.08,"sine");
+    return true;
+  }
+
+  function machineClick(machineId){
+    if(!state.current){toast("Сначала прими заказ и выбери станок");return;}
+    const order=state.current;
+    ensureAssignments(order);
+    const role=machineStageRole(order,machineId);
+    if(!role){
+      toast("Этот станок не выбран для текущего заказа");
+      sound(180,.06,"sawtooth");
+      return;
+    }
+    openWorkerPicker(machineId,role);
+  }
+
+  function chooseMachine(orderId,role,machineId){
+    const order=state.orders.find(o=>String(o.id)===String(orderId));
+    if(!order)return;
+    const m=getMachine(machineId);
+    if(!m || !hasMachine(machineId) || m.role!==role){toast("Неподходящий станок");return;}
+    ensureAssignments(order)[role].machineId=String(machineId);
+    // Prevent duplicate machine selection for different stages unless explicitly allowed.
+    const duplicate=rolesForOrder(order).some(r=>r!==role && String(order.assignments[r]?.machineId)===String(machineId));
+    if(duplicate){toast("Этот станок уже выбран для другого этапа");return;}
+    renderOrderSetup(order);
+  }
+
+  function renderOrderSetup(order){
+    injectManualStyles();
+    const p=products[order.key];
+    const mats=requiredMaterials(order);
+    ensureAssignments(order);
+    orderModalSub.textContent=`${order.quantity} шт · награда ₽ ${money(order.reward)} · этапов ${p.steps.length}`;
+    let h=`<div class="order-materials"><h4>📦 Материалы</h4>`;
+    for(const x of mats.items){
+      const label=moneyName[x.type]||x.type;
+      h+=`<div class="material-line"><span><b>${oldEsc(label)}</b> · нужно ${Math.round(x.need)} кг</span><span class="${x.missing>0?"lack":"ok"}">${x.missing>0?`не хватает ${Math.round(x.missing)} кг`:`есть ${Math.round(x.stock)} кг`}</span></div>`;
+    }
+    h+=`</div>`;
+    if(mats.total>0){
+      h+=state.money>=mats.total
+        ? `<div class="order-warning">⚠ Не хватает материалов. Их можно автоматически докупить за <b>₽ ${money(mats.total)}</b>.</div>`
+        : `<div class="order-warning">⚠ Не хватает материалов на <b>₽ ${money(mats.total)}</b>. Денег недостаточно.</div>`;
+    }
+    h+=`<div class="order-ok" style="margin-top:7px">🎯 Сначала выбери станок. Работника здесь больше выбирать не нужно — после принятия заказа нажми на станок в цехе и выбери работника.</div>`;
+    h+=`<div class="assignment-list"><div style="font-size:9px;font-weight:900;margin-bottom:5px">🏭 Станок для каждого этапа</div>`;
+
+    p.steps.forEach((role,index)=>{
+      const selected=selectedMachineForRole(order,role);
+      const machines=machinesForRole(role);
+      h+=`<div class="assignment-row"><div class="assignment-row-top"><b>${index+1}. ${oldEsc(roleLabel(role))}</b><span class="stage-pill">${selected?"СТАНОК ВЫБРАН":"ВЫБЕРИ СТАНОК"}</span></div>`;
+      if(!machines.length){
+        h+=`<div class="order-warning" style="margin-top:5px">Нет купленного станка для этапа «${oldEsc(roleLabel(role))}».</div>`;
+      }else{
+        h+=`<div class="fw-machine-choice">`;
+        for(const m of machines){
+          const busy=machineBusyForOtherOrder(m.id,null);
+          const sel=String(selected)===String(m.id);
+          h+=`<button class="${sel?"selected":""}" onclick="window.fwChooseMachine('${oldEsc(String(order.id))}','${oldEsc(role)}','${oldEsc(String(m.id))}')" ${busy?"disabled":""}>${sel?"✓ ":""}${oldEsc(m.icon||"⚙️")} ${oldEsc(m.short)} · L${machineLevel(m.id)}${busy?" · ЗАНЯТ":""}</button>`;
+        }
+        h+=`<small>${selected?"Выбранный станок будет ждать назначения работника после принятия заказа.":"Нажми на станок, который должен выполнять этот этап."}</small></div>`;
+      }
+      h+=`</div>`;
+    });
+    h+=`</div>`;
+    h+=`<div class="order-actions" style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px">`;
+    h+=`<button class="btn" onclick="closeOrderSetup()">Отмена</button>`;
+    const complete=p.steps.every(role=>!!selectedMachineForRole(order,role));
+    const canBuy=mats.total<=0 || state.money>=mats.total;
+    h+=`<button class="btn good" ${complete&&canBuy?"":"disabled"} onclick="window.fwAcceptSelectedOrder('${oldEsc(String(order.id))}',${mats.total>0?"true":"false"})">📦 Принять заказ</button>`;
+    h+=`</div>`;
+    orderModalBody.innerHTML=h;
+    orderModal.classList.add("open");
+  }
+
+  function openOrderSetupManual(id){
+    ensureV4State();
+    if(state.current){toast("Сначала закончи текущий заказ");return;}
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    order.assignments={};
+    for(const role of rolesForOrder(order)) order.assignments[role]={staffId:"",machineId:""};
+    renderOrderSetup(order);
+  }
+
+  function acceptSelectedOrder(id,buyMissing){
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    const p=products[order.key];
+    ensureAssignments(order);
+    if(!rolesForOrder(order).every(role=>selectedMachineForRole(order,role))){toast("Выбери станок для каждого этапа");return;}
+    const mats=requiredMaterials(order);
+    if(mats.total>0 && !buyMissing){toast("Нужно подтвердить закупку материалов");return;}
+    if(mats.total>state.money){toast("Недостаточно денег на материалы");return;}
+
+    if(buyMissing){
+      for(const x of mats.items){
+        if(x.missing>0){
+          const buy=Math.ceil(x.missing);
+          state.money-=buy*materialPrices[x.type];
+          state.costs+=buy*materialPrices[x.type];
+          state.materials[x.type]=(state.materials[x.type]||0)+buy;
+          log(`Автозакупка ${moneyName[x.type]||x.type} × ${buy} кг`);
+        }
+      }
+    }
+    for(const x of mats.items) state.materials[x.type]=(state.materials[x.type]||0)-x.need;
+
+    order.stageIndex=0;
+    order.stageProgress=0;
+    order.startedAt=Date.now();
+    order.productionStartedAt=null;
+    state.current=order;
+    state.progress=0;
+    state.running=false;
+    state.orders=state.orders.filter(o=>String(o.id)!==String(id));
+    log(`Заказ принят: ${order.name} × ${order.quantity} · станки выбраны · ожидает работников`);
+    toast("📦 Заказ принят · нажми на станок и выбери работника");
+    sound(500,.08,"sine");
+    closeOrderSetup();
+    renderAll();
+    try{ if(typeof window.fwRefresh === "function") window.fwRefresh(); }catch(_e){}
+  }
+
+  function renderOrdersManual(){
+    createOrders();
+    const box=document.getElementById("orders");
+    if(!box)return;
+    box.innerHTML="";
+    const count=document.getElementById("orderCount"); if(count)count.textContent=state.orders.length;
+
+    if(state.current){
+      const o=state.current,p=products[o.key],role=currentStage(o),a=activeAssignment(o),m=a?.machineId?getMachine(a.machineId):null,w=a&&a.staffId&&a.staffId!==SELF_ID?state.staff.find(x=>String(x.id)===String(a.staffId)):null;
+      const pct=stagePct(o);
+      const waiting=!a?.staffId;
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${waiting?"⏳ ОЖИДАЕТ РАБОТНИКА":"🔨 В ПРОИЗВОДСТВЕ"}</b><span class="tag">${Math.round(pct)}%</span></div><div class="tiny" style="margin-top:4px">${oldEsc(o.name)} × ${o.quantity}</div><div class="tiny muted" style="margin-top:4px">Этап: ${oldEsc(roleLabel(role))} · ${m?oldEsc(m.short):"нет станка"} · ${w?oldEsc(w.name):(a?.staffId===SELF_ID?"Ты":"нет работника")}</div><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div><div class="tiny muted" style="margin-top:5px">${waiting?"Нажми на выбранный станок в цехе и назначь работника.":"Производство идёт автоматически."}</div></div>`);
+    }
+
+    for(const o of state.orders.slice(0,10)){
+      const p=products[o.key];
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${o.urgent?"🔥 ":""}${oldEsc(o.name)}</b><span class="tag">УР. ${p.tier}</span></div><div class="tiny muted">Количество: ${o.quantity}</div><div class="row" style="margin-top:6px"><b>₽ ${money(o.reward)}</b><button class="btn primary" onclick="acceptOrder(${o.id})">Настроить заказ</button></div></div>`);
+    }
+  }
+
+  function renderMachinesManual(){
+    injectManualStyles();
+    const box=document.getElementById("machines");
+    if(!box)return;
+    box.innerHTML="";
+    for(const m of machineDefs){
+      if(!hasMachine(m.id)){
+        const ready=researchУровень()>=m.unlock;
+        box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${oldEsc(m.short)}</b><span class="tag">${ready?"ДОСТУПЕН":"ЗАКРЫТ"}</span></div><div class="tiny muted">${oldEsc(m.name)}</div><div class="row" style="margin-top:6px"><span>₽ ${money(m.cost)}</span><button class="btn" ${ready?"":"disabled"} onclick="buyMachine('${oldEsc(m.id)}')">Купить</button></div></div>`);
+        continue;
+      }
+      const role=machineStageRole(state.current,m.id);
+      const a=state.current&&role?state.current.assignments?.[role]:null;
+      const worker=a?.staffId===SELF_ID?"Ты":(a?.staffId?state.staff.find(w=>String(w.id)===String(a.staffId))?.name:null);
+      const active=!!(state.current&&role);
+      const status=active?(worker?`👷 ${oldEsc(worker)}`:"👤 Нужен работник"):"Свободен";
+      const stateClass=active?(worker?"ready":"wait"):"";
+      const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,machineLevel(m.id)-1)));
+      box.insertAdjacentHTML("beforeend",`<div class="item"><div class="row"><b>${m.icon} ${oldEsc(m.short)}</b><span class="tag">L${machineLevel(m.id)}</span></div><div class="tiny muted">${oldEsc(m.name)}</div><div class="fw-machine-state ${stateClass}">${status}</div><div class="grid2" style="margin-top:6px"><button class="btn" onclick="upgradeMachine('${oldEsc(m.id)}')">⚙ Улучшить</button><button class="btn fw-machine-assign" onclick="window.fwMachineClick('${oldEsc(m.id)}')" ${active?"":"disabled"}>👷 Назначить</button></div></div>`);
+    }
+  }
+
+  function overrideUpdateEconomy(dt){
+    // The shift clock continues normally, but production only consumes time/energy
+    // when a worker (or the player) is actually assigned to the current stage.
+    if(!state.current){
+      if(state.running){
+        state.minute += dt*2.8;
+        if(state.minute>=1080) nextDay();
+      }
+      return;
+    }
+
+    const order=state.current,p=products[order.key],role=currentStage(order),a=activeAssignment(order);
+    if(!a || !a.staffId || !a.machineId){
+      state.running=false;
+      order.stageProgress=Number(order.stageProgress||0);
+      return;
+    }
+
+    const m=getMachine(a.machineId);
+    if(!m || !hasMachine(m.id) || m.role!==role){state.running=false;return;}
+
+    let workerSkill=1;
+    if(String(a.staffId)!==SELF_ID){
+      const w=state.staff.find(x=>String(x.id)===String(a.staffId));
+      if(!w){state.running=false;return;}
+      workerSkill=.62+(Number(w.skill||50)/100);
+    }else workerSkill=1.32;
+
+    const speed=workerSkill
+      *(1+(state.research.auto||0)*.06)
+      *(1+(machineLevel(m.id)-1)*.08)
+      *(1+(state.research.cnc||0)*.08)
+      *(1+(state.research.qc||0)*.02);
+
+    state.running=true;
+    state.minute += dt*2.8;
+    state.energy -= dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12);
+    state.energy=clamp(state.energy,0,100);
+    order.stageProgress=Number(order.stageProgress||0)+dt*speed;
+
+    // Visual state: worker walks to the chosen machine, but the order does NOT
+    // wait for the animation. Selecting the worker is the production start event.
+    if(String(a.staffId)===SELF_ID){
+      const pt=machineWorkPoint(m); state.px=pt.x; state.py=pt.y;
+    }else{
+      const w=state.staff.find(x=>String(x.id)===String(a.staffId));
+      if(w){
+        const pt=machineWorkPoint(m);
+        const dx=pt.x-w.x,dy=pt.y-w.y,d=Math.hypot(dx,dy);
+        if(d>4){const step=Math.min(150*dt,d);w.x+=dx/d*step;w.y+=dy/d*step;w.workState="walking";}
+        if(d<=12)w.workState="working";
+      }
+    }
+
+    const dur=Math.max(.1,stageDuration(order));
+    if(order.stageProgress>=dur){
+      order.stageProgress=0;
+      const finishedRole=role;
+      if(String(a.staffId)!==SELF_ID){const w=state.staff.find(x=>String(x.id)===String(a.staffId));if(w){w.workState="working";}}
+      order.stageIndex=(order.stageIndex||0)+1;
+      state.progress=clamp((order.stageIndex/(p.steps.length||1))*(p.time*order.quantity),0,p.time*order.quantity);
+
+      if(order.stageIndex>=p.steps.length){
+        finishOrder();
+        state.running=false;
+      }else{
+        const nextRole=currentStage(order),next=order.assignments?.[nextRole];
+        if(next && next.staffId){
+          if(String(next.staffId)!==SELF_ID){
+            const nw=state.staff.find(x=>String(x.id)===String(next.staffId));
+            if(nw)sendWorkerToMachine(nw.id,next.machineId,order.id);
+          }
+          state.running=true;
+          log(`Этап завершён: ${roleLabel(finishedRole)} → ${roleLabel(nextRole)}`);
+          toast(`✅ ${roleLabel(finishedRole)} завершён · следующий этап`);
+        }else{
+          state.running=false;
+          log(`Этап ${roleLabel(finishedRole)} завершён · нужен работник на ${roleLabel(nextRole)}`);
+          toast(`⏳ Этап завершён · назначь работника на ${roleLabel(nextRole)}`);
+        }
+      }
+    }
+
+    if(state.current===order){
+      const done=order.stageIndex||0;
+      state.progress=clamp((done+(order.stageProgress||0)/dur)*(p.time*order.quantity)/(p.steps.length||1),0,p.time*order.quantity);
+    }
+    if(state.energy<=0){state.running=false;log("Производство остановлено: нет энергии");toast("⚠️ Энергия закончилась");}
+    if(state.minute>=1080)nextDay();
+  }
+
+  window.fwCloseWorkerPicker=closeWorkerPicker;
+  window.fwMachineClick=machineClick;
+  window.fwAssignWorker=assignWorker;
+  window.fwChooseMachine=chooseMachine;
+  window.fwAcceptSelectedOrder=acceptSelectedOrder;
+
+  // Disable the old auto-assignment path from the production-critical UI.
+  window.autoAssignCurrentOrder=function(){toast("Теперь работник назначается вручную через станок");};
+  window.autoAssignStaffToMachine=function(machineId){
+    if(!state.current){toast("Сначала прими заказ");return;}
+    machineClick(machineId);
+  };
+
+  // The old order setup is replaced by machine-only setup.
+  window.acceptOrder=function(id){openOrderSetupManual(id);};
+  if(typeof acceptOrder!=="undefined") acceptOrder=window.acceptOrder;
+  window.openOrderSetup=openOrderSetupManual;
+  if(typeof openOrderSetup!=="undefined") openOrderSetup=openOrderSetupManual;
+  window.startOrder=function(){toast("Используй кнопку «Принять заказ» после выбора станков");};
+  if(typeof startOrder!=="undefined") startOrder=window.startOrder;
+
+  // Replace renderers so the UI no longer asks for workers during order acceptance.
+  window.renderOrders=renderOrdersManual;
+  if(typeof renderOrders!=="undefined") renderOrders=renderOrdersManual;
+  window.renderMachines=renderMachinesManual;
+  if(typeof renderMachines!=="undefined") renderMachines=renderMachinesManual;
+
+  // Replace the economy loop with the deterministic manual-assignment engine.
+  window.updateEconomy=overrideUpdateEconomy;
+  if(typeof updateEconomy!=="undefined") updateEconomy=overrideUpdateEconomy;
+
+  // Canvas machine click: existing V5 selection remains, then our production action opens.
+  if(typeof C!=="undefined" && !C.dataset.fwManualMachineClick){
+    C.dataset.fwManualMachineClick="1";
+    C.addEventListener("pointerup",e=>{
+      const r=C.getBoundingClientRect();
+      const x=(e.clientX-r.left)*C.width/r.width;
+      const y=(e.clientY-r.top)*C.height/r.height;
+      for(const id of state.owned){
+        const m=getMachine(id);
+        if(x>=m.x&&x<=m.x+m.w&&y>=m.y&&y<=m.y+m.h){
+          if(state.current) machineClick(id);
+          return;
+        }
+      }
+    });
+  }
+
+  // Mobile/desktop machine cards and order cards use the same new logic.
+  injectManualStyles();
+  try{renderOrdersManual();renderMachinesManual();}catch(_e){}
+  try{if(typeof window.fwRefresh==='function')window.fwRefresh();}catch(_e){}
+  log("V5.6 manual production flow loaded: заказ → станок → работник → производство");
+})();
+
 </script>
 </body>
 </html>
