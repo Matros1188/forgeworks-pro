@@ -2468,6 +2468,326 @@ requestAnimationFrame(loop);
   const fwBottom=document.getElementById("mobileBottomNav");
   if(fwBottom){fwBottom.style.pointerEvents="auto";fwBottom.style.zIndex="999";}
 })();
+
+
+/* ========================================================================
+   FORGEWORKS PRO V5.5 — ALL BUTTONS + PLAYER AS EXECUTOR
+   ======================================================================== */
+(function(){
+  "use strict";
+
+  const FW_SELF="__player__";
+  const FW_SELF_NAME="👤 Я сам";
+  const FW_SELF_SKILL=70;
+  const FW_MAT_PRICE={steel:32,toolSteel:82};
+  const fwRoleName=(role)=>{
+    const d=staffDefs.find(x=>x.role===role);
+    return d?d.name:role;
+  };
+  const fwToast=(msg)=>{try{showToast(msg);}catch(_e){}};
+  const fwRefresh=()=>{try{renderAll();}catch(_e){}};
+  const fwCloseModal=()=>{
+    const el=document.getElementById("orderModal");
+    if(el){el.classList.remove("open");el.setAttribute("aria-hidden","true");}
+  };
+  const fwMachineForRole=(role)=>machineDefs.find(m=>m.role===role&&hasMachine(m.id))||null;
+
+  /* ----------------------------------------------------------------------
+     ALL MONEY / SHOP / HIRING BUTTONS
+     ---------------------------------------------------------------------- */
+  window.hire=function(role){
+    const d=staffDefs.find(x=>x.role===role);
+    if(!d){fwToast("Специалист не найден");return false;}
+    if(role!=="manager"&&!state.owned.some(id=>getMachine(id)?.role===role)){
+      fwToast("Сначала купите соответствующий станок");return false;
+    }
+    if(state.staff.some(w=>w.role===role)&&role!=="manager"){
+      fwToast("Этот специалист уже работает в команде");return false;
+    }
+    if(state.money<d.cost){fwToast("Недостаточно денег для найма");return false;}
+    state.money-=d.cost;
+    state.costs+=d.cost;
+    const x=180+Math.random()*840,y=455+Math.random()*150;
+    state.staff.push({
+      id:"w_"+Date.now()+"_"+Math.floor(Math.random()*10000),
+      role:d.role,name:d.name,skill:d.skill,wage:d.wage,c:d.c,
+      x,y,tx:x,ty:y,timer:0,workState:"idle",assignedMachine:null,assignedOrderId:null
+    });
+    log("Нанят сотрудник: "+d.name);
+    fwToast("👷 "+d.name+" нанят");
+    sound(650,.07,"triangle");
+    fwRefresh();
+    return true;
+  };
+
+  window.buyMachine=function(id){
+    const m=getMachine(id);
+    if(!m){fwToast("Станок не найден");return false;}
+    if(hasMachine(id)){fwToast("Этот станок уже установлен");return false;}
+    if(researchУровень()<m.unlock){fwToast("Нужен уровень технологий "+m.unlock);return false;}
+    if(state.money<m.cost){fwToast("Недостаточно денег на покупку");return false;}
+    state.money-=m.cost;state.costs+=m.cost;
+    state.owned.push(id);state.levels[id]=1;
+    log("Установлен станок: "+m.name);
+    fwToast("🏭 Установлено: "+m.short);
+    sound(560,.08,"sine");fwRefresh();
+    return true;
+  };
+
+  window.upgradeMachine=function(id){
+    const m=getMachine(id);
+    if(!m||!hasMachine(id)){fwToast("Сначала купите этот станок");return false;}
+    const lvl=machineLevel(id);
+    const price=Math.round(Math.max(7000,m.cost*.32*Math.pow(1.55,lvl-1)));
+    if(state.money<price){fwToast("Недостаточно денег для улучшения");return false;}
+    state.money-=price;state.costs+=price;state.levels[id]=lvl+1;
+    log("Улучшен станок: "+m.short+" → уровень "+(lvl+1));
+    fwToast("⚙ "+m.short+" теперь уровень "+(lvl+1));
+    sound(760,.08,"triangle");fwRefresh();
+    return true;
+  };
+
+  window.buyResearch=function(id){
+    const d=researchDefs.find(x=>x.id===id);
+    if(!d){fwToast("Технология не найдена");return false;}
+    const lvl=state.research[id]||0;
+    if(lvl>=d.max){fwToast("Эта технология уже изучена полностью");return false;}
+    const price=Math.round(d.cost*Math.pow(1.55,lvl));
+    if(state.money<price){fwToast("Недостаточно денег на исследование");return false;}
+    state.money-=price;state.costs+=price;state.research[id]=lvl+1;
+    log("Исследована технология: "+d.name+" → уровень "+(lvl+1));
+    fwToast("🧪 "+d.name+" · уровень "+(lvl+1));
+    sound(820,.09,"sine");fwRefresh();
+    return true;
+  };
+
+  window.buyMaterial=function(type,qty){
+    const q=Math.max(1,Math.round(Number(qty)||1));
+    if(!(type in FW_MAT_PRICE)){fwToast("Материал не найден");return false;}
+    const price=q*FW_MAT_PRICE[type];
+    if(state.money<price){fwToast("Недостаточно денег на закупку");return false;}
+    state.money-=price;state.costs+=price;
+    state.materials[type]=(state.materials[type]||0)+q;
+    log("Закуплен материал: "+(type==="steel"?"Сталь":"Инструментальная сталь")+" × "+q+" кг");
+    fwToast("📦 Материал добавлен на склад");sound(520,.06,"sine");fwRefresh();
+    return true;
+  };
+
+  /* ----------------------------------------------------------------------
+     ORDER SETUP — SELF CAN BE THE EXECUTOR OF ANY STAGE
+     ---------------------------------------------------------------------- */
+  function fwMaterials(order){
+    const p=products[order.key],items=[],total=0;
+    for(const type of Object.keys(p.mat||{})){
+      const need=(p.mat[type]||0)*order.quantity;
+      const stock=Math.max(0,Number(state.materials[type]||0));
+      const missing=Math.max(0,need-stock);
+      items.push({type,need,stock,missing,buy:Math.ceil(missing)*FW_MAT_PRICE[type]});
+    }
+    return {items,total:items.reduce((a,x)=>a+x.buy,0)};
+  }
+
+  function fwDefaultPlan(order){
+    const plan={};
+    for(const role of products[order.key]?.steps||[]){
+      const m=fwMachineForRole(role);
+      const w=state.staff.filter(x=>x.role===role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
+      plan[role]={staffId:w?String(w.id):FW_SELF,machineId:m?m.id:""};
+    }
+    return plan;
+  }
+
+  function fwValidate(order,plan){
+    for(const role of products[order.key]?.steps||[]){
+      const a=plan[role],m=a&&getMachine(a.machineId);
+      if(!m||!hasMachine(m.id)||m.role!==role)return "Для этапа «"+fwRoleName(role)+"» нужен доступный станок";
+      if(String(a.staffId)!==FW_SELF){
+        const w=state.staff.find(x=>String(x.id)===String(a.staffId));
+        if(!w||w.role!==role)return "Для этапа «"+fwRoleName(role)+"» выбран неподходящий сотрудник";
+      }
+    }
+    return "";
+  }
+
+  function fwOpenOrder(id){
+    if(state.current){fwToast("Сначала закончи текущий заказ");return;}
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    const p=products[order.key],mats=fwMaterials(order),plan=fwDefaultPlan(order);
+    const sub=document.getElementById("orderModalSub"),box=document.getElementById("orderModalContent"),modal=document.getElementById("orderModal");
+    if(!sub||!box||!modal)return;
+    sub.textContent=order.quantity+" шт · награда ₽ "+money(order.reward)+" · этапов "+p.steps.length;
+    let h='<div class="order-materials"><h4>📦 Материалы</h4>';
+    mats.items.forEach(x=>{const label=x.type==="steel"?"Сталь":"Инструментальная сталь";h+='<div class="material-line"><span><b>'+label+'</b> · нужно '+Math.round(x.need)+' кг</span><span class="'+(x.missing?'lack':'ok')+'">'+(x.missing?'не хватает '+Math.round(x.missing)+' кг':'есть')+'</span></div>';});
+    if(mats.total)h+='<div class="order-material-total">Недостающее можно купить автоматически · ₽ '+money(mats.total)+'</div>';
+    h+='</div><div class="order-ok">✅ На каждом этапе исполнителем можно назначить <b>«Я сам»</b>. В начале игры работников не требуется.</div>';
+    h+='<div class="assignment-list"><div style="font-size:9px;font-weight:900;margin-bottom:5px">👤 ИСПОЛНИТЕЛИ ПО ЭТАПАМ</div>';
+    p.steps.forEach((role,i)=>{
+      const workers=state.staff.filter(w=>w.role===role).sort((a,b)=>(b.skill||0)-(a.skill||0));
+      const machines=state.owned.map(getMachine).filter(m=>m&&m.role===role);
+      const a=plan[role]||{staffId:FW_SELF,machineId:machines[0]?.id||""};
+      h+='<div class="assignment-row">';
+      h+='<div class="assignment-row-top"><b>'+(i+1)+'. '+fwRoleName(role)+'</b><span class="stage-pill">ЭТАП '+(i+1)+'</span></div>';
+      h+='<small>Герой сам пойдёт к станку, если выбран «Я сам».</small>';
+      h+='<div class="assignment-fields"><label>Исполнитель<select data-fw-kind="staff" data-fw-role="'+role+'"><option value="'+FW_SELF+'" '+(String(a.staffId)===FW_SELF?'selected':'')+'>👤 Я сам · навык '+FW_SELF_SKILL+'</option>';
+      workers.forEach(w=>{h+='<option value="'+String(w.id)+'" '+(String(a.staffId)===String(w.id)?'selected':'')+'>'+w.name+' · навык '+w.skill+'</option>';});
+      h+='</select></label>';
+      h+='<label>Станок<select data-fw-kind="machine" data-fw-role="'+role+'" '+(machines.length?'':'disabled')+'>';
+      if(machines.length)machines.forEach(m=>{h+='<option value="'+m.id+'" '+(a.machineId===m.id?'selected':'')+'>'+m.short+' · Ур. '+machineLevel(m.id)+'</option>';});
+      else h+='<option value="">Нет станка</option>';
+      h+='</select></label></div>';
+      h+='<button type="button" class="btn self-stage-btn" data-fw-self="'+role+'">👤 Назначить себя</button></div>';
+    });
+    h+='</div><div class="order-modal-actions"><button type="button" class="btn" id="fwAuto">⚡ Автораспределить</button><button type="button" class="btn primary" id="fwLaunch">'+(mats.total?'🛒 Докупить и запустить':'🚀 Запустить заказ')+'</button></div>';
+    box.innerHTML=h;modal.classList.add("open");modal.setAttribute("aria-hidden","false");
+
+    box.querySelectorAll("[data-fw-self]").forEach(btn=>btn.addEventListener("click",()=>{
+      const role=btn.dataset.fwSelf;
+      const s=box.querySelector('select[data-fw-kind="staff"][data-fw-role="'+role+'"]');
+      if(s){s.value=FW_SELF;fwToast("👤 Ты назначен на этап: "+fwRoleName(role));}
+    }));
+
+    document.getElementById("fwAuto").onclick=()=>{
+      p.steps.forEach(role=>{
+        const s=box.querySelector('select[data-fw-kind="staff"][data-fw-role="'+role+'"]');
+        const m=box.querySelector('select[data-fw-kind="machine"][data-fw-role="'+role+'"]');
+        if(s){const w=state.staff.filter(x=>x.role===role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];s.value=w?String(w.id):FW_SELF;}
+        if(m&&m.options.length)m.value=m.options[0].value;
+      });
+      fwToast("⚡ Исполнители распределены");
+    };
+
+    document.getElementById("fwLaunch").onclick=()=>{
+      const selected={};
+      p.steps.forEach(role=>{
+        const s=box.querySelector('select[data-fw-kind="staff"][data-fw-role="'+role+'"]');
+        const m=box.querySelector('select[data-fw-kind="machine"][data-fw-role="'+role+'"]');
+        selected[role]={staffId:s?s.value:FW_SELF,machineId:m?m.value:""};
+      });
+      fwStartOrder(order.id,selected);
+    };
+  }
+
+  function fwStartOrder(id,plan){
+    if(state.current){fwToast("Сначала закончи текущий заказ");return;}
+    const order=state.orders.find(o=>String(o.id)===String(id));
+    if(!order)return;
+    const error=fwValidate(order,plan);if(error){fwToast("⚠ "+error);return;}
+    const mats=fwMaterials(order);
+    if(mats.total>state.money){fwToast("Недостаточно денег на недостающие материалы");return;}
+    for(const x of mats.items){
+      if(x.missing){const q=Math.ceil(x.missing),cost=q*FW_MAT_PRICE[x.type];state.money-=cost;state.costs+=cost;state.materials[x.type]=(state.materials[x.type]||0)+q;}
+    }
+    for(const x of mats.items)state.materials[x.type]-=x.need;
+    order.assignments=plan;order.stageIndex=0;order.stageProgress=0;order.startedAt=Date.now();
+    state.current=order;state.progress=0;state.orders=state.orders.filter(o=>String(o.id)!==String(id));
+    const firstRole=products[order.key].steps[0],first=plan[firstRole];
+    if(first&&String(first.staffId)!==FW_SELF){const w=state.staff.find(x=>String(x.id)===String(first.staffId));if(w&&typeof sendWorkerToMachine==='function')sendWorkerToMachine(w.id,first.machineId,order.id);}
+    log("Принят заказ: "+order.name+" × "+order.quantity+(String(first.staffId)===FW_SELF?" · первый этап выполняешь ты":" · первый этап назначен сотруднику"));
+    fwToast(String(first.staffId)===FW_SELF?"👤 Ты назначен исполнителем":"🚀 Заказ запущен");sound(520,.08,"sine");fwCloseModal();fwRefresh();
+  }
+
+  window.openOrderSetup=fwOpenOrder;
+  window.acceptOrder=fwOpenOrder;
+
+  /* ----------------------------------------------------------------------
+     SELF EXECUTION IN THE PRODUCTION LOOP
+     ---------------------------------------------------------------------- */
+  const oldProductionSpeed=productionSpeed;
+  productionSpeed=function(product){
+    const order=state.current;
+    if(order){
+      const role=currentStage(order),a=role?stageAssignment(order,role):null;
+      if(a&&String(a.staffId)===FW_SELF){
+        const m=getMachine(a.machineId);
+        if(m&&hasMachine(m.id)&&m.role===role){
+          return (.62+FW_SELF_SKILL/100)*(1+(state.research.auto||0)*.06)*(1+(machineLevel(m.id)-1)*.08)*(1+(state.research.cnc||0)*.08);
+        }
+      }
+    }
+    return oldProductionSpeed(product);
+  };
+
+  const oldUpdateEconomy=updateEconomy;
+  updateEconomy=function(dt){
+    if(!state.running)return;
+    state.minute+=dt*2.8;
+    state.energy-=dt*(.22+state.owned.length*.03)/(1+(state.research.energy||0)*.12);
+    state.energy=clamp(state.energy,0,100);
+    if(state.current){
+      const order=state.current,p=products[order.key],role=currentStage(order),a=role?stageAssignment(order,role):null;
+      let atStation=false;
+      if(a&&String(a.staffId)===FW_SELF){
+        const m=getMachine(a.machineId);
+        if(m&&hasMachine(m.id)&&m.role===role){
+          const tx=m.x+m.w/2,ty=m.y+m.h+24,dx=tx-state.px,dy=ty-state.py,d=Math.hypot(dx,dy);
+          if(d>18){const sp=150*dt;state.px+=dx/d*Math.min(sp,d);state.py+=dy/d*Math.min(sp,d);}
+          atStation=Math.hypot(state.px-tx,state.py-ty)<28;
+        }
+      }else{
+        const w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null,m=a?getMachine(a.machineId):null;
+        atStation=!!(w&&m&&w.assignedMachine===m.id&&Math.hypot(w.x-(m.x+m.w/2),w.y-(m.y+m.h+24))<28);
+      }
+      const sp=productionSpeed(p);
+      if(sp>0&&atStation){
+        order.stageProgress+=dt*sp;
+        const dur=stageDuration(order);
+        if(order.stageProgress>=dur){
+          order.stageProgress=0;
+          if(String(a?.staffId)!==FW_SELF){const w=a?state.staff.find(x=>String(x.id)===String(a.staffId)):null;if(w&&typeof releaseWorker==='function')releaseWorker(w);}
+          order.stageIndex+=1;
+          state.progress=clamp((order.stageIndex/(p.steps.length||1))*(p.time*order.quantity),0,p.time*order.quantity);
+          if(order.stageIndex>=p.steps.length){finishOrder();}
+          else{
+            const nextRole=currentStage(order),next=order.assignments?.[nextRole];
+            if(next&&String(next.staffId)!==FW_SELF){const w=state.staff.find(x=>String(x.id)===String(next.staffId));if(w&&typeof sendWorkerToMachine==='function')sendWorkerToMachine(w.id,next.machineId,order.id);}
+            log("Этап завершён: "+fwRoleName(role)+" → "+fwRoleName(nextRole));
+            fwToast("✅ Этап завершён · "+fwRoleName(nextRole));sound(640,.06,"triangle");
+          }
+        }
+      }
+      if(state.current===order){const done=order.stageIndex||0;state.progress=clamp((done+(order.stageProgress/stageDuration(order)))*(p.time*order.quantity)/(p.steps.length||1),0,p.time*order.quantity);}
+    }
+    if(state.energy<=0){state.running=false;log("Производство остановлено: нет энергии");fwToast("⚠️ Энергия закончилась");}
+    if(state.minute>=1080)nextDay();
+  };
+
+  window.autoAssignCurrentOrder=function(){
+    if(!state.current){fwToast("Сначала запусти заказ");return;}
+    const order=state.current;order.assignments=order.assignments||{};
+    for(const role of products[order.key].steps){
+      const m=fwMachineForRole(role);if(!m)continue;
+      const w=state.staff.filter(x=>x.role===role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
+      order.assignments[role]={staffId:w?String(w.id):FW_SELF,machineId:m.id};
+      if(w&&role===currentStage(order)&&typeof sendWorkerToMachine==='function')sendWorkerToMachine(w.id,m.id,order.id);
+    }
+    fwToast("⚡ Исполнители назначены");fwRefresh();
+  };
+
+  window.autoAssignStaffToMachine=function(machineId){
+    const m=getMachine(machineId);if(!m||!hasMachine(machineId)){fwToast("Станок недоступен");return;}
+    const w=state.staff.filter(x=>x.role===m.role).sort((a,b)=>(b.skill||0)-(a.skill||0))[0];
+    if(w){if(typeof sendWorkerToMachine==='function')sendWorkerToMachine(w.id,machineId,state.current?state.current.id:null);if(state.current){state.current.assignments=state.current.assignments||{};state.current.assignments[m.role]={staffId:String(w.id),machineId};}fwToast("👷 "+w.name+" направлен к "+m.short);}
+    else if(state.current&&currentStage(state.current)===m.role){state.current.assignments=state.current.assignments||{};state.current.assignments[m.role]={staffId:FW_SELF,machineId};fwToast("👤 Ты назначен на этот этап");}
+    else fwToast("Нет сотрудника этой специальности");
+    fwRefresh();
+  };
+
+  window.manualWork=function(){
+    if(!state.current){fwToast("📋 Сначала выбери заказ");return;}
+    const role=currentStage(state.current),a=stageAssignment(state.current,role);
+    if(!a||String(a.staffId)!==FW_SELF){fwToast("Сначала назначь себя исполнителем");return;}
+    state.current.stageProgress=Math.min(stageDuration(state.current),state.current.stageProgress+3.5);
+    fwToast("⚒ Этап ускорен");fwRefresh();
+  };
+
+  /* Ensure the old controls are really absent on phones. */
+  ["joy","knob","touchE"].forEach(id=>document.getElementById(id)?.remove());
+  const style=document.createElement("style");
+  style.textContent='#joy,#knob,#touchE{display:none!important}.self-stage-btn{width:100%;margin-top:6px;min-height:34px;background:linear-gradient(135deg,#3b66ef,#6859ed)!important}.order-ok{margin:7px 0;padding:8px;border-radius:10px;font-size:7.5px;line-height:1.35;color:#b7edcc;background:rgba(89,226,138,.06);border:1px solid rgba(89,226,138,.18)}';
+  document.head.appendChild(style);
+})();
+
 </script>
 </body>
 </html>
